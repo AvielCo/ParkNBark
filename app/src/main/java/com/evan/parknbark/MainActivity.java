@@ -57,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validateEmail(String emailInput){
-        if(emailInput.isEmpty()) {
+        if(EditTextValidator.isValidString(emailInput)) {
             textInputEmail.setError("Field can't be empty");
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+        } else if (EmailValidator.isValidEmail(emailInput)) {
             textInputEmail.setError("Invalid email address");
             return false;
         } else{
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validatePassword(String passwordInput){
-        if(passwordInput.isEmpty()) {
+        if(EditTextValidator.isValidString(passwordInput)) {
             textInputPassword.setError("Field can't be empty");
             return false;
         } else{

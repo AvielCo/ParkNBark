@@ -24,17 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-/*
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.util.Patterns;
-import android.view.View;
-
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-*/
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout textInputFName, textInputLName, textInputEmail, textInputPassword;
@@ -82,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
     E-Mail validation
      */
     private boolean validateEmail(String emailInput) {
-        if (emailInput.isEmpty()) {
+        if (EditTextValidator.isValidString(emailInput)) {
             textInputEmail.setError("Field can't be empty");
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
@@ -98,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
     Password validation
      */
     private boolean validatePassword(String passwordInput) {
-        if (passwordInput.isEmpty()) {
+        if (EditTextValidator.isValidString(passwordInput)) {
             textInputPassword.setError("Field can't be empty");
             return false;
         } else {
@@ -111,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
     First name validation
      */
     private boolean validateFName(String fnameInput) {
-        if (fnameInput.isEmpty()) {
+        if (EditTextValidator.isValidString(fnameInput)) {
             textInputFName.setError("Field can't be empty");
             return false;
         } else if (fnameInput.length() > 15) {
@@ -127,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
     Last name validation
      */
     private boolean validateLName(String lnameInput) {
-        if (lnameInput.isEmpty()) {
+        if (EditTextValidator.isValidString(lnameInput)) {
             textInputLName.setError("Field can't be empty");
             return false;
         } else if (lnameInput.length() > 15) {
@@ -185,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Toast.makeText(RegisterActivity.this, "REGISTERED", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
             finish();
         }
         else {
