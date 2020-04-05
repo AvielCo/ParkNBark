@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">ParkNBark</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="register">Register</string>
+    <string name="lname">Last Name</string>
+    <string name="fname">First Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="login">login</string>
+    <string name="settings">Settings</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="bug_report">Bug Report</string>
+    <string name="parkn_bark">ParkN\'Bark</string>
+    <string name="group_email">avielcohen15@gmail.com</string>
+    <string name="dog_name">Dog Name</string>
+    <string name="dog_breed">Dog Breed</string>
+    <string name="dog_age">Dog Age</string>
+    <string name="register_textview">click here to register</string>
 </resources>
