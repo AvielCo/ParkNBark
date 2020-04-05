@@ -20,4 +20,7 @@
     <string name="dog_breed">Dog Breed</string>
     <string name="dog_age">Dog Age</string>
     <string name="register_textview">click here to register</string>
+    <string name="title_activity_map">Map</string>
+
+
 </resources>
