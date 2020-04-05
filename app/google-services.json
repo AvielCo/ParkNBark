@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "996567693538",
+    "firebase_url": "https://parkn-bark-22625.firebaseio.com",
+    "project_id": "parkn-bark-22625",
+    "storage_bucket": "parkn-bark-22625.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996567693538:android:0fb417297661d3baacc6bb",
+        "android_client_info": {
+          "package_name": "com.evan.parknbark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996567693538-f7n91j3r07g4af1t77dv1j2cg454tfpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.evan.parknbark",
+            "certificate_hash": "6bc01501145939cf9acb1a48984a461e54914b4a"
+          }
+        },
+        {
+          "client_id": "996567693538-te76s6dp6gl3d00830jg5li7jn36o4su.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv3Uikunvp4xoLQKvs7HcucQnHwx3IZW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996567693538-te76s6dp6gl3d00830jg5li7jn36o4su.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
