@@ -9,7 +9,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "Register";
     private static final String KEY_FNAME = "fname";
     private static final String KEY_LNAME = "lname";
-    private static final String KEY_PERMISSION = "permission";
+    private static final String KEY_PERMISSION = "permissionn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
