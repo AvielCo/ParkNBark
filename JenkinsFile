@@ -6,15 +6,16 @@ pipeline {
 					git url: 'https://github.com/AvielCo/ParkNBark'
 				}
 			}
-			stage("Build"){
-				    if (isUnix()) {
-					sh './gradlew clean test --no-daemon'
+			stage('Unit & Integration Tests') {
+					    steps {
+						script {
+						    try {
+							sh './gradlew clean test --no-daemon' //run a gradle task
+						    } finally {
+							junit '**/build/test-results/test/*.xml' //make the junit test results available in any case (success & failure)
+						    }
+						}
+					    }
+			}
 
-				    } 
-				    else {
-					bat 'gradlew.bat clean build'
-				    }
-				}
-
-		}
 	}
