@@ -9,7 +9,9 @@ pipeline {
 			stage("build") {
 				    steps {
 					script {
-						sh 'chmod +x ./gradlew app/src/main/java/com/evan/parknbark/MainActivity'  
+						sh 'chmod +x gradlew'
+						sh './gradlew build'
+						
 						}
 				}
 			}
