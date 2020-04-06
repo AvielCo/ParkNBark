@@ -6,9 +6,9 @@ pipeline {
 					git url: 'https://github.com/AvielCo/ParkNBark'
 				}
 			}
-			stage("Compile") {
+			stage("build debug APK") {
 				steps {
-					sh "./gradlew compileJava"
+					sh "./gradlew assembleDebug"
 				}
 			}
 		}
