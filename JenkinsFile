@@ -6,14 +6,12 @@ pipeline {
 					git url: 'https://github.com/AvielCo/ParkNBark'
 				}
 			}
-			stage('Unit & Integration Tests') {
+			stage("build") {
 					    steps {
 						script {
 						    try {
-							sh 'chmod +x gradlew ParkNBark' //run a gradle task
-						    } finally {
-							junit '**/build/test-results/test/*.xml' //make the junit test results available in any case (success & failure)
-						    }
+							sh 'chmod +x gradlew MainActivity' //run a gradle task
+						    } 
 						}
 					    }
 			}
