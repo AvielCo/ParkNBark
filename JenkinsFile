@@ -7,14 +7,12 @@ pipeline {
 				}
 			}
 			stage("build") {
-					    steps {
-						script {
-						    try {
-							sh 'chmod +x gradlew MainActivity' //run a gradle task
-						    } 
+				    steps {
+					script {
+						sh 'chmod +x gradlew MainActivity' //run a gradle task 
 						}
 					    }
-			}
+					}
 
-	}
+			}
 }
