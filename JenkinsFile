@@ -13,6 +13,5 @@ pipeline {
               					./gradlew assembleRelease """
 				}
 			}
-			sudo chown -R jenkins:jenkins /opt/android-sdk/
 		}
 	}
