@@ -9,10 +9,15 @@ pipeline {
 			stage("build") {
 				    steps {
 					script {
-						sh 'chmod +x ./gradlew '  
+						sh 'chmod +x ./gradlew compileDebugSources'  
 						}
 					    }
 					}
-
+			stage(“Unit test”) {
+				steps {
+					sh "./gradlew test"
+				}
 			}
+
+		}
 }
