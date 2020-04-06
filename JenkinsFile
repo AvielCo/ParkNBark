@@ -1,20 +1,27 @@
 pipeline {
-	agent any
-		stages {
-			stage("Checkout") {
-				steps {
-					git url: 'https://github.com/AvielCo/ParkNBark'
-				}
-			}
-			stage("build") {
-				    steps {
-					script {
-						sh 'chmod +x gradlew'
-						sh './gradlew build'
-						
-						}
-				}
-			}
-
-		}
+  agent {
+    docker {
+      image 'windsekirun/jenkins-android-docker:1.1.1'
+    }
+  }
+  options {
+    skipStagesAfterUnstable()
+  }
+  stages {
+    stage ('Prepare'){
+      steps {
+        sh 'chmod +x ./gradlew'
+      }
+    }
+    stage('Compile') {
+      steps {
+        sh './gradlew compileDebugSources'
+      }
+    }
+    stage('Build APK') {
+      steps {
+        sh './gradlew assembleDebug'
+      }
+    }
+  }
 }
