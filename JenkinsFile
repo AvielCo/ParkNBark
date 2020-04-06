@@ -9,7 +9,7 @@ pipeline {
 			stage("build") {
 				    steps {
 					script {
-						sh 'chmod +x ./gradlew ParkNBark/app/src/main/java/com/evan/parknbark/'  
+						sh 'chmod +x ./gradlew '  
 						}
 					    }
 					}
