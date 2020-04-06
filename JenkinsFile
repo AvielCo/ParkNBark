@@ -9,7 +9,7 @@ pipeline {
 			stage("build") {
 				    steps {
 					script {
-						sh 'chmod +x gradlew MainActivity' //run a gradle task 
+						sh 'chmod +x ./gradlew ParkNBark/app/src/main/java/com/evan/parknbark/'  
 						}
 					    }
 					}
