@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         String emailInput = textInputEmail.getEditText().getText().toString().trim();
         String passwordInput = textInputEmail.getEditText().getText().toString().trim();
 
-        if(!validateEmail(emailInput) | !validatePassword(passwordInput)){
+        if(validateEmail(emailInput) | !validatePassword(passwordInput)){
+            firebaseEmailAuth(emailInput, passwordInput);
             return;
         }
         firebaseEmailAuth(emailInput, passwordInput);
@@ -50,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validateEmail(String emailInput){
-        if(EditTextValidator.isValidString(emailInput)) {
+        if(!EditTextValidator.isValidString(emailInput)) {
             textInputEmail.setError("Field can't be empty");
             return false;
-        } else if (EmailValidator.isValidEmail(emailInput)) {
+        } else if (!EmailValidator.isValidEmail(emailInput)) {
             textInputEmail.setError("Invalid email address");
             return false;
         } else{
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validatePassword(String passwordInput){
-        if(EditTextValidator.isValidString(passwordInput)) {
+        if(!EditTextValidator.isValidString(passwordInput)) {
             textInputPassword.setError("Field can't be empty");
             return false;
         } else{
