@@ -1,10 +1,7 @@
-package com.evan.parknbark;
+package com.evan.parknbark.signin;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +9,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.evan.parknbark.R;
+import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,10 +24,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
+
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout textInputFName, textInputLName, textInputEmail, textInputPassword;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private static final String TAG = "Register";
     private static final String KEY_FNAME = "fname";
     private static final String KEY_LNAME = "lname";
@@ -128,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseEmailRegister(final String fname, final String lname, String email, String password) {
+    private void firebaseEmailRegister(final String fname, final String lname, final String email, final String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -164,8 +166,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            /*Toast.makeText(Register.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();*/
+                            Toasty.error(RegisterActivity.this, email + " already registered.", Toasty.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
@@ -174,11 +175,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_LONG).show();
+            Toasty.success(RegisterActivity.this, "Registered successfully.\nPlease log in.", Toast.LENGTH_LONG).show();
+            mAuth.signOut();
             finish();
-        }
-        else {
-            Toast.makeText(RegisterActivity.this, "ALREADY USER", Toast.LENGTH_LONG).show();
         }
     }
 }
