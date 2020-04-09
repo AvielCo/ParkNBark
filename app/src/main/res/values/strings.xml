@@ -31,6 +31,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="logout">Logout</string>
-
-
+    <string name="reset_pass_email_hint">Enter the E-Mail of your account</string>
+    <string name="reset_pass_send_button">Send</string>
+    <string name="reset_pass_explanation_text">Hey there, fuckface! What happened? Forgot your bitch-ass password? Well maybe you shouldn\'t smoke so much weed. Fuck off, pothead.</string>
 </resources>

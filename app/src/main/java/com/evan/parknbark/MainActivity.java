@@ -50,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SignInButton mButtonGoogle = findViewById(R.id.button_google_sign_in);
-
         //login to firebase and get instance
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null)
+            mAuth.signOut();
 
         //build the google sign in button.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        SignInButton mButtonGoogle = findViewById(R.id.button_google_sign_in);
         mButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             newUser.put(KEY_LNAME, lname);
                             newUser.put(KEY_PERMISSION, "user");
 
-                            db.collection("users").document(user.getUid()).set(newUser)
+                            db.collection("users").document(acc.getEmail()).set(newUser)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {

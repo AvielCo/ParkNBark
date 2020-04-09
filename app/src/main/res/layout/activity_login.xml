@@ -20,7 +20,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@+string/email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -38,7 +38,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@+string/password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -49,5 +49,14 @@
         android:text="@string/login"
         android:onClick="login" />
 
+    <TextView
+        android:id="@+id/forget_password_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forget Password?"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        />
 
-</LinearLayout><!-- </androidx.drawerlayout.widget.DrawerLayout> -->
+</LinearLayout>
