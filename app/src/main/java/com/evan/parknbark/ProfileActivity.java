@@ -35,7 +35,7 @@ import java.util.Map;
 
 //import com.google.firebase.storage.StorageReference;
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     private TextInputLayout textInputDogName, textInputDogAge, textInputDogBreed;
     private static final String KEY_DOG_NAME = "dog name";
     private static final String KEY_DOG_BREED = "dog breed";
@@ -83,9 +83,9 @@ public class Profile extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(Profile.this, "profile saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "profile saved", Toast.LENGTH_SHORT).show();
                         if(nUploadTask!=null && nUploadTask.isInProgress()) {
-                            Toast.makeText(Profile.this, "upload in progress", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "upload in progress", Toast.LENGTH_SHORT).show();
                         }else {
                             uploadImageToFirebase();
                         }
@@ -94,14 +94,13 @@ public class Profile extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Profile.this, "Error!" + e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "Error!" + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public void uploadImage(View view) {
         openFileChooser();
-
     }
 
     public void openFileChooser(){
@@ -148,7 +147,7 @@ public class Profile extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(Profile.this, "Upload successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ProfileActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                             Upload upload = new Upload(textInputDogName.getEditText().getText().toString().trim(),
                                     taskSnapshot.getUploadSessionUri().toString());
                             String uploadId = mDatabaseRef.push().getKey();
@@ -158,7 +157,7 @@ public class Profile extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }else{

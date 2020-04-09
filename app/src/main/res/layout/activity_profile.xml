@@ -8,12 +8,12 @@
     android:paddingStart="30dp"
     android:paddingTop="30dp"
     android:paddingEnd="30dp"
-    tools:context=".Profile">
+    tools:context=".ProfileActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
@@ -50,6 +50,7 @@
                 android:layout_height="match_parent"
                 android:hint="@string/dog_breed"
                 android:inputType="text" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -57,15 +58,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="15"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/dog_age"
-                android:inputType="text" />
+                android:inputType="number" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -73,7 +73,6 @@
             android:layout_height="wrap_content"
             android:text="upload image"
             android:onClick="uploadImage"
-            android:paddingEnd="8dp"
             android:layout_marginBottom="10dp">
         </Button>
 
@@ -89,7 +88,6 @@
             android:layout_height="wrap_content"
             android:text="save"
             android:onClick="saveProfile"
-            android:paddingTop="8dp"
             android:layout_marginTop="10dp">
         </Button>
 
@@ -98,7 +96,6 @@
             android:layout_height="wrap_content"
             android:text="show profiles"
             android:onClick="showProfiles"
-            android:paddingEnd="8dp"
             android:layout_marginBottom="10dp">
         </Button>
     </LinearLayout>

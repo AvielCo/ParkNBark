@@ -24,6 +24,7 @@ public class Upload {
     public void setImageURL(String imageURL){
         mImageURL = imageURL;
     }
+
     public String getImageURL(){
         return mImageURL;
     }
