@@ -4,30 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="30dp"
+    android:paddingStart="40dp"
     android:paddingTop="170dp"
-    android:paddingEnd="30dp"
+    android:paddingEnd="40dp"
     tools:context=".MainActivity">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/button_google_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+
+    </com.google.android.gms.common.SignInButton>
+
 
     <Button
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:onClick="login" />
+        android:onClick="login"
+        android:text="@string/sign_in" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="register"
-        android:text="@string/register"
-        android:paddingTop="10dp" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/button_google_sign_in"
         android:paddingTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="@string/register" />
 
 
 </LinearLayout>

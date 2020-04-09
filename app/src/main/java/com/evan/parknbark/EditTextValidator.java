@@ -1,4 +1,4 @@
-package com.evan.parknbark.validation;
+package com.evan.parknbark;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +14,7 @@ public class EditTextValidator implements TextWatcher {
     }
 
     public static boolean isValidString(CharSequence str){
-        return str.toString().isEmpty();
+        return !str.toString().isEmpty();
     }
 
     @Override

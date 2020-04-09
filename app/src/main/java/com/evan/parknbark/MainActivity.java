@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.evan.parknbark.signin.LoginActivity;
-import com.evan.parknbark.signin.RegisterActivity;
+import com.evan.parknbark.emailpassword.LoginActivity;
+import com.evan.parknbark.emailpassword.RegisterActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 
     @Override

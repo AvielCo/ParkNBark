@@ -1,8 +1,5 @@
 package com.evan.parknbark;
 
-import com.evan.parknbark.validation.EditTextValidator;
-import com.evan.parknbark.validation.EmailValidator;
-
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;

@@ -1,4 +1,4 @@
-package com.evan.parknbark.validation;
+package com.evan.parknbark;
 
 import android.text.Editable;
 import android.text.TextWatcher;

@@ -14,12 +14,12 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".signin.LoginActivity"
+            android:name=".emailpassword.LoginActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MapActivity"
-            android:parentActivityName=".signin.LoginActivity"
+            android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
@@ -27,7 +27,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".signin.RegisterActivity"
+            android:name=".emailpassword.RegisterActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -40,8 +40,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".signin.ResetPassActivity"
-            android:parentActivityName=".signin.LoginActivity"
+        <activity android:name=".emailpassword.ResetPassActivity"
+            android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
