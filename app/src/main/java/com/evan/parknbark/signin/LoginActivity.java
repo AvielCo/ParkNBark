@@ -1,15 +1,15 @@
 package com.evan.parknbark.signin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.evan.parknbark.MapActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.evan.parknbark.Profile;
 import com.evan.parknbark.R;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.validation.EmailValidator;
@@ -94,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user){
         if(user!=null){
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MapActivity.class));
+            //startActivity(new Intent(this, MapActivity.class));
+            startActivity(new Intent(this, Profile.class));
         }
         else
             Toasty.error(this,"Error!",Toast.LENGTH_SHORT).show();
