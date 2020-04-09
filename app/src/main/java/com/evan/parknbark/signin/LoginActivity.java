@@ -1,8 +1,5 @@
 package com.evan.parknbark.signin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,19 +7,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.evan.parknbark.MapActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.evan.parknbark.Profile;
 import com.evan.parknbark.R;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.validation.EmailValidator;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 import es.dmoral.toasty.Toasty;
@@ -56,10 +52,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View v) {
+        System.out.println("we in login");
         String emailInput = textInputEmail.getEditText().getText().toString().trim();
         String passwordInput = textInputPassword.getEditText().getText().toString().trim();
 
         if (!validateEmail(emailInput) | !validatePassword(passwordInput)) {
+            System.out.println("we in if");
             return;
         }
         firebaseEmailAuth(emailInput, passwordInput);
@@ -88,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void firebaseEmailAuth(final String email, final String password) {
+        System.out.println("we in firease");
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -107,7 +106,8 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MapActivity.class));
+//            startActivity(new Intent(this, MapActivity.class));
+            startActivity(new Intent(this, Profile.class));
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }

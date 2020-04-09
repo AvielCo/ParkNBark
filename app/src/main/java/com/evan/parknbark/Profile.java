@@ -64,9 +64,8 @@ public class Profile extends AppCompatActivity {
 
         imageViewDogPic = findViewById(R.id.image_view_dog_pic);
 
-
-        mStorageRef = FirebaseStorage.getInstance().getReference("profilesUploads");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("profilesUploads");
+        mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("profiles");
     }
 
     public void saveProfile(View view) {
