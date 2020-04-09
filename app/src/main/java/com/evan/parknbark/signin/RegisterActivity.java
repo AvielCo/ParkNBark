@@ -58,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void register(View v) {
         final String emailInput = textInputEmail.getEditText().getText().toString().trim();
-        final String passwordInput = textInputEmail.getEditText().getText().toString().trim();
+        final String passwordInput = textInputPassword.getEditText().getText().toString().trim();
         final String fnameInput = textInputFName.getEditText().getText().toString().trim();
         final String lnameInput = textInputLName.getEditText().getText().toString().trim();
 
@@ -166,7 +166,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toasty.error(RegisterActivity.this, email + " already registered.", Toasty.LENGTH_SHORT).show();
+                            Toasty.error(RegisterActivity.this, task.getException().getMessage(), Toasty.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
