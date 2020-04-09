@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evan.parknbark.MapActivity;
@@ -29,6 +30,7 @@ import es.dmoral.toasty.Toasty;
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout textInputEmail, textInputPassword;
     private FirebaseAuth mAuth;
+    private TextView forgetPassLink;
 
     private static final String TAG = "LoginActivity";
 
@@ -40,7 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         textInputEmail = findViewById(R.id.text_input_email);
         textInputPassword = findViewById(R.id.text_input_password);
+        forgetPassLink = (TextView)  findViewById(R.id.forget_password_link); //Link to "Forget password?" text in Login screen
 
+        /*
+        Link to reset password activity on click
+         */
+        forgetPassLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
+            }
+        });
     }
 
     public void login(View v) {

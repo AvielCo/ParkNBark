@@ -49,5 +49,14 @@
         android:text="@string/login"
         android:onClick="login" />
 
+    <TextView
+        android:id="@+id/forget_password_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forget Password?"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        />
 
 </LinearLayout><!-- </androidx.drawerlayout.widget.DrawerLayout> -->
