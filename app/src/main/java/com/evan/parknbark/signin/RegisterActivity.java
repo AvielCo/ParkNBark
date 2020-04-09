@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                         newUser.put(KEY_LNAME, lname);
                         newUser.put(KEY_PERMISSION, "user");
 
-                        db.collection("users").document(user.getUid()).set(newUser)
+                        db.collection("users").document(email).set(newUser)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
