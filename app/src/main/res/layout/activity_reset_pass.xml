@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,23 +15,26 @@
         android:id="@+id/resetPassMessageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
         android:layout_marginBottom="-20dp"
-        android:text="@string/reset_pass_explanation_text"
-        />
+        android:padding="20dp"
+        android:text="@string/reset_pass_explanation_text" />
 
-    <EditText
-        android:id="@+id/resetPassMailText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_email_reset_pass"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="@string/reset_pass_email_hint"
+        android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:autofillHints="" />
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/reset_pass_email_hint"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/resetPassSendButton"
+        android:id="@+id/button_send_reset_pass"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
