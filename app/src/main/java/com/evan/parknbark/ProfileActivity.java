@@ -74,19 +74,19 @@ public class ProfileActivity extends AppCompatActivity {
         String dogAgeInput = textInputDogAge.getEditText().getText().toString().trim();
 
         //saving the profile  - only the text fields
-        Map<String,Object> profile = new HashMap<>();
-        profile.put(KEY_DOG_NAME,dogNameInput);
-        profile.put(KEY_DOG_BREED,dogBreedInput);
-        profile.put(KEY_DOG_AGE,dogAgeInput);
+        Map<String, Object> profile = new HashMap<>();
+        profile.put(KEY_DOG_NAME, dogNameInput);
+        profile.put(KEY_DOG_BREED, dogBreedInput);
+        profile.put(KEY_DOG_AGE, dogAgeInput);
 
         db.collection("profiles").document(user.getUid()).set(profile)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(ProfileActivity.this, "profile saved", Toast.LENGTH_SHORT).show();
-                        if(nUploadTask!=null && nUploadTask.isInProgress()) {
+                        if (nUploadTask != null && nUploadTask.isInProgress()) {
                             Toast.makeText(ProfileActivity.this, "upload in progress", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             uploadImageToFirebase();
                         }
                     }
@@ -103,11 +103,11 @@ public class ProfileActivity extends AppCompatActivity {
         openFileChooser();
     }
 
-    public void openFileChooser(){
+    public void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -115,9 +115,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-            && data != null && data.getData() != null){
-                imageUri = data.getData();
-                imageViewDogPic.setImageURI(imageUri);
+                && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imageViewDogPic.setImageURI(imageUri);
         }
     }
 
@@ -127,8 +127,8 @@ public class ProfileActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    public void uploadImageToFirebase(){
-        if(imageUri != null){
+    public void uploadImageToFirebase() {
+        if (imageUri != null) {
             //reducing the image size
             Bitmap bmp = null;
             try {
@@ -160,9 +160,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else{
-            Toast.makeText(this, "no file selected", Toast.LENGTH_SHORT).show();
-        }
+        } else Toast.makeText(this, "no file selected", Toast.LENGTH_SHORT).show();
     }
 
     public void showProfiles(View view) {
