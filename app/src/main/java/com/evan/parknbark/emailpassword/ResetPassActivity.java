@@ -1,10 +1,9 @@
 package com.evan.parknbark.emailpassword;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.evan.parknbark.BaseActivity;
-import com.evan.parknbark.EditTextValidator;
+import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,7 +14,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 
 import es.dmoral.toasty.Toasty;
 

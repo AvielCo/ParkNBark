@@ -1,4 +1,4 @@
-package com.evan.parknbark;
+package com.evan.parknbark.profile;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.evan.parknbark.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.evan.parknbark;
+package com.evan.parknbark.profile;
 
 public class Upload {
     private String mName ,mImageURL;
