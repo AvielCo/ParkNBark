@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -132,45 +133,45 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void firebaseEmailRegister(final String fname, final String lname, final String email, final String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            assert user != null;
+                    public void onSuccess(AuthResult authResult) {
+                        Log.d(TAG, "createUserWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(fname + lname)
+                                .build();
+                        user.updateProfile(update);
 
-                            Map<String, Object> newUser = new HashMap<>();
-                            newUser.put(KEY_FNAME, fname);
-                            newUser.put(KEY_LNAME, lname);
-                            newUser.put(KEY_PERMISSION, "user");
+                        Map<String, Object> newUser = new HashMap<>();
+                        newUser.put(KEY_FNAME, fname);
+                        newUser.put(KEY_LNAME, lname);
+                        newUser.put(KEY_PERMISSION, "user");
 
-                            db.collection("users").document(user.getUid()).set(newUser)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Toast.makeText(RegisterActivity.this, "Successfully registered.",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(RegisterActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                                            Log.d(TAG, e.toString());
-                                        }
-                                    });
-
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toasty.error(RegisterActivity.this, task.getException().getMessage(), Toasty.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+                        db.collection("users").document(email).set(newUser)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        updateUI(mAuth.getCurrentUser());
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toasty.error(RegisterActivity.this, "An error has been occurred\nPlease try again later", Toasty.LENGTH_LONG).show();
+                                        Log.d(TAG, "onSuccess: onFailure: " + e.getMessage());
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "createUserWithEmail:failure", e.getCause());
+                        Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     private void updateUI(FirebaseUser user) {
