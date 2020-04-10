@@ -6,15 +6,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.evan.parknbark.emailpassword.*;
-import com.evan.parknbark.profile.ProfileActivity;
 import com.evan.parknbark.google.GoogleAuthActivity;
+import com.evan.parknbark.profile.ProfileActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 import es.dmoral.toasty.Toasty;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     GoogleAuthActivity gaa = new GoogleAuthActivity();
 
@@ -26,12 +27,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         //login to firebase and get instance
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null)
+        if(mAuth.getCurrentUser() != null)
             mAuth.signOut();
-
-        findViewById(R.id.button_sign_in_main).setOnClickListener(this);
-        findViewById(R.id.button_sign_up_main).setOnClickListener(this);
-        findViewById(R.id.button_google_sign_in).setOnClickListener(this);
     }
 
     @Override

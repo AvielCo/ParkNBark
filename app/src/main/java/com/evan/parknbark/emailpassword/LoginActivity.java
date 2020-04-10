@@ -1,16 +1,17 @@
 package com.evan.parknbark.emailpassword;
 
+import androidx.annotation.NonNull;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import android.widget.Toast;
 
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.profile.ProfileActivity;
+import com.evan.parknbark.maps.*;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -93,8 +94,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(this, MapActivity.class));
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, MapActivity.class));
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }
