@@ -1,5 +1,5 @@
 package com.evan.parknbark.profile;
-
+//this class is for photos.
 public class Upload {
     private String mName ,mImageURL;
 
