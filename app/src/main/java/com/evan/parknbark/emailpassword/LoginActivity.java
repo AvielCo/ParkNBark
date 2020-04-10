@@ -1,28 +1,33 @@
 package com.evan.parknbark.emailpassword;
 
-import androidx.annotation.NonNull;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
 import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.R;
+import com.evan.parknbark.profile.ProfileActivity;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.validation.EmailValidator;
-import com.evan.parknbark.MapActivity;
-import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private TextInputLayout textInputEmail, textInputPassword;
+
     private FirebaseAuth mAuth;
+
     private static final String TAG = "LoginActivity";
 
     @Override
@@ -84,10 +89,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MapActivity.class));
+            //startActivity(new Intent(this, MapActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }
@@ -104,6 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String passwordInput = textInputPassword.getEditText().getText().toString().trim();
                 signIn(emailInput, passwordInput);
                 break;
+
         }
     }
 }
