@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             newUser.put(KEY_LNAME, lname);
                             newUser.put(KEY_PERMISSION, "user");
 
-                            db.collection("users").document(acc.getEmail()).set(newUser)
+                            db.collection("users").document(mAuth.getCurrentUser().getUid()).set(newUser)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
