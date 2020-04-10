@@ -14,7 +14,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private Context mContext;
     private List<Upload> mUploads;
@@ -24,12 +23,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         mUploads = uploads;
     }
 
+    //creating a view and returning it - view to show the profiles
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
         return new ImageViewHolder(v);
     }
 
+    //setting the image + name on View.
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Upload uploadCurrent = mUploads.get(position);
@@ -53,7 +54,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-
             textViewName = itemView.findViewById(R.id.text_view_dog_name);
             imageView = itemView.findViewById(R.id.image_view_dog_upload);
         }
