@@ -68,12 +68,13 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("profiles");
     }
 
+    //
     public void saveProfile(View view) {
         String dogNameInput = textInputDogName.getEditText().getText().toString().trim();
         String dogBreedInput = textInputDogBreed.getEditText().getText().toString().trim();
         String dogAgeInput = textInputDogAge.getEditText().getText().toString().trim();
 
-        //saving the profile  - only the text fields
+        //saving only the text fields of the profile
         Map<String, Object> profile = new HashMap<>();
         profile.put(KEY_DOG_NAME, dogNameInput);
         profile.put(KEY_DOG_BREED, dogBreedInput);
@@ -99,17 +100,15 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
+    //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.
     public void uploadImage(View view) {
-        openFileChooser();
-    }
-
-    public void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    //after choosing a picture (UploadImage function) these validations are being checked
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -121,12 +120,14 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    //mainly to get the 'xxxx.jpg' extension
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    //upload the picture to firebase storage
     public void uploadImageToFirebase() {
         if (imageUri != null) {
             //reducing the image size
@@ -163,6 +164,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else Toast.makeText(this, "no file selected", Toast.LENGTH_SHORT).show();
     }
 
+    //showing other user`s profiles
     public void showProfiles(View view) {
         Intent intent = new Intent(this, ImagesActivity.class);
         startActivity(intent);

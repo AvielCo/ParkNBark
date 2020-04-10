@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//this activity is for the user to be able to see other user`s profile
 public class ImagesActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
@@ -37,6 +37,7 @@ public class ImagesActivity extends AppCompatActivity {
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("profiles");
 
+        //due to multiple profiles we store them in an array (from firebase) so they could be presented in a view
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -44,6 +45,7 @@ public class ImagesActivity extends AppCompatActivity {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     mUploads.add(upload);
                 }
+                //ImageAdapter - class in profiles.
                 mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);
             }
