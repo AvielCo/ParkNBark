@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.EditTextValidator;
 import com.evan.parknbark.EmailValidator;
-import com.evan.parknbark.MapActivity;
+import com.evan.parknbark.maps.MapActivity;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.evan.parknbark.emailpassword.LoginActivity;
 import com.evan.parknbark.emailpassword.RegisterActivity;
+import com.evan.parknbark.maps.MapActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
