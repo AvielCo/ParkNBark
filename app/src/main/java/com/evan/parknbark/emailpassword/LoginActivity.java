@@ -6,13 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.EditTextValidator;
 import com.evan.parknbark.EmailValidator;
-import com.evan.parknbark.maps.MapActivity;
+import com.evan.parknbark.MapActivity;
 import com.evan.parknbark.R;
+import com.evan.parknbark.profile.ProfileActivity;
+import com.evan.parknbark.validation.EditTextValidator;
+import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -102,7 +108,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         int i = v.getId();
         switch (i) {
-            case R.id.button_send_reset_pass:
+            case R.id.forget_password_link:
                 startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
                 break;
             case R.id.button_sign_in:

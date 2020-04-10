@@ -1,4 +1,4 @@
-package com.evan.parknbark;
+package com.evan.parknbark.profile;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,7 +34,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-//import com.google.firebase.storage.StorageReference;
 
 public class ProfileActivity extends AppCompatActivity {
     private TextInputLayout textInputDogName, textInputDogAge, textInputDogBreed;
@@ -68,25 +68,26 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("profiles");
     }
 
+    //
     public void saveProfile(View view) {
         String dogNameInput = textInputDogName.getEditText().getText().toString().trim();
         String dogBreedInput = textInputDogBreed.getEditText().getText().toString().trim();
         String dogAgeInput = textInputDogAge.getEditText().getText().toString().trim();
 
-        //saving the profile  - only the text fields
-        Map<String,Object> profile = new HashMap<>();
-        profile.put(KEY_DOG_NAME,dogNameInput);
-        profile.put(KEY_DOG_BREED,dogBreedInput);
-        profile.put(KEY_DOG_AGE,dogAgeInput);
+        //saving only the text fields of the profile
+        Map<String, Object> profile = new HashMap<>();
+        profile.put(KEY_DOG_NAME, dogNameInput);
+        profile.put(KEY_DOG_BREED, dogBreedInput);
+        profile.put(KEY_DOG_AGE, dogAgeInput);
 
         db.collection("profiles").document(user.getUid()).set(profile)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(ProfileActivity.this, "profile saved", Toast.LENGTH_SHORT).show();
-                        if(nUploadTask!=null && nUploadTask.isInProgress()) {
+                        if (nUploadTask != null && nUploadTask.isInProgress()) {
                             Toast.makeText(ProfileActivity.this, "upload in progress", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             uploadImageToFirebase();
                         }
                     }
@@ -99,36 +100,36 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
+    //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.
     public void uploadImage(View view) {
-        openFileChooser();
-    }
-
-    public void openFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    //after choosing a picture (UploadImage function) these validations are being checked
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-            && data != null && data.getData() != null){
-                imageUri = data.getData();
-                imageViewDogPic.setImageURI(imageUri);
+                && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imageViewDogPic.setImageURI(imageUri);
         }
     }
 
+    //mainly to get the 'xxxx.jpg' extension
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    public void uploadImageToFirebase(){
-        if(imageUri != null){
+    //upload the picture to firebase storage
+    public void uploadImageToFirebase() {
+        if (imageUri != null) {
             //reducing the image size
             Bitmap bmp = null;
             try {
@@ -160,11 +161,10 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else{
-            Toast.makeText(this, "no file selected", Toast.LENGTH_SHORT).show();
-        }
+        } else Toast.makeText(this, "no file selected", Toast.LENGTH_SHORT).show();
     }
 
+    //showing other user`s profiles
     public void showProfiles(View view) {
         Intent intent = new Intent(this, ImagesActivity.class);
         startActivity(intent);

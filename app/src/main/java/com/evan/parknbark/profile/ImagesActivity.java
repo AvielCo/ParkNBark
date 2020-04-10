@@ -1,4 +1,4 @@
-package com.evan.parknbark;
+package com.evan.parknbark.profile;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.evan.parknbark.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//this activity is for the user to be able to see other user`s profile
 public class ImagesActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
@@ -36,6 +37,7 @@ public class ImagesActivity extends AppCompatActivity {
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("profiles");
 
+        //due to multiple profiles we store them in an array (from firebase) so they could be presented in a view
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -43,6 +45,7 @@ public class ImagesActivity extends AppCompatActivity {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     mUploads.add(upload);
                 }
+                //ImageAdapter - class in profiles.
                 mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
                 mRecyclerView.setAdapter(mAdapter);
             }

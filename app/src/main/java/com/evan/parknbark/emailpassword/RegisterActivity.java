@@ -4,13 +4,12 @@ import androidx.annotation.NonNull;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import com.evan.parknbark.BaseActivity;
-import com.evan.parknbark.EditTextValidator;
-import com.evan.parknbark.EmailValidator;
+import com.evan.parknbark.validation.EditTextValidator;
+import com.evan.parknbark.validation.EmailValidator;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -74,7 +73,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             newUser.put(KEY_LNAME, lastName);
                             newUser.put(KEY_PERMISSION, "user");
 
-                            db.collection("users").document(email).set(newUser)
+                            db.collection("users").document(user.getUid()).set(newUser)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
