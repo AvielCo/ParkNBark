@@ -73,7 +73,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             newUser.put(KEY_LNAME, lastName);
                             newUser.put(KEY_PERMISSION, "user");
 
-                            db.collection("users").document(email).set(newUser)
+                            db.collection("users").document(user.getUid()).set(newUser)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
