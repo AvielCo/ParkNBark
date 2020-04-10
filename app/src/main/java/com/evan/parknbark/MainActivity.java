@@ -17,13 +17,19 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
-    GoogleAuthActivity gaa = new GoogleAuthActivity();
+    GoogleAuthActivity gaa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setProgressBar(R.id.progressBar);
+
+        findViewById(R.id.button_sign_in_main).setOnClickListener(this);
+        findViewById(R.id.button_sign_up_main).setOnClickListener(this);
+        findViewById(R.id.button_google_sign_in).setOnClickListener(this);
+
+        gaa = new GoogleAuthActivity();
 
         //login to firebase and get instance
         mAuth = FirebaseAuth.getInstance();
