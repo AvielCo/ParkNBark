@@ -13,24 +13,30 @@
         android:id="@+id/button_google_sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp">
-
-    </com.google.android.gms.common.SignInButton>
+        android:paddingTop="10dp" />
 
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/button_sign_in_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="login"
         android:text="@string/sign_in" />
 
     <Button
+        android:id="@+id/button_sign_up_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="register"
         android:paddingTop="10dp"
-        android:text="@string/register" />
+        android:text="@string/register"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:indeterminate="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:paddingTop="5dp"
+        style="?android:attr/progressBarStyleHorizontal"/>
 
 
 </LinearLayout>

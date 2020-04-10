@@ -95,7 +95,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
             //startActivity(new Intent(this, MapActivity.class));
             startActivity(new Intent(this, ProfileActivity.class));
-
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }
@@ -104,7 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         int i = v.getId();
         switch (i) {
-            case R.id.button_send_reset_pass:
+            case R.id.forget_password_link:
                 startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
                 break;
             case R.id.button_sign_in:
