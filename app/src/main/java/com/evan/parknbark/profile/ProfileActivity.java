@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-//import com.google.firebase.storage.StorageReference;
 
 public class ProfileActivity extends AppCompatActivity {
     private TextInputLayout textInputDogName, textInputDogAge, textInputDogBreed;

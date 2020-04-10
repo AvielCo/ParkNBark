@@ -13,8 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".profile.ImagesActivity" />
-        <activity android:name=".profile.ProfileActivity" />
+
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:parentActivityName=".emailpassword.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".profile.ImagesActivity"
+            android:parentActivityName=".profile.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".emailpassword.LoginActivity"
             android:parentActivityName=".MainActivity"
@@ -33,6 +42,7 @@
             android:name=".emailpassword.RegisterActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
