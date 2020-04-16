@@ -20,7 +20,6 @@ import es.dmoral.toasty.Toasty;
 public class ResetPassActivity extends BaseActivity implements View.OnClickListener {
 
     private TextInputLayout textInputResetPassEmail;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +28,6 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
 
         textInputResetPassEmail = findViewById(R.id.text_input_email_reset_pass);
         findViewById(R.id.button_send_reset_pass).setOnClickListener(this);
-
-
-        mAuth = FirebaseAuth.getInstance();
-
     }
 
     private void resetPassword(String email){

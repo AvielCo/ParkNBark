@@ -39,10 +39,6 @@ public class GoogleAuthActivity extends BaseActivity {
     private static final String KEY_PERMISSION = "permission";
     private int RC_SIGN_IN = 1;
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInAccount googleAccount;
 

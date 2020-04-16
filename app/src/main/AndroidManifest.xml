@@ -6,23 +6,27 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:extractNativeLibs="true"
         android:allowBackup="true"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".bulletinboard.BulletinBoardActivity" />
+        <activity android:name=".bulletinboard.NewNoteActivity" />
+        <activity android:name=".bulletinboard.NoteDescriptionActivity" />
+
         <activity
             android:name=".profile.ProfileActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".profile.ImagesActivity"
             android:parentActivityName=".profile.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".emailpassword.LoginActivity"
@@ -30,9 +34,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".MapActivity"
+            android:name=".maps.MapActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".maps.LocationsActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -53,10 +59,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".emailpassword.ResetPassActivity"
+        <activity
+            android:name=".emailpassword.ResetPassActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
     </application>
 

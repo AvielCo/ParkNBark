@@ -35,4 +35,8 @@
     <string name="reset_pass_send_button">Send</string>
     <string name="reset_pass_explanation_text">Hey there, fuckface! What happened? Forgot your bitch-ass password? Well maybe you shouldn\'t smoke so much weed. Fuck off, pothead.</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="save">Save</string>
 </resources>

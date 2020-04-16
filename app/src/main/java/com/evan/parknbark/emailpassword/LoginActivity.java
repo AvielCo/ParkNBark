@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.maps.*;
-import com.evan.parknbark.profile.ProfileActivity;
+import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
+import com.evan.parknbark.maps.MapActivity;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,8 +27,6 @@ import es.dmoral.toasty.Toasty;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private TextInputLayout textInputEmail, textInputPassword;
-
-    private FirebaseAuth mAuth;
 
     private static final String TAG = "LoginActivity";
 
@@ -95,7 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, MapActivity.class));
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }

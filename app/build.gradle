@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.4.2'
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
 //    implementation 'com.google.firebase:firebase-core:16.0.1'
 //    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 //    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
@@ -46,6 +47,7 @@ dependencies {
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
+    implementation 'androidx.cardview:cardview'
 
     //google
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
@@ -59,6 +61,7 @@ dependencies {
     //images
     //noinspection GradleCompatible
     implementation 'com.android.support:cardview-v7:28.0.0'
+
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
