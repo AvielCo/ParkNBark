@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.evan.parknbark">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <application
         android:allowBackup="true"
         android:extractNativeLibs="true"
@@ -13,40 +10,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".bulletinboard.BulletinBoardActivity" />
-        <activity android:name=".bulletinboard.NewNoteActivity" />
-        <activity android:name=".bulletinboard.NoteDescriptionActivity" />
-
+        <activity android:name=".credits.CreditActivity"></activity>
         <activity
             android:name=".profile.ProfileActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".profile.ImagesActivity"
             android:parentActivityName=".profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".emailpassword.LoginActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".maps.MapActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".maps.LocationsActivity" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".emailpassword.RegisterActivity"
             android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".maps.LocationsActivity"
+            android:parentActivityName=".maps.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
@@ -58,12 +47,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".emailpassword.ResetPassActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
