@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.evan.parknbark.MainActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.credits.CreditActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -210,13 +209,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             startActivity(Intent.createChooser(intent, "Share with"));
                             break;
                         }
-                        case R.id.nav_credit:{
+                        /*case R.id.nav_credit:{
                             startActivity(new Intent(MapActivity.this, CreditActivity.class));
                             break;
                         }
                         case R.id.nav_locations:
                             startActivity(new Intent(MapActivity.this, LocationsActivity.class));
-                            break;
+                            break;*/
                     }
                     drawer.closeDrawer(GravityCompat.START);
                     return true;

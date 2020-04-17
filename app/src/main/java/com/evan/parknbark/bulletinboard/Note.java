@@ -1,5 +1,7 @@
 package com.evan.parknbark.bulletinboard;
 
+import androidx.annotation.Keep;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ import java.io.Serializable;
  *  Note note = (Note)i.getSerializableExtra("NAME");
  *  cool cool cool cool cool cool cool cool cool cool cool cool cool cool cool cool cool cool cool
  */
+@Keep
 public class Note implements Serializable {
     private String title, description, date;
 
@@ -19,20 +22,32 @@ public class Note implements Serializable {
     }
 
     Note(String title, String description, String date) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
+        setTitle(title);
+        setDescription(description);
+        setDate(date);
     }
 
-    String getTitle() throws NullPointerException{
+    public String getTitle() throws NullPointerException{
         return title;
     }
 
-    String getDescription()throws NullPointerException {
+    public String getDescription()throws NullPointerException {
         return description;
     }
 
-    String getDate()throws NullPointerException {
+    public String getDate()throws NullPointerException {
         return date;
+    }
+
+    private void setTitle(String title) {
+        this.title = title;
+    }
+
+    private void setDescription(String description) {
+        this.description = description;
+    }
+
+    private void setDate(String date) {
+        this.date = date;
     }
 }

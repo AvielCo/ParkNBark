@@ -16,24 +16,27 @@ import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.R;
 import com.evan.parknbark.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 
 public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.OnItemClickListener {
 
     private static final String TAG = "BulletinBoardActivity";
     private CollectionReference noteRef;
     private NoteAdapter adapter;
-    private User user;
     private FloatingActionButton buttonAddNote;
-    private FireStoreResults mRes;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,39 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
             }
         });
 
-        //if (user.getPermission().equals("user"))
-            //buttonAddNote.setVisibility(View.INVISIBLE);
+        docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
+        docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    user = task.getResult().toObject(User.class);
+
+                    if (user.getPermission().equals("user"))
+                        buttonAddNote.setVisibility(View.INVISIBLE);
+                    else setItemTouchHelper();
+
+                } else {
+                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                }
+            }
+        });
         setUpRecyclerView();
+    }
+
+    private void setItemTouchHelper(){
+        buttonAddNote.setVisibility(View.VISIBLE);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.deleteItem(viewHolder.getAdapterPosition());
+            }
+        }).attachToRecyclerView(recyclerView);
     }
 
     private void setUpRecyclerView() {
@@ -64,25 +97,11 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
                 .build();
         adapter = new NoteAdapter(options);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        /*if (user.getPermission().equals("admin")) {
-            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                    return false;
-                }
-
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    adapter.deleteItem(viewHolder.getAdapterPosition());
-                }
-            }).attachToRecyclerView(recyclerView);
-        }*/
 
         adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
             @Override
@@ -94,6 +113,7 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
             }
         });
     }
+
 
     private void goToNoteDescription(Note note) {
         Intent intent = new Intent(this, NoteDescriptionActivity.class);
@@ -116,24 +136,5 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
     @Override
     public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
 
-    }
-
-    public interface FireStoreResults {
-        public void onResultGet();
-    }
-
-    public void readData(final FireStoreResults a) {
-        db.collection("users").document(mAuth.getCurrentUser().getUid())
-                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                user = documentSnapshot.toObject(User.class);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "onFailure: " + e.getMessage());
-            }
-        });
     }
 }

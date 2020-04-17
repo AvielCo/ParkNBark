@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import es.dmoral.toasty.Toasty;
 
 
 public class NewNoteActivity extends BaseActivity {
@@ -65,9 +66,10 @@ public class NewNoteActivity extends BaseActivity {
         if (!validateTitle(title) | !validateDescription(description)) return;
 
         CollectionReference notebookRef = FirebaseFirestore.getInstance()
-                .collection("Notes");
-        notebookRef.add(new Note(title, description, currentDate));
-        Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
+                .collection("notes");
+        Note note = new Note(title, description, currentDate);
+        notebookRef.add(note);
+        Toasty.info(this, "Note added", Toast.LENGTH_SHORT).show();
         finish();
     }
 

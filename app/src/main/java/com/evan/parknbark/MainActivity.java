@@ -8,8 +8,6 @@ import android.widget.Toast;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
-import com.evan.parknbark.maps.LocationsActivity;
-import com.evan.parknbark.maps.MapActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -18,6 +16,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
     GoogleAuthActivity gaa;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MapActivity.class));
+            startActivity(new Intent(this, BulletinBoardActivity.class));
         }
     }
 

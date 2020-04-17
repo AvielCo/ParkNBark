@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.evan.parknbark">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:extractNativeLibs="true"
@@ -10,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".credits.CreditActivity"></activity>
         <activity
             android:name=".profile.ProfileActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
@@ -38,6 +41,14 @@
             android:parentActivityName=".maps.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".bulletinboard.BulletinBoardActivity" />
+
+        <activity android:name=".bulletinboard.NewNoteActivity"
+            android:parentActivityName=".bulletinboard.BulletinBoardActivity"/>
+
+        <activity android:name=".bulletinboard.NoteDescriptionActivity"
+            android:parentActivityName=".bulletinboard.BulletinBoardActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -50,13 +61,11 @@
         <activity
             android:name=".emailpassword.ResetPassActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

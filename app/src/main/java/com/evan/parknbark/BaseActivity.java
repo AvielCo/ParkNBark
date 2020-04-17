@@ -17,8 +17,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
-    protected DocumentSnapshot document;
     protected DocumentReference docRef;
+    protected User user;
     private static final String TAG = "BaseActivity";
 
     @VisibleForTesting
