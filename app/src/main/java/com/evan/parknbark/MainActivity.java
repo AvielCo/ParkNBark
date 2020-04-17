@@ -1,97 +1,39 @@
 package com.evan.parknbark;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
+import com.evan.parknbark.emailpassword.*;
+import com.evan.parknbark.google.GoogleAuthActivity;
+import com.evan.parknbark.maps.MapActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
-    private TextInputLayout textInputEmail, textInputPassword;
-    private FirebaseAuth mAuth;
+
+import es.dmoral.toasty.Toasty;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener{
+    GoogleAuthActivity gaa;
     private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setProgressBar(R.id.progressBar);
+
+        findViewById(R.id.button_sign_in_main).setOnClickListener(this);
+        findViewById(R.id.button_sign_up_main).setOnClickListener(this);
+        findViewById(R.id.button_google_sign_in).setOnClickListener(this);
+
+        gaa = new GoogleAuthActivity();
 
         //login to firebase and get instance
-        mAuth = FirebaseAuth.getInstance();
-
-        textInputEmail = findViewById(R.id.text_input_email);
-        textInputPassword = findViewById(R.id.text_input_password);
-
-    }
-
-    public void register(View v){
-        startActivity(new Intent(this, RegisterActivity.class));
-    }
-
-    public void login(View v){
-        String emailInput = textInputEmail.getEditText().getText().toString().trim();
-        String passwordInput = textInputPassword.getEditText().getText().toString().trim();
-
-        if(validateEmail(emailInput) && validatePassword(passwordInput)){
-            firebaseEmailAuth(emailInput, passwordInput);
-            return;
-        }
-        //firebaseEmailAuth(emailInput, passwordInput);
-
-    }
-
-    private boolean validateEmail(String emailInput){
-        if(!EditTextValidator.isValidString(emailInput)) {
-            textInputEmail.setError("Field can't be empty");
-            return false;
-        } else if (!EmailValidator.isValidEmail(emailInput)) {
-            textInputEmail.setError("Invalid email address");
-            return false;
-        } else{
-            textInputEmail.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePassword(String passwordInput){
-        if(!EditTextValidator.isValidString(passwordInput)) {
-            textInputPassword.setError("Field can't be empty");
-            return false;
-        } else{
-            textInputPassword.setError(null);
-            return true;
-        }
-    }
-
-
-    private void firebaseEmailAuth(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        if(mAuth.getCurrentUser() != null)
+            mAuth.signOut();
     }
 
     @Override
@@ -99,14 +41,31 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
 
-     private void updateUI(FirebaseUser user){
-        if(user!=null){
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MapActivity.class));
         }
-        else
-            Toast.makeText(this,"Error!",Toast.LENGTH_SHORT).show();
-     }
+    }
 
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        switch (i) {
+            case R.id.button_sign_in_main:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+            case R.id.button_sign_up_main:
+                startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.button_google_sign_in:
+                GoogleSignInAccount googleAccount = gaa.signInWithGoogle();
+                if(googleAccount != null)
+                    updateUI(mAuth.getCurrentUser());
+                break;
+        }
+    }
 }

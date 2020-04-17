@@ -40,7 +40,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.GeoApiContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +58,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private final float zoom = 14.5f;
-    private GeoApiContext mGeoApiContext = null;
+
 
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -119,10 +118,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void initMap(){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
-
-        if(mGeoApiContext == null){
-            mGeoApiContext = new GeoApiContext.Builder().apiKey(getString(R.string.google_maps_key)).build();
-        }
     }
 
     /**
