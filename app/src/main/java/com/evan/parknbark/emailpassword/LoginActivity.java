@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -44,7 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         textInputPassword = findViewById(R.id.text_input_password);
         findViewById(R.id.forget_password_link).setOnClickListener(this);
         findViewById(R.id.button_sign_in).setOnClickListener(this);
-}
+    }
 
     public void signIn(String email, String password) {
 
@@ -71,7 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             Toasty.info(this, "Hello " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MapActivity.class));
+            startActivity(new Intent(LoginActivity.this, BulletinBoardActivity.class));
             //startActivity(new Intent(this,ChangePassActivity.class)); //Change password activity - will be attached to settings later
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();

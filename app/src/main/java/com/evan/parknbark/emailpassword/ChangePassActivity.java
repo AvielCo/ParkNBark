@@ -49,17 +49,23 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                 EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword) && !currentPassword.equals(newPassword)) {
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
             user.reauthenticate(credential)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    Toasty.info(ChangePassActivity.this, "Password changed successfully", Toasty.LENGTH_SHORT).show();
-                                    ChangePassActivity.this.startActivity(new Intent(ChangePassActivity.this, LoginActivity.class));
-                                } else
-                                    Toasty.info(ChangePassActivity.this, "Password change failed", Toasty.LENGTH_SHORT).show();
-                            });
-                        } else
-                            Toasty.info(ChangePassActivity.this, "The current password you enter is invalid!", Toasty.LENGTH_SHORT).show();
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task1) {
+                                        if (task1.isSuccessful()) {
+                                            Toasty.info(ChangePassActivity.this, "Password changed successfully", Toasty.LENGTH_SHORT).show();
+                                            ChangePassActivity.this.startActivity(new Intent(ChangePassActivity.this, LoginActivity.class));
+                                        } else
+                                            Toasty.info(ChangePassActivity.this, "Password change failed", Toasty.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else
+                                Toasty.info(ChangePassActivity.this, "The current password you enter is invalid!", Toasty.LENGTH_SHORT).show();
+                        }
                     });
         }
         else Toasty.info(ChangePassActivity.this, "New password cannot be the same as the current password", Toasty.LENGTH_SHORT).show();
