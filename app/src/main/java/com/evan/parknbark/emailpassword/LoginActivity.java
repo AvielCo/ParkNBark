@@ -96,6 +96,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (user != null) {
             Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ProfileActivity.class));
+            //startActivity(new Intent(this,ChangePassActivity.class)); //Change password activity - will be attached to settings later
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }

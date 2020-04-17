@@ -35,4 +35,9 @@
     <string name="reset_pass_send_button">Send</string>
     <string name="reset_pass_explanation_text">Hey there, fuckface! What happened? Forgot your bitch-ass password? Well maybe you shouldn\'t smoke so much weed. Fuck off, pothead.</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="change_pass_explanation_text">Please enter your current password, then enter the new password you wish to use and press \"Confirm\" button.</string>
+    <string name="change_pass_enter_new_pass_hint">Enter the new password</string>
+    <string name="change_pass_current_pass_hint">Enter your current password</string>
+    <string name="change_pass_confirm_button">Confirm</string>
+
 </resources>
