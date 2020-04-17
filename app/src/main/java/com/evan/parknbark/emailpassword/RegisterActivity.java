@@ -52,107 +52,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
      */
     public void signUp(final String email, final String password, final String firstName, final String lastName) {
 
-        if (validateEmail(email) & validatePassword(password) & validateFName(firstName) & validateLName(lastName)) {
+        if (EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)
+                & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName)) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Log.d(TAG, "createUserWithEmail:success");
+                    .addOnSuccessListener(authResult -> {
+                        Log.d(TAG, "createUserWithEmail:success");
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            User newUser = new User(firstName, lastName, "user");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        User newUser = new User(firstName, lastName, "user");
 
-                            UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(firstName + " " + lastName)
-                                    .build();
-                            user.updateProfile(update);
+                        UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(firstName + " " + lastName)
+                                .build();
+                        user.updateProfile(update);
 
-                            db.collection("users").document(user.getUid()).set(newUser)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            updateUI(mAuth.getCurrentUser());
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toasty.error(RegisterActivity.this, "An error has been occurred\nPlease try again later", Toasty.LENGTH_LONG).show();
-                                            Log.d(TAG, "onSuccess: onFailure: " + e.getMessage());
-                                        }
-                                    });
-                        }
+                        db.collection("users").document(user.getUid()).set(newUser)
+                                .addOnSuccessListener(aVoid -> updateUI(mAuth.getCurrentUser()))
+                                .addOnFailureListener(e -> {
+                                    Toasty.error(RegisterActivity.this, "An error has been occurred\nPlease try again later", Toasty.LENGTH_LONG).show();
+                                    Log.d(TAG, "onSuccess: onFailure: " + e.getMessage());
+                                });
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "createUserWithEmail:failure", e.getCause());
-                            Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
-                        }
+                    .addOnFailureListener(e -> {
+                        Log.w(TAG, "createUserWithEmail:failure", e.getCause());
+                        Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
                     });
             hideProgressBar();
-        }
-    }
-
-    /*
-    E-Mail validation
-     */
-    private boolean validateEmail(String emailInput) {
-        if (!EditTextValidator.isValidString(emailInput)) {
-            textInputEmail.setError("Field can't be empty");
-            return false;
-        } else if (!EmailValidator.isValidEmail(emailInput)) {
-            textInputEmail.setError("Invalid email address");
-            return false;
-        } else {
-            textInputEmail.setError(null);
-            return true;
-        }
-    }
-
-    /*
-    Password validation
-     */
-    private boolean validatePassword(String passwordInput) {
-        if (!EditTextValidator.isValidString(passwordInput)) {
-            textInputPassword.setError("Field can't be empty");
-            return false;
-        } else {
-            textInputPassword.setError(null);
-            return true;
-        }
-    }
-
-    /*
-    First name validation
-     */
-    private boolean validateFName(String fnameInput) {
-        if (!EditTextValidator.isValidString(fnameInput)) {
-            textInputFName.setError("Field can't be empty");
-            return false;
-        } else if (fnameInput.length() > 15) {
-            textInputFName.setError("Field too long");
-            return false;
-        } else {
-            textInputFName.setError(null);
-            return true;
-        }
-    }
-
-    /*
-    Last name validation
-     */
-    private boolean validateLName(String lnameInput) {
-        if (!EditTextValidator.isValidString(lnameInput)) {
-            textInputLName.setError("Field can't be empty");
-            return false;
-        } else if (lnameInput.length() > 15) {
-            textInputLName.setError("Field too long");
-            return false;
-        } else {
-            textInputLName.setError(null);
-            return true;
         }
     }
 

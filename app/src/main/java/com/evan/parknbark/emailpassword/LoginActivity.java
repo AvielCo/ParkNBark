@@ -44,11 +44,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         textInputPassword = findViewById(R.id.text_input_password);
         findViewById(R.id.forget_password_link).setOnClickListener(this);
         findViewById(R.id.button_sign_in).setOnClickListener(this);
-    }
+}
 
     public void signIn(String email, String password) {
 
-        if (validateEmail(email) & validatePassword(password)) {
+        if (EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)) {
             showProgressBar();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -65,29 +65,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             });
             hideProgressBar();
-        }
-    }
-
-    private boolean validateEmail(String email) {
-        if (!EmailValidator.isValidEmail(email)) {
-            textInputEmail.setError("Invalid email address");
-            return false;
-        } else if (!EditTextValidator.isValidString(email)) {
-            textInputEmail.setError("Field can't be empty");
-            return false;
-        } else {
-            textInputEmail.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePassword(String password) {
-        if (!EditTextValidator.isValidString(password)) {
-            textInputPassword.setError("Field can't be empty");
-            return false;
-        } else {
-            textInputPassword.setError(null);
-            return true;
         }
     }
 
