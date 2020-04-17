@@ -209,13 +209,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             startActivity(Intent.createChooser(intent, "Share with"));
                             break;
                         }
-                        /*case R.id.nav_credit:{
-                            startActivity(new Intent(MapActivity.this, CreditActivity.class));
-                            break;
-                        }
+//                        case R.id.nav_credit:{
+//                            startActivity(new Intent(MapActivity.this, CreditActivity.class));
+//                            break;
+//                        }
                         case R.id.nav_locations:
                             startActivity(new Intent(MapActivity.this, LocationsActivity.class));
-                            break;*/
+                            break;
                     }
                     drawer.closeDrawer(GravityCompat.START);
                     return true;
