@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
+import com.evan.parknbark.maps.LocationsActivity;
 import com.evan.parknbark.maps.MapActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;

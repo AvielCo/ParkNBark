@@ -29,21 +29,18 @@ public class LocationsConfig {
     }
     class ParkItemView extends RecyclerView.ViewHolder {
         private TextView mName;
-        private TextView mLat;
-        private TextView mLon;
+        private TextView mStreet;
 
         public ParkItemView(ViewGroup parent) {
             super(LayoutInflater.from(mContext).inflate(R.layout.parks_items_lists ,parent, false));
 
             mName = (TextView) itemView.findViewById(R.id.park_name);
-            mLat = (TextView) itemView.findViewById(R.id.lat);
-            mLon = (TextView) itemView.findViewById(R.id.lon);
+            mStreet = (TextView) itemView.findViewById(R.id.street);
         }
 
         public void bind(Park park){
            mName.setText(park.getName());
-           mLat.setText(String.valueOf(park.getLat()));
-           mLon.setText(String.valueOf(park.getLon()));
+           mStreet.setText(String.valueOf(park.getStreet()));
         }
 
     }

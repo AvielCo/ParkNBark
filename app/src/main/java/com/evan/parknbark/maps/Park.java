@@ -1,15 +1,21 @@
 package com.evan.parknbark.maps;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Park {
     private String name;
+    private String street;
     private double lat;
     private double lon;
 
     public Park() {
     }
 
-    public Park(String name, double lat, double lon) {
+    public Park(String name, String street, double lat, double lon) {
         this.name = name;
+        this.street = street;
         this.lat = lat;
         this.lon = lon;
     }
@@ -36,5 +42,13 @@ public class Park {
 
     public void setLon(float lon) {
         this.lon = lon;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 }
