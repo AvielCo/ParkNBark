@@ -1,6 +1,8 @@
 package com.evan.parknbark.google;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,19 +39,23 @@ public class GoogleAuthActivity extends BaseActivity {
     private static final String KEY_PERMISSION = "permission";
     private int RC_SIGN_IN = 1;
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInAccount googleAccount;
 
-    public GoogleAuthActivity() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+    public GoogleAuthActivity() {
+        //do not delete
+        //do not delete
+        //do not delete
     }
 
     public GoogleSignInAccount signInWithGoogle() {

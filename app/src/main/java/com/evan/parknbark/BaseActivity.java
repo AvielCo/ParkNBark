@@ -8,7 +8,18 @@ import android.widget.ProgressBar;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class BaseActivity extends AppCompatActivity {
+
+    protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    protected FirebaseFirestore db = FirebaseFirestore.getInstance();
+    protected DocumentReference docRef;
+    protected User user;
+    private static final String TAG = "BaseActivity";
 
     @VisibleForTesting
     public ProgressBar mProgressBar;
@@ -34,6 +45,11 @@ public class BaseActivity extends AppCompatActivity {
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override

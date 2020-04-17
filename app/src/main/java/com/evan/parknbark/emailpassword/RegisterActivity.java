@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.User;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.validation.EmailValidator;
 import com.evan.parknbark.R;
@@ -27,8 +28,6 @@ import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private TextInputLayout textInputFName, textInputLName, textInputEmail, textInputPassword;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private static final String TAG = "Register";
     private static final String KEY_FNAME = "fname";
@@ -46,8 +45,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         textInputLName = findViewById(R.id.text_input_lname);
         textInputFName = findViewById(R.id.text_input_fname);
         findViewById(R.id.button_sign_up).setOnClickListener(this);
-
-        mAuth = FirebaseAuth.getInstance(); //Firebase Authorization
     }
 
     /*
@@ -62,16 +59,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             Log.d(TAG, "createUserWithEmail:success");
+
                             FirebaseUser user = mAuth.getCurrentUser();
+                            User newUser = new User(firstName, lastName, "user");
+
                             UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(firstName + " " + lastName)
                                     .build();
                             user.updateProfile(update);
-
-                            Map<String, Object> newUser = new HashMap<>();
-                            newUser.put(KEY_FNAME, firstName);
-                            newUser.put(KEY_LNAME, lastName);
-                            newUser.put(KEY_PERMISSION, "user");
 
                             db.collection("users").document(user.getUid()).set(newUser)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
