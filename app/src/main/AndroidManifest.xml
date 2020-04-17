@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.evan.parknbark">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -30,14 +31,24 @@
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".emailpassword.RegisterActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".maps.LocationsActivity"
+            android:parentActivityName=".maps.MapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".bulletinboard.BulletinBoardActivity" />
+
+        <activity android:name=".bulletinboard.NewNoteActivity"
+            android:parentActivityName=".bulletinboard.BulletinBoardActivity"/>
+
+        <activity android:name=".bulletinboard.NoteDescriptionActivity"
+            android:parentActivityName=".bulletinboard.BulletinBoardActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -51,9 +62,16 @@
             android:name=".emailpassword.ResetPassActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
             android:name=".emailpassword.ChangePassActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
     </application>
 
 </manifest>

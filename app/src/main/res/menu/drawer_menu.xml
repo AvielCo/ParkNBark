@@ -13,9 +13,10 @@
 
     <group android:id="@+id/menu_middle"
         android:checkableBehavior="none">
-        <item
+         <item
             android:id="@+id/nav_locations"
-            android:title = "Locations" />
+            android:icon="@drawable/ic_info_black_24"
+            android:title = "@string/locations" />
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share"
@@ -24,6 +25,10 @@
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_bug_report"
             android:title="@string/bug_report" />
+
+        <item
+            android:id="@+id/nav_credit"
+            android:title="string/credit" />
 
     </group>
 

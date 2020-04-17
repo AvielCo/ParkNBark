@@ -10,7 +10,7 @@ import com.evan.parknbark.R;
 import java.util.List;
 
 public class LocationsActivity extends AppCompatActivity {
-    private RecyclerView mRecycleriew;
+    private RecyclerView mRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /**
@@ -18,11 +18,11 @@ public class LocationsActivity extends AppCompatActivity {
          */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_locations);
-        mRecycleriew = (RecyclerView) findViewById(R.id.recycler_parks);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_parks);
         new FirebaseDataHelper().readParks(new FirebaseDataHelper.DataStatus() {
             @Override
-            public void DataIsLoaded(List<Park> parks, List<String> keys) {
-                new LocationsConfig().setConfig(mRecycleriew, LocationsActivity.this, parks,keys);
+            public void DataIsLoaded(List<Park> parks) {
+                new LocationsConfig().setConfig(mRecyclerView, LocationsActivity.this, parks);
             }
 
             @Override

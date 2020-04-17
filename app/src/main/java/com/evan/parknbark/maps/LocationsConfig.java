@@ -21,41 +21,34 @@ public class LocationsConfig {
      */
     private Context mContext;
     private ParkAdapter mParkAdapter;
-    public void setConfig(RecyclerView recyclerView, Context context, List<Park> parks, List<String> keys){
+    public void setConfig(RecyclerView recyclerView, Context context, List<Park> parks){
         mContext = context;
-        mParkAdapter = new ParkAdapter(parks, keys);
+        mParkAdapter = new ParkAdapter(parks);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(mParkAdapter);
     }
     class ParkItemView extends RecyclerView.ViewHolder {
         private TextView mName;
-        private TextView mLat;
-        private TextView mLon;
-        private String key;
+        private TextView mStreet;
 
         public ParkItemView(ViewGroup parent) {
             super(LayoutInflater.from(mContext).inflate(R.layout.parks_items_lists ,parent, false));
 
             mName = (TextView) itemView.findViewById(R.id.park_name);
-            mLat = (TextView) itemView.findViewById(R.id.lat);
-            mLon = (TextView) itemView.findViewById(R.id.lon);
+            mStreet = (TextView) itemView.findViewById(R.id.street);
         }
 
-        public void bind(Park park, String key){
+        public void bind(Park park){
            mName.setText(park.getName());
-           mLat.setText(String.valueOf(park.getLat()));
-           mLon.setText(String.valueOf(park.getLon()));
-           this.key = key;
+           mStreet.setText(String.valueOf(park.getStreet()));
         }
 
     }
     class ParkAdapter extends RecyclerView.Adapter<ParkItemView>{
         private List<Park> mParkList;
-        private List<String> mKeys;
 
-        public ParkAdapter(List<Park> mParkList, List<String> mKeys) {
+        public ParkAdapter(List<Park> mParkList) {
             this.mParkList = mParkList;
-            this.mKeys = mKeys;
         }
 
         @NonNull
@@ -69,7 +62,7 @@ public class LocationsConfig {
             /**
              * binding each value from db into the proper view
              */
-            holder.bind(mParkList.get(position), mKeys.get(position));
+            holder.bind(mParkList.get(position));
         }
 
         @Override
