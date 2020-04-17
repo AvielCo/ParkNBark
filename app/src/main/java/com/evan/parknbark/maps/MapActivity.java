@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,7 +48,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     public static final String TAG = "MapActivity";
 
@@ -178,6 +179,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setParksMarkers();
         LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
+        
     }
 
         @Override
@@ -253,4 +255,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
     }
+}
