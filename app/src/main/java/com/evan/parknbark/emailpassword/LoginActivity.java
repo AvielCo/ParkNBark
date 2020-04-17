@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             Toasty.info(this, "Hello " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, BulletinBoardActivity.class));
+            startActivity(new Intent(this, MapActivity.class));
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }
