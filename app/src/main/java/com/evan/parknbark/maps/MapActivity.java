@@ -10,7 +10,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -42,13 +44,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     public static final String TAG = "MapActivity";
 
@@ -60,10 +63,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private final float zoom = 14.5f;
 
-
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String  COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
 
 
@@ -72,14 +74,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * this code requests the permissions from the user. if the user has granted those permissions -> the map is initiated
      * else, the app asks user for these permissions.
      */
-    private void getLocationsPermissions(){
+    private void getLocationsPermissions() {
         String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            if(ContextCompat.checkSelfPermission(this.getApplicationContext(),COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionsGranted = true;
                 initMap();
-            }
-            else{
+            } else {
                 ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
         }
@@ -89,17 +90,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * if the case is LOCATION_PERMISSION_REQUEST_CODE, the code checks if both the permissions were granted by the user.
      * if not, mLocationPermissionsGranted is set to false and the code returns.
      * else, set to true and the map is initiated.
-     * @param permissions string that hold all the permissions needed
+     *
+     * @param permissions  string that hold all the permissions needed
      * @param grantResults string that holds all the permissions given by user.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mLocationPermissionsGranted = false;
-        switch (requestCode){
-            case LOCATION_PERMISSION_REQUEST_CODE:{
-                if(grantResults.length > 0){
-                    for(int i = 0; i < grantResults.length; i++){
-                        if(grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionsGranted = false;
                             return;
                         }
@@ -116,7 +118,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * a map fragment is created with the id of the map from xml file/
      * then we set a callback for when the map is ready to be used. passes next to OnMapReady.
      */
-    private void initMap(){
+    private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
     }
@@ -124,35 +126,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * if permission is granted the app proceeds to get user's current locations and is sent to update the map with that location.
      */
-    private void getDeviceLocation(){
+    private void getDeviceLocation() {
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        try{
-            if(mLocationPermissionsGranted){
+        try {
+            if (mLocationPermissionsGranted) {
                 Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Location currentLocation = (Location) task.getResult();
                             updateMap(currentLocation);
-                        }
-                        else{
+                        } else {
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(MapActivity.this, "Unable to get location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
-        }catch (SecurityException e){
+        } catch (SecurityException e) {
             Log.d(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }
 
     /**
      * loads all the parks into an arraylist that returns to setParkMarkers.
+     *
      * @return arraylist of parks.
      */
-    public List<Park> getParks(){
+    public List<Park> getParks() {
         List<Park> parksArray = Arrays.asList(new Park("Park Kaplan", "Bazel Street", 31.248640, 34.790501),
                 new Park("Park Ofira", "Ofira Street", 31.245387, 34.770759),
                 new Park("Park Shomron", "Shomron Street", 31.246992, 34.765799));
@@ -165,13 +167,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * sets markers of all the parks on the map with the option to see their name if the marker is pressed.
      */
     public void setParksMarkers() {
-        for(Park park: getParks()){
-            mMap.addMarker(new MarkerOptions().position(new LatLng(park.getLat(), park.getLon())).title(park.getName()));
+        for (Park park : getParks()) {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(park.getLat(), park.getLon())).title(park.getName()).snippet("Would you like to get here?"));
         }
     }
 
     /**
      * method gets users current location and zooms in on location
+     *
      * @param userLocation variable that holds the users current location
      */
     public void updateMap(Location userLocation) {
@@ -179,85 +182,81 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setParksMarkers();
         LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
-        
     }
 
-        @Override
-        protected void onCreate (Bundle savedInstanceState){
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_map);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
 
-            getLocationsPermissions();
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+        getLocationsPermissions();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            drawer = findViewById(R.id.drawer_layout);
-            NavigationView navView = findViewById(R.id.nav_view);
-            navView.bringToFront();
-            navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.nav_logout:
-                            FirebaseAuth.getInstance().signOut();
-                            finish();
-                            startActivity(new Intent(MapActivity.this, MainActivity.class));
-                            break;
-                        case R.id.nav_share: {
-                            Intent intent = new Intent(Intent.ACTION_SEND);
-                            intent.setType("text/plain");
-                            String text = "Come and join ParkN'Bark at <input some link>";
-                            intent.putExtra(Intent.EXTRA_TEXT, text);
-                            startActivity(Intent.createChooser(intent, "Share with"));
-                            break;
-                        }
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navView = findViewById(R.id.nav_view);
+        navView.bringToFront();
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_logout:
+                        FirebaseAuth.getInstance().signOut();
+                        finish();
+                        startActivity(new Intent(MapActivity.this, MainActivity.class));
+                        break;
+//                    case R.id.nav_share: {
+//                        Intent intent = new Intent(Intent.ACTION_SEND);
+//                        intent.setType("text/plain");
+//                        String text = "Come and join ParkN'Bark at <input some link>";
+//                        intent.putExtra(Intent.EXTRA_TEXT, text);
+//                        startActivity(Intent.createChooser(intent, "Share with"));
+//                        break;
+//                    }
 //                        case R.id.nav_credit:{
 //                            startActivity(new Intent(MapActivity.this, CreditActivity.class));
 //                            break;
 //                        }
-                        case R.id.nav_locations:
-                            startActivity(new Intent(MapActivity.this, LocationsActivity.class));
-                            break;
-                    }
-                    drawer.closeDrawer(GravityCompat.START);
-                    return true;
+                    case R.id.nav_locations:
+                        startActivity(new Intent(MapActivity.this, LocationsActivity.class));
+                        break;
                 }
-            });
-
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                    R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
-        }
-
-        @Override
-        public void onBackPressed () {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
+                return true;
             }
-        }
+        });
 
-
-        /**
-         * onMapReady callback is triggered once the map is ready to be used.
-         * it checks if permissions are given. if they are given - it gets users location and sets its location on map.
-         */
-        @Override
-        public void onMapReady (GoogleMap googleMap){
-            mMap = googleMap;
-
-            if(mLocationPermissionsGranted){
-                getDeviceLocation();
-                mMap.setMyLocationEnabled(true);
-            }
-
-
-        }
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
+
+
+    /**
+     * onMapReady callback is triggered once the map is ready to be used.
+     * it checks if permissions are given. if they are given - it gets users location and sets its location on map.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        if (mLocationPermissionsGranted) {
+            getDeviceLocation();
+            mMap.setMyLocationEnabled(true);
+        }
+        getDeviceLocation();
+    }
+
 }
+
+
