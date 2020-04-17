@@ -77,9 +77,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                     });
                         }
                     })
-                    .addOnFailureListener(e -> {
-                        Log.w(TAG, "createUserWithEmail:failure", e.getCause());
-                        Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "createUserWithEmail:failure", e.getCause());
+                            Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                        }
                     });
             hideProgressBar();
         }
