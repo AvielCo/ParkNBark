@@ -31,7 +31,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void resetPassword(String email){
-        if (validateEmail(email)) {
+        if (EditTextValidator.isValidEditText(email, textInputResetPassEmail)) {
             showProgressBar();
             mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -48,22 +48,6 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                 }
             });
             hideProgressBar();
-        }
-    }
-
-    /*
-    E-Mail validation
-     */
-    private boolean validateEmail(String emailInput) {
-        if (!EditTextValidator.isValidString(emailInput)) {
-            textInputResetPassEmail.setError("Field can't be empty");
-            return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            textInputResetPassEmail.setError("Invalid email address");
-            return false;
-        } else {
-            textInputResetPassEmail.setError(null);
-            return true;
         }
     }
 

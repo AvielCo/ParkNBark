@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.R;
+import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -63,33 +64,13 @@ public class NewNoteActivity extends BaseActivity {
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
 
-        if (!validateTitle(title) | !validateDescription(description)) return;
-
-        CollectionReference notebookRef = FirebaseFirestore.getInstance()
-                .collection("notes");
-        Note note = new Note(title, description, currentDate);
-        notebookRef.add(note);
-        Toasty.info(this, "Note added", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    private boolean validateTitle(String titleInput){
-        if(titleInput.trim().isEmpty()) {
-            textInputTitle.setError("Title can't be empty!");
-            return false;
-        } else {
-            textInputTitle.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateDescription(String descriptionInput){
-        if(descriptionInput.trim().isEmpty()) {
-            textInputDescription.setError("Description can't be empty!");
-            return false;
-        } else {
-            textInputDescription.setError(null);
-            return true;
+        if (EditTextValidator.isValidEditText(title, textInputTitle) | !EditTextValidator.isValidEditText(description, textInputDescription)) {
+            CollectionReference notebookRef = FirebaseFirestore.getInstance()
+                    .collection("notes");
+            Note note = new Note(title, description, currentDate);
+            notebookRef.add(note);
+            Toasty.info(this, "Note added", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 }

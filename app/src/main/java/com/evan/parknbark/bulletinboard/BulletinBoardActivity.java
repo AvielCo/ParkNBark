@@ -47,29 +47,9 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         noteRef = db.collection("notes");
 
         buttonAddNote = findViewById(R.id.button_add_note);
-        buttonAddNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(BulletinBoardActivity.this, NewNoteActivity.class));
-            }
-        });
+        buttonAddNote.setOnClickListener(view -> startActivity(new Intent(BulletinBoardActivity.this, NewNoteActivity.class)));
 
-        docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
-        docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    user = task.getResult().toObject(User.class);
 
-                    if (user.getPermission().equals("user"))
-                        buttonAddNote.setVisibility(View.INVISIBLE);
-                    else setItemTouchHelper();
-
-                } else {
-                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                }
-            }
-        });
         setUpRecyclerView();
     }
 
@@ -103,17 +83,8 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Note note = documentSnapshot.toObject(Note.class);
-                //String id = documentSnapshot.getId();
-                //documentSnapshot.getReference();
-                goToNoteDescription(note);
-            }
-        });
+        adapter.setOnItemClickListener(this);
     }
-
 
     private void goToNoteDescription(Note note) {
         Intent intent = new Intent(this, NoteDescriptionActivity.class);
@@ -135,6 +106,7 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
 
     @Override
     public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-
+        Note note = documentSnapshot.toObject(Note.class);
+        goToNoteDescription(note);
     }
 }
