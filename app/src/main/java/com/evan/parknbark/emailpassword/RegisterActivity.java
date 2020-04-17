@@ -56,27 +56,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName)) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(authResult -> {
-                        Log.d(TAG, "createUserWithEmail:success");
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            Log.d(TAG, "createUserWithEmail:success");
 
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        User newUser = new User(firstName, lastName, "user");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            User newUser = new User(firstName, lastName, "user");
 
-                        UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(firstName + " " + lastName)
-                                .build();
-                        user.updateProfile(update);
+                            UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(firstName + " " + lastName)
+                                    .build();
+                            user.updateProfile(update);
 
-                        db.collection("users").document(user.getUid()).set(newUser)
-                                .addOnSuccessListener(aVoid -> updateUI(mAuth.getCurrentUser()))
-                                .addOnFailureListener(e -> {
-                                    Toasty.error(RegisterActivity.this, "An error has been occurred\nPlease try again later", Toasty.LENGTH_LONG).show();
-                                    Log.d(TAG, "onSuccess: onFailure: " + e.getMessage());
-                                });
+                            db.collection("users").document(user.getUid()).set(newUser)
+                                    .addOnSuccessListener(aVoid -> RegisterActivity.this.updateUI(mAuth.getCurrentUser()))
+                                    .addOnFailureListener(e -> {
+                                        Toasty.error(RegisterActivity.this, "An error has been occurred\nPlease try again later", Toasty.LENGTH_LONG).show();
+                                        Log.d(TAG, "onSuccess: onFailure: " + e.getMessage());
+                                    });
+                        }
                     })
-                    .addOnFailureListener(e -> {
-                        Log.w(TAG, "createUserWithEmail:failure", e.getCause());
-                        Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "createUserWithEmail:failure", e.getCause());
+                            Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                        }
                     });
             hideProgressBar();
         }
