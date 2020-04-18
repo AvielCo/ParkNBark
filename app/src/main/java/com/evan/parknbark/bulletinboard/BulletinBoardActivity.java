@@ -30,7 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
 
-public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.OnItemClickListener {
+public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.OnItemClickListener, View.OnClickListener {
 
     private static final String TAG = "BulletinBoardActivity";
     private CollectionReference noteRef;
@@ -46,25 +46,16 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         mAuth = FirebaseAuth.getInstance();
         noteRef = db.collection("notes");
 
-        buttonAddNote = findViewById(R.id.button_add_note);
-        buttonAddNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(BulletinBoardActivity.this, NewNoteActivity.class));
-            }
-        });
-
+        findViewById(R.id.button_add_note).setOnClickListener(this);
         docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
         docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
-
                     if (user.getPermission().equals("user"))
-                        buttonAddNote.setVisibility(View.INVISIBLE);
+                        findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
                     else setItemTouchHelper();
-
                 } else {
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
@@ -103,17 +94,8 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Note note = documentSnapshot.toObject(Note.class);
-                //String id = documentSnapshot.getId();
-                //documentSnapshot.getReference();
-                goToNoteDescription(note);
-            }
-        });
+        adapter.setOnItemClickListener(this);
     }
-
 
     private void goToNoteDescription(Note note) {
         Intent intent = new Intent(this, NoteDescriptionActivity.class);
@@ -135,6 +117,14 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
 
     @Override
     public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+        Note note = documentSnapshot.toObject(Note.class);
+        goToNoteDescription(note);
+    }
 
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if(i == R.id.button_add_note)
+            BulletinBoardActivity.this.startActivity(new Intent(BulletinBoardActivity.this, NewNoteActivity.class));
     }
 }
