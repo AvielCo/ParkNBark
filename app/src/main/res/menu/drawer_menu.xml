@@ -26,9 +26,9 @@
             android:icon="@drawable/ic_bug_report"
             android:title="@string/bug_report" />
 
-        <item
+        <!--<item
             android:id="@+id/nav_credit"
-            android:title="string/credit" />
+            android:title="string/credit" /> -->
 
     </group>
 
