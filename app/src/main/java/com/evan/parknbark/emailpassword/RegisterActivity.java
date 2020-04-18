@@ -30,9 +30,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private TextInputLayout textInputFName, textInputLName, textInputEmail, textInputPassword;
 
     private static final String TAG = "Register";
-    private static final String KEY_FNAME = "fname";
-    private static final String KEY_LNAME = "lname";
-    private static final String KEY_PERMISSION = "permission";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

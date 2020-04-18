@@ -1,9 +1,7 @@
 package com.evan.parknbark.maps;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.MainActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.profile.Profile;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,25 +32,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.SetOptions;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -176,11 +167,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
      * sets markers of all the parks on the map with the option to see their name if the marker is pressed.
      */
     public void setParksMarkers() {
-        List<String> empty = new ArrayList<String>();
         for (Park park : getParks()) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(park.getLat(), park.getLon())).title(park.getName()).snippet("Check in here?"));
-            mReference = db.collection("parkcheckin").document(park.getName());
-            mReference.set(empty);
         }
     }
 
@@ -200,8 +188,6 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-
 
         getLocationsPermissions();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -275,7 +261,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
 
     public void checkIn(String title) {
         db.collection("parkcheckin").document(title)
-                .update("profiles", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+                .update("currentProfilesInPark", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
     }
 
     /**

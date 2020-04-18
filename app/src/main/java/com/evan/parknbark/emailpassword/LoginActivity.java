@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             Toasty.info(this, "Hello " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, BulletinBoardActivity.class));
+            startActivity(new Intent(LoginActivity.this, MapActivity.class));
             //startActivity(new Intent(this,ChangePassActivity.class)); //Change password activity - will be attached to settings later
         } else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
