@@ -38,9 +38,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
-//    implementation 'com.google.firebase:firebase-core:16.0.1'
-//    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
-//    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+
 
 
     //animation / view design
@@ -85,7 +83,11 @@ dependencies {
     testImplementation 'com.google.truth:truth:1.0.1'
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'org.mockito:mockito-core:2.19.0'
-
+    
+    testCompile 'junit:junit:4.12'
+    // Optional -- Mockito framework
+    testCompile 'org.mockito:mockito-core:1.10.1' 
+    
     implementation 'com.android.support:multidex:1.0.3'
 }
 apply plugin: 'com.android.application'
