@@ -25,7 +25,8 @@ pipeline {
     }
     stage('Unit test') {
       steps {
-        sh './gradlew connectedAndroidTest'
+        gradle build --scan
+        sh './gradlew testDebugUnitTest testDebugUnitTest'
 
         junit '**/TEST-*.xml'
       }
