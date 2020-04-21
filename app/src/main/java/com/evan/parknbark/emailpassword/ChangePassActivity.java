@@ -25,16 +25,16 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
     private TextInputLayout mTextInputCurrentPassword;
     private TextInputLayout mTextInputNewPassword;
     private String userEmail;
-    private FirebaseUser user;
-    private Button confirmButton;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pass);
+        setProgressBar(R.id.progressBar);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        userEmail = user.getEmail();
+        firebaseUser = mAuth.getCurrentUser();
+        userEmail = firebaseUser.getEmail();
         mTextInputCurrentPassword = findViewById(R.id.text_input_change_pass_enter_current);
         mTextInputNewPassword = findViewById(R.id.text_input_change_pass_enter_new);
 
@@ -47,13 +47,14 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
 
         if (EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword) &
                 EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword) && !currentPassword.equals(newPassword)) {
+            showProgressBar();
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
-            user.reauthenticate(credential)
+            firebaseUser.reauthenticate(credential)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                firebaseUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task1) {
                                         if (task1.isSuccessful()) {
@@ -61,6 +62,7 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                                             ChangePassActivity.this.startActivity(new Intent(ChangePassActivity.this, LoginActivity.class));
                                         } else
                                             Toasty.info(ChangePassActivity.this, "Password change failed", Toasty.LENGTH_SHORT).show();
+                                        hideProgressBar();
                                     }
                                 });
                             } else

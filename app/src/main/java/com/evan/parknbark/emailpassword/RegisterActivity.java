@@ -10,19 +10,13 @@ import android.widget.Toast;
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.User;
 import com.evan.parknbark.validation.EditTextValidator;
-import com.evan.parknbark.validation.EmailValidator;
 import com.evan.parknbark.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
@@ -48,40 +42,38 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     Registration functionality summary
      */
     public void signUp(final String email, final String password, final String firstName, final String lastName) {
-
         if (EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)
                 & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName)) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Log.d(TAG, "createUserWithEmail:success");
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) { //There is no user with the same email address
+                                FirebaseUser mAuthCurrentUser = mAuth.getCurrentUser();
+                                User newUser = new User(firstName, lastName, "user");
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            User newUser = new User(firstName, lastName, "user");
-
-                            UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(firstName + " " + lastName)
-                                    .build();
-                            user.updateProfile(update);
-
-                            db.collection("users").document(user.getUid()).set(newUser)
-                                    .addOnSuccessListener(aVoid -> RegisterActivity.this.updateUI(mAuth.getCurrentUser()))
-                                    .addOnFailureListener(e -> {
-                                        Toasty.error(RegisterActivity.this, "An error has been occurred\nPlease try again later", Toasty.LENGTH_LONG).show();
-                                        Log.d(TAG, "onSuccess: onFailure: " + e.getMessage());
-                                    });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "createUserWithEmail:failure", e.getCause());
-                            Toasty.error(RegisterActivity.this, e.getMessage(), Toasty.LENGTH_SHORT).show();
+                                UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(firstName + " " + lastName)
+                                        .build();
+                                mAuthCurrentUser.updateProfile(update);
+                                db.collection("users").document(mAuthCurrentUser.getUid()).set(newUser)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) { //No error on firebase side.
+                                                    updateUI(mAuthCurrentUser);
+                                                    hideProgressBar();
+                                                } else
+                                                    Log.d(TAG, "db.collection: onComplete: ERROR!!! " + task.getException().getMessage());
+                                            }
+                                        });
+                            } else {
+                                Log.d(TAG, "createUserWithEmailAndPassword: onComplete: ERROR!!! " + task.getException().getMessage());
+                                Toasty.error(RegisterActivity.this, task.getException().getMessage(), Toasty.LENGTH_SHORT).show();
+                            }
                         }
                     });
-            hideProgressBar();
         }
     }
 
@@ -105,3 +97,40 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 }
+
+/**
+Just an example on how to add reCAPTCHA to the registration
+
+SafetyNet.getClient(getApplicationContext()).verifyWithRecaptcha(SITE_KEY)
+            .addOnSuccessListener((Executor) RegisterActivity.this,
+                    new OnSuccessListener<SafetyNetApi.RecaptchaTokenResponse>() {
+                        @Override
+                        public void onSuccess(SafetyNetApi.RecaptchaTokenResponse response) {
+                            // Indicates communication with reCAPTCHA service was
+                            // successful.
+                            String userResponseToken = response.getTokenResult();
+                            if (!userResponseToken.isEmpty()) {
+                                // Validate the user response token using the
+                                // reCAPTCHA siteverify API.
+                            }
+                        }
+                    })
+            .addOnFailureListener((Executor) RegisterActivity.this, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (e instanceof ApiException) {
+                        // An error occurred when communicating with the
+                        // reCAPTCHA service. Refer to the status code to
+                        // handle the error appropriately.
+                        ApiException apiException = (ApiException) e;
+                        int statusCode = apiException.getStatusCode();
+                        Log.d(TAG, "Error: " + CommonStatusCodes
+                                .getStatusCodeString(statusCode));
+                    } else {
+                        // A different, unknown type of error occurred.
+                        Log.d(TAG, "Error: " + e.getMessage());
+                    }
+                }
+            });
+
+*/

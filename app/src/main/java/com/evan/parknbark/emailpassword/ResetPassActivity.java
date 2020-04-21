@@ -45,9 +45,9 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                         String errorMSG = task.getException().getMessage();
                         Toasty.error(ResetPassActivity.this, "Error occurred. " + errorMSG, Toasty.LENGTH_SHORT).show();
                     }
+                    hideProgressBar();
                 }
             });
-            hideProgressBar();
         }
     }
 

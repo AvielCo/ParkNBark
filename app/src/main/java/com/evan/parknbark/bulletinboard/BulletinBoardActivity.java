@@ -53,9 +53,10 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
-                    if (user.getPermission().equals("user"))
+                    if (user.getPermission().equals("admin")) {
                         findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
-                    else setItemTouchHelper();
+                        setItemTouchHelper();
+                    }
                 } else {
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }

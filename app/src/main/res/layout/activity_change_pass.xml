@@ -62,4 +62,13 @@
         android:text="@string/change_pass_confirm_button"
         />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:indeterminate="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:paddingTop="5dp"
+        style="?android:attr/progressBarStyleHorizontal"/>
+
 </LinearLayout>
