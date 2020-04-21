@@ -25,7 +25,7 @@ pipeline {
     }
     stage('Unit test') {
       steps {
-        sh './gradlew ValidatorTest.java ValidatorTest.java'
+        sh './gradlew testDebugUnitTest ValidatorTest'
 
         junit '**/TEST-*.xml'
       }
