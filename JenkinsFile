@@ -25,11 +25,11 @@ pipeline {
     }
     stage('Unit test') {
       steps {
-        gradle build --scan
         sh './gradlew testDebugUnitTest testDebugUnitTest'
-
+        sh 'gradle help --scan'
         junit '**/TEST-*.xml'
       }
     }
+    findBuildScans()
   }
 }
