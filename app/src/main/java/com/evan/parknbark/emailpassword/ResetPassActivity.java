@@ -37,11 +37,11 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        //Success
+                        //Success//
                         Toasty.info(ResetPassActivity.this, "Sent! Please check your E-Mail.", Toasty.LENGTH_SHORT).show();
                         startActivity(new Intent(ResetPassActivity.this, LoginActivity.class));
                     } else {
-                        //Failure
+                        //Failure//
                         String errorMSG = task.getException().getMessage();
                         Toasty.error(ResetPassActivity.this, "Error occurred. " + errorMSG, Toasty.LENGTH_SHORT).show();
                     }
