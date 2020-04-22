@@ -25,9 +25,6 @@ pipeline {
     }
     stage('Unit test') {
       steps {
-      sh 'echo "start"'
-        sh 'cat gradlew'
-        sh 'echo "finish"'
         sh './gradlew clean test'
         
       }
