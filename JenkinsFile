@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Build APK') {
       steps {
-        sh '-c ./gradlew assembleDebug'
+        sh './gradlew assembleDebug'
       }
     }
     stage('Unit test') {
