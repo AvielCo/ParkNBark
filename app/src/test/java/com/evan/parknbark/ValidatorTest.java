@@ -16,5 +16,6 @@ public class ValidatorTest {
     @Test
     public void fieldValidator_NotEmpty_ReturnsTrue() {
         assertThat(EditTextValidator.isValidString("SomeString")).isTrue();
+        System.out.println("fuck u");
     }
 }
