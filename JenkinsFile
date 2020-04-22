@@ -15,12 +15,12 @@ pipeline {
     }
     stage('Compile') {
       steps {
-        sh './gradlew compileDebugSources' -c
+        sh './gradlew compileDebugSources'
       }
     }
     stage('Build APK') {
       steps {
-        sh './gradlew assembleDebug'
+        sh '-c ./gradlew assembleDebug'
       }
     }
     stage('Unit test') {
