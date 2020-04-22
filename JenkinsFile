@@ -18,14 +18,14 @@ pipeline {
         sh './gradlew compileDebugSources'
       }
     }
-    stage('Build APK') {
-      steps {
-        sh './gradlew assembleDebug'--c
-      }
-    }
     stage('Unit test') {
       steps {
-        sh './gradlew testDebugUnitTest testDebugUnitTest' --info
+        sh './gradlew clean test'
+      }
+    }
+    stage('Build APK') {
+      steps {
+        sh './gradlew assembleDebug'
       }
     }
   }
