@@ -36,6 +36,10 @@
             android:title="@string/credit" />
 
         <item
+            android:id="@+id/nav_rate_us"
+            android:title="Rate Us!" />
+
+        <item
             android:id="@+id/nav_contact"
             android:title="@string/contact" />
 

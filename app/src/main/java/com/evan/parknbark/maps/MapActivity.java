@@ -23,7 +23,9 @@ import android.widget.Toast;
 import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.MainActivity;
 import com.evan.parknbark.R;
+import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.contacts.ContactActivity;
+import com.evan.parknbark.emailpassword.ChangePassActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -233,9 +235,18 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         startActivity(new Intent(MapActivity.this, ContactActivity.class));
                         break;
                     }
-                    case R.id.nav_locations:
+                    case R.id.nav_locations: {
                         startActivity(new Intent(MapActivity.this, LocationsActivity.class));
                         break;
+                    }
+                    case R.id.nav_rate_us: {
+                        startActivity(new Intent(MapActivity.this, RateUsActivity.class));
+                        break;
+                    }
+                    case R.id.nav_changepass: {
+                        startActivity(new Intent(MapActivity.this, ChangePassActivity.class));
+                        break;
+                    }
                 }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;

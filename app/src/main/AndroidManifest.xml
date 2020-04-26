@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.evan.parknbark">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:extractNativeLibs="true"
@@ -10,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".profile.ProfileActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
@@ -45,11 +49,9 @@
         <activity
             android:name=".bulletinboard.NoteDescriptionActivity"
             android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
-
         <activity
             android:name=".contacts.ContactActivity"
             android:parentActivityName=".maps.MapActivity" />
-
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -65,14 +67,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.ChangePassActivity"
+            android:parentActivityName=".maps.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".RateUsActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"
+            />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

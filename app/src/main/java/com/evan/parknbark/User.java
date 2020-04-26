@@ -6,6 +6,7 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String permission;
+    private float appRate;
 
     public User(){
         //do not delete.
@@ -15,7 +16,12 @@ public class User implements Serializable {
         setFirstName(firstName);
         setLastName(lastName);
         setPermission(permission);
+        setAppRate(0);
     }
+
+    public float getAppRate() { return appRate; }
+
+    public void setAppRate(float appRate) { this.appRate = appRate; }
 
     public String getFirstName() {
         return firstName;
