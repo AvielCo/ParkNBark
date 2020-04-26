@@ -23,10 +23,6 @@
             android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".maps.MapActivity"
-            android:parentActivityName=".emailpassword.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".emailpassword.RegisterActivity"
             android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

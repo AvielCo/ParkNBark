@@ -9,10 +9,12 @@ import androidx.core.view.GravityCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.utilis.MainActivity;
 import com.evan.parknbark.R;
+import com.evan.parknbark.contacts.ContactActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,7 +40,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,12 +59,15 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private final float zoom = 14.5f;
+    private final float defaultZoom = 13f;
+    private LatLng defaultLoc;
+    private static final double defaultLan = 31.249927;
+    private static final double defaultLon = 34.791930;
 
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
-
 
     /**
      * permissions holds the types of permissions needed for the app.
@@ -168,15 +173,31 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
 
     /**
      * method gets users current location and zooms in on location
-     *
+     * if the location is not enabled shows Beer Sheva and the park locations. updates again when the user enables the gps.
      * @param userLocation variable that holds the users current location
      */
     public void updateMap(Location userLocation) {
+        //TODO (Noah) this whole section till the else should move to the getDeviceLocation method and gps_enabled should move to be a class activity variable. should fix this later.
+        boolean gps_enabled = false;
+        LocationManager lm = (LocationManager)MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
         mMap.clear();
         setParksMarkers();
-        LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
+        try{
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }catch(Exception ex) {}
+        if(!gps_enabled ) {
+            // notify user
+            new AlertDialog.Builder(MapActivity.this)
+                    .setMessage("GPS not enabled").show();
+            defaultLoc = new LatLng(defaultLan, defaultLon);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, defaultZoom));
+        }
+        else {
+            LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
+        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,13 +229,13 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         startActivity(Intent.createChooser(intent, "Share with"));
                         break;
                     }
-                        /*case R.id.nav_credit:{
-                            startActivity(new Intent(MapActivity.this, CreditActivity.class));
-                            break;*/
-
-                        case R.id.nav_locations:
-                            startActivity(new Intent(MapActivity.this, LocationsActivity.class));
-                            break;
+                    /*case R.id.nav_contact: {
+                        startActivity(new Intent(MapActivity.this, ContactActivity.class));
+                        break;
+                    }*/
+                    case R.id.nav_locations:
+                        startActivity(new Intent(MapActivity.this, LocationsActivity.class));
+                        break;
                 }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
@@ -273,6 +294,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         checkIn(marker.getTitle());
                         dialog.dismiss();
+                        marker.setSnippet("Check out?");
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

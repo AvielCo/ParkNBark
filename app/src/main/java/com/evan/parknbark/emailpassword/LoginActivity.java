@@ -9,9 +9,9 @@ import android.view.View;
 
 import android.widget.Toast;
 
+import com.evan.parknbark.maps.MapActivity;
 import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.maps.MapActivity;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
