@@ -40,6 +40,7 @@
     <string name="date">Date</string>
     <string name="save">Save</string>
     <string name="credit">About</string>
+
     <string name="about_header">Park N Bark</string>
     <string name="about_content">Park N Bark is an app dedicated to make it easier for dog owners meet other dog owners and let their dogs play with the ease of modern technology at hand.
      The app was developed with the help of mentors Hadas Chasidim, Dani Almog and Sali Weizman who served as mentors for this project. The team relied on open data source supplied by the municipality of Beer-Sheva.</string>
@@ -50,4 +51,6 @@
     <string name="change_pass_current_pass_hint">Enter your current password</string>
     <string name="change_pass_confirm_button">Confirm</string>
     <string name="change_password">Change password</string>
+
+    <string name="contact">Contacts</string>
 </resources>
