@@ -4,7 +4,7 @@ package com.evan.parknbark.contacts;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
-import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.R;
 
 import java.util.ArrayList;

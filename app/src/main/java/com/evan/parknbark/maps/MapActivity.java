@@ -20,8 +20,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.evan.parknbark.BaseActivity;
-import com.evan.parknbark.MainActivity;
+import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilis.MainActivity;
 import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.contacts.ContactActivity;
@@ -231,11 +231,11 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         startActivity(Intent.createChooser(intent, "Share with"));
                         break;
                     }
-                    case R.id.nav_contact: {
+                    /*case R.id.nav_contact: {
                         startActivity(new Intent(MapActivity.this, ContactActivity.class));
                         break;
-                    }
-                    case R.id.nav_locations: {
+                    }*/
+                    case R.id.nav_locations:
                         startActivity(new Intent(MapActivity.this, LocationsActivity.class));
                         break;
                     }

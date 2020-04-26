@@ -1,4 +1,4 @@
-package com.evan.parknbark;
+package com.evan.parknbark.utilis;
 
 import java.io.Serializable;
 

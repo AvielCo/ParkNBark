@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.evan.parknbark.BaseActivity;
-import com.evan.parknbark.User;
+import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilis.User;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
