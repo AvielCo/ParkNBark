@@ -26,12 +26,12 @@
             android:name=".emailpassword.RegisterActivity"
             android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".maps.MapActivity"
+            android:parentActivityName=".utilis.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".maps.LocationsActivity"
-            android:parentActivityName=".maps.MapActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".credits.CreditActivity"
             android:parentActivityName=".maps.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".bulletinboard.BulletinBoardActivity" />
