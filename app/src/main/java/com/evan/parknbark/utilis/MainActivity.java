@@ -1,11 +1,11 @@
-package com.evan.parknbark;
+package com.evan.parknbark.utilis;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
+import com.evan.parknbark.R;
 import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
 import com.evan.parknbark.maps.MapActivity;
@@ -21,6 +21,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        loadLocale();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setProgressBar(R.id.progressBar);
@@ -68,4 +69,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
+
+
 }

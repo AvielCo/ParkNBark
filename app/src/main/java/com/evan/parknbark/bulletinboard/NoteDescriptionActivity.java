@@ -1,12 +1,10 @@
 package com.evan.parknbark.bulletinboard;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.R;
 
 public class NoteDescriptionActivity extends BaseActivity {

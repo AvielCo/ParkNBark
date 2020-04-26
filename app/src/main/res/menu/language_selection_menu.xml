@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/lang_english"
+        android:title="@string/english"
+        android:icon="@drawable/us"/>
+
+    <item
+        android:id="@+id/lang_hebrew"
+        android:title="@string/hebrew"
+        android:icon="@drawable/il"/>
+
+    <item
+        android:id="@+id/lang_russian"
+        android:title="@string/russian"
+        android:icon="@drawable/ru"/>
+</menu>

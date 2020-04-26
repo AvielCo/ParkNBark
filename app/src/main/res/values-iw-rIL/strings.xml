@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ParkNBark</string>
+    <string name="register">הרשם</string>
+    <string name="lname">שם משפחה</string>
+    <string name="fname">שם פרטי</string>
+    <string name="password">סיסמא</string>
+    <string name="email">אימייל</string>
+    <string name="sign_in">התחבר</string>
+    <string name="settings">הגדרות</string>
+    <string name="communicate">צור קשר</string>
+    <string name="share">שתף עם חברים</string>
+    <string name="bug_report">דווח על בעיות באפליקציה</string>
+    <string name="dog_name">שם כלב</string>
+    <string name="dog_breed">גזע</string>
+    <string name="dog_age">גיל</string>
+    <string name="register_textview">לחץ כאן בכדי להרשם</string>
+    <string name="title_activity_map">מפה</string>
+    <string name="welcome">ברוך הבא!</string>
+    <string name="invalid_username">שם משתמש לא חוקי</string>
+    <string name="invalid_password">סיסמא חייבת להיות יותר מ -  5 תווים</string>
+    <string name="login_failed">התחברות נכשלה</string>
+    <string name="logout">התנתק</string>
+    <string name="reset_pass_send_button">שלח</string>
+    <string name="reset_pass_explanation_text">היי, לעזאזל! מה קרה? שכחת את סיסמת הכלבה שלך? ובכן אולי אסור לעשן כל כך הרבה עשבים שוטים. לעזאזל, סירה.</string>
+    <string name="forgot_password">שכחתי סיסמא</string>
+    <string name="description">תיאור</string>
+    <string name="title">כותרת</string>
+    <string name="date">תאריך</string>
+    <string name="save">שמירה</string>
+    <string name="locations">מקומות</string>
+    <string name="change_pass_explanation_text">אנא הכנס את הסיסמא הנוכחית, אחר כך הכנס את הסיסמא החדשה ולחץ על \"שלח\"</string>
+    <string name="change_pass_enter_new_pass_hint">הכנס סיסמא חדשה</string>
+    <string name="change_pass_current_pass_hint">הכנס סיסמא קיימת</string>
+    <string name="change_pass_confirm_button">אישור</string>
+    <string name="change_password">שנה סיסמא</string>
+    <string name="country_flag">דגל מדינה</string>
+    <string name="english">אנגלית</string>
+    <string name="hebrew">עברית</string>
+    <string name="russian">רוסית</string>
+    <string name="credit">אודות</string>
+</resources>

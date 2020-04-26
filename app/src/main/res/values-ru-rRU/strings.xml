@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ParkNBark</string>
+    <string name="reset_pass_explanation_text">Привет, блядь! Что случилось? Забыли суки задницы пароль? Ну, может, тебе не стоит курить так много травки. Отвали, потухи.</string>
+    <string name="register">регистр</string>
+    <string name="sign_in">войти в систему</string>
+    <string name="lname">Фамилия</string>
+    <string name="fname">Имя</string>
+</resources>

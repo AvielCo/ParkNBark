@@ -7,7 +7,7 @@
     android:paddingStart="40dp"
     android:paddingTop="170dp"
     android:paddingEnd="40dp"
-    tools:context=".MainActivity">
+    tools:context="com.evan.parknbark.utilis.MainActivity">
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/button_google_sign_in"

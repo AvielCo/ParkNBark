@@ -2,17 +2,15 @@ package com.evan.parknbark.emailpassword;
 
 import androidx.annotation.NonNull;
 
-import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 
 import es.dmoral.toasty.Toasty;

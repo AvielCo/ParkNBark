@@ -1,7 +1,5 @@
 package com.evan.parknbark.bulletinboard;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -11,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.R;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.material.textfield.TextInputLayout;

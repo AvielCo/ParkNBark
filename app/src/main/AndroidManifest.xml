@@ -24,7 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.LoginActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".maps.MapActivity"
@@ -33,7 +33,7 @@
 
         <activity
             android:name=".emailpassword.RegisterActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
@@ -50,7 +50,7 @@
             android:parentActivityName=".bulletinboard.BulletinBoardActivity"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.evan.parknbark.utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
