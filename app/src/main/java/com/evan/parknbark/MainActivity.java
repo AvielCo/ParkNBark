@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setProgressBar(R.id.progressBar);
@@ -66,6 +66,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if(googleAccount != null)
                     updateUI(mAuth.getCurrentUser());
                 break;
+
         }
     }
 }

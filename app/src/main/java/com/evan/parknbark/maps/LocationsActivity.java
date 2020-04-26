@@ -2,11 +2,8 @@ package com.evan.parknbark.maps;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-
 import com.evan.parknbark.R;
-
 import java.util.List;
 
 public class LocationsActivity extends AppCompatActivity {

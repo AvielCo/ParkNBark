@@ -2,12 +2,10 @@ package com.evan.parknbark.maps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -16,15 +14,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.evan.parknbark.BaseActivity;
 import com.evan.parknbark.MainActivity;
 import com.evan.parknbark.R;
+import com.evan.parknbark.contacts.ContactActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,36 +37,37 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
-
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     public static final String TAG = "MapActivity";
 
-    private DrawerLayout drawer;
+    //database
+
+    private FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
+    private DocumentReference mReference;
 
     //Map variables
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private final float zoom = 14.5f;
+    private final float defaultZoom = 13f;
+    private LatLng defaultLoc;
+    private static final double defaultLan = 31.249927;
+    private static final double defaultLon = 34.791930;
 
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
-
 
     /**
      * permissions holds the types of permissions needed for the app.
@@ -108,7 +108,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     mLocationPermissionsGranted = true;
                     initMap();
-
                 }
             }
         }
@@ -168,21 +167,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     public void setParksMarkers() {
         for (Park park : getParks()) {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(park.getLat(), park.getLon())).title(park.getName()).snippet("Would you like to get here?"));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(park.getLat(), park.getLon())).title(park.getName()).snippet("Check in here?"));
         }
     }
 
     /**
      * method gets users current location and zooms in on location
-     *
+     * if the location is not enabled shows Beer Sheva and the park locations. updates again when the user enables the gps.
      * @param userLocation variable that holds the users current location
      */
     public void updateMap(Location userLocation) {
+        //TODO (Noah) this whole section till the else should move to the getDeviceLocation method and gps_enabled should move to be a class activity variable. should fix this later.
+        boolean gps_enabled = false;
+        LocationManager lm = (LocationManager)MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
         mMap.clear();
         setParksMarkers();
-        LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
+        try{
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }catch(Exception ex) {}
+        if(!gps_enabled ) {
+            // notify user
+            new AlertDialog.Builder(MapActivity.this)
+                    .setMessage("GPS not enabled").show();
+            defaultLoc = new LatLng(defaultLan, defaultLon);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, defaultZoom));
+        }
+        else {
+            LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
+        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +205,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         getLocationsPermissions();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -205,18 +221,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         finish();
                         startActivity(new Intent(MapActivity.this, MainActivity.class));
                         break;
-//                    case R.id.nav_share: {
-//                        Intent intent = new Intent(Intent.ACTION_SEND);
-//                        intent.setType("text/plain");
-//                        String text = "Come and join ParkN'Bark at <input some link>";
-//                        intent.putExtra(Intent.EXTRA_TEXT, text);
-//                        startActivity(Intent.createChooser(intent, "Share with"));
-//                        break;
-//                    }
-//                        case R.id.nav_credit:{
-//                            startActivity(new Intent(MapActivity.this, CreditActivity.class));
-//                            break;
-//                        }
+                    case R.id.nav_share: {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        String text = "Come and join ParkN'Bark at <input some link>";
+                        intent.putExtra(Intent.EXTRA_TEXT, text);
+                        startActivity(Intent.createChooser(intent, "Share with"));
+                        break;
+                    }
+                    case R.id.nav_contact: {
+                        startActivity(new Intent(MapActivity.this, ContactActivity.class));
+                        break;
+                    }
                     case R.id.nav_locations:
                         startActivity(new Intent(MapActivity.this, LocationsActivity.class));
                         break;
@@ -255,8 +271,40 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         }
         getDeviceLocation();
+        mMap.setOnInfoWindowClickListener(this);
     }
 
+
+    public void checkIn(String title) {
+        db.collection("parkcheckin").document(title)
+                .update("currentProfilesInPark", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+    }
+
+    /**
+     * comment this
+     *
+     * @param marker
+     */
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
+        builder.setMessage(marker.getSnippet())
+                .setCancelable(true)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        checkIn(marker.getTitle());
+                        dialog.dismiss();
+                        marker.setSnippet("Check out?");
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
 
 

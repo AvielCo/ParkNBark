@@ -1,9 +1,5 @@
 package com.evan.parknbark.maps;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Park {
     private String name;
     private String street;
