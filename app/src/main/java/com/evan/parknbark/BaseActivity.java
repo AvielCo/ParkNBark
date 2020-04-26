@@ -47,62 +47,6 @@ public class BaseActivity extends AppCompatActivity {
     @VisibleForTesting
     public ProgressBar mProgressBar;
 
-   /* @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-        //[START:set toolbar]
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //[END:set toolbar]
-
-        //[START:set drawer]
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        //[END:set drawer]
-
-    }
-
-    protected void setNavDrawer() {
-
-        setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout);
-
-        navView.bringToFront();
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_logout:
-                        FirebaseAuth.getInstance().signOut();
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        break;
-                    case R.id.nav_share:
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        String text = "Come and join ParkN'Bark at <input some link>";
-                        intent.putExtra(Intent.EXTRA_TEXT, text);
-                        startActivity(Intent.createChooser(intent, "Share with"));
-                        break;
-                    case R.id.nav_locations:
-                        startActivity(new Intent(getApplicationContext(), LocationsActivity.class));
-                        break;
-                    case R.id.nav_changepass:
-                        startActivity(new Intent(getApplicationContext(), ChangePassActivity.class));
-                        break;
-                }
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }*/
-
     public void setProgressBar(int resId) {
         mProgressBar = findViewById(resId);
     }

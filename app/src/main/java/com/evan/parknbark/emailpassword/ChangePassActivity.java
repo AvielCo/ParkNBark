@@ -70,7 +70,11 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                         }
                     });
         }
-        else Toasty.info(ChangePassActivity.this, "New password cannot be the same as the current password", Toasty.LENGTH_SHORT).show();
+        else {
+            Toasty.info(ChangePassActivity.this, "New password cannot be the same as the current password", Toasty.LENGTH_SHORT).show();
+            hideProgressBar();
+        }
+
     }
 
     @Override

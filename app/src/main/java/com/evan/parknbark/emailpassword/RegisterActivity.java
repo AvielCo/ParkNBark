@@ -63,14 +63,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) { //No error on firebase side.
                                                     updateUI(mAuthCurrentUser);
-                                                    hideProgressBar();
                                                 } else
                                                     Log.d(TAG, "db.collection: onComplete: ERROR!!! " + task.getException().getMessage());
+                                                hideProgressBar();
                                             }
                                         });
                             } else {
                                 Log.d(TAG, "createUserWithEmailAndPassword: onComplete: ERROR!!! " + task.getException().getMessage());
                                 Toasty.error(RegisterActivity.this, task.getException().getMessage(), Toasty.LENGTH_SHORT).show();
+                                hideProgressBar();
                             }
                         }
                     });

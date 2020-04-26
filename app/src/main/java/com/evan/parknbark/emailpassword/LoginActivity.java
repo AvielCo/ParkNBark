@@ -54,6 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 Toasty.error(LoginActivity.this, e.getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
+                            hideProgressBar();
                         }
                     });
 
