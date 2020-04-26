@@ -18,8 +18,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.evan.parknbark.BaseActivity;
-import com.evan.parknbark.MainActivity;
+import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilis.MainActivity;
 import com.evan.parknbark.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
