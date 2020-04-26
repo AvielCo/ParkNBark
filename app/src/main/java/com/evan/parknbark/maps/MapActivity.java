@@ -16,12 +16,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.evan.parknbark.utilis.BaseActivity;
-import com.evan.parknbark.utilis.MainActivity;
-
+import com.evan.parknbark.BaseActivity;
+import com.evan.parknbark.MainActivity;
 import com.evan.parknbark.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -44,7 +42,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -215,13 +212,9 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                             startActivity(new Intent(MapActivity.this, CreditActivity.class));
                             break;*/
 
-                    case R.id.nav_locations:
-                        startActivity(new Intent(MapActivity.this, LocationsActivity.class));
-                        break;
-
-                    case R.id.country_flag_menu:
-
-                        break;
+                        case R.id.nav_locations:
+                            startActivity(new Intent(MapActivity.this, LocationsActivity.class));
+                            break;
                 }
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
