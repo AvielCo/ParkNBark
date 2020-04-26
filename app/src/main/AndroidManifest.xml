@@ -41,6 +41,10 @@
             android:parentActivityName=".maps.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".credits.CreditActivity"
+            android:parentActivityName=".maps.MapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".bulletinboard.BulletinBoardActivity" />
 
         <activity android:name=".bulletinboard.NewNoteActivity"

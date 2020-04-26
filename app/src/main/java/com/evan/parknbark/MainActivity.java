@@ -66,6 +66,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if(googleAccount != null)
                     updateUI(mAuth.getCurrentUser());
                 break;
+
         }
     }
 }
