@@ -17,7 +17,7 @@ import com.evan.parknbark.utilis.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
-    private String[] settingsArray = {"Change password","Light/Dark Mode","Rate Us"};
+    private String[] settingsArray = {"Change password","Light/Dark Mode","Rate Us"}; //Settings menu items
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,20 +26,23 @@ public class SettingsActivity extends BaseActivity implements AdapterView.OnItem
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 R.layout.setting_list, settingsArray);
 
-        ListView listView = (ListView) findViewById(R.id.setting_listview);
+        ListView listView = (ListView) findViewById(R.id.setting_listview); //Interactive list view
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
     }
 
+    //On click implementation for items in the menu
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0: {
+                //Change password
                 startActivity(new Intent(SettingsActivity.this, ChangePassActivity.class));
                 break;
             }
             case 2: {
+                //Rate Us!
                 startActivity(new Intent(SettingsActivity.this, RateUsActivity.class));
                 break;
             }
