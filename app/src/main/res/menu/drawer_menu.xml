@@ -19,11 +19,6 @@
             android:title = "@string/locations" />
 
         <item
-            android:id="@+id/nav_changepass"
-            android:icon="@drawable/baseline_pets_24"
-            android:title="@string/change_password" />
-
-        <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share"
             android:title="@string/share" />

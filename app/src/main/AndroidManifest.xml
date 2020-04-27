@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".profile.ProfileActivity"
             android:parentActivityName=".emailpassword.LoginActivity"
@@ -24,16 +23,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.LoginActivity"
-            android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
+            android:parentActivityName=".utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.RegisterActivity"
-            android:parentActivityName="com.evan.parknbark.utilis.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".maps.MapActivity"
             android:parentActivityName=".utilis.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".maps.MapActivity"
+            android:parentActivityName=".utilis.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".maps.LocationsActivity"
             android:parentActivityName=".maps.MapActivity"
@@ -49,7 +48,7 @@
             android:name=".contacts.ContactActivity"
             android:parentActivityName=".maps.MapActivity" />
         <activity
-            android:name="com.evan.parknbark.utilis.MainActivity"
+            android:name=".utilis.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,16 +62,21 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.ChangePassActivity"
-            android:parentActivityName=".maps.MapActivity"
+            android:parentActivityName=".settings.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RateUsActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
+
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".maps.MapActivity"
             />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-
 
 </manifest>

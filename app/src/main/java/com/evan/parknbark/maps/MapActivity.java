@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-
+import com.evan.parknbark.settings.*;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -243,8 +243,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         startActivity(new Intent(MapActivity.this, RateUsActivity.class));
                         break;
                     }
-                    case R.id.nav_changepass: {
-                        startActivity(new Intent(MapActivity.this, ChangePassActivity.class));
+                    case R.id.nav_settings: {
+                        startActivity(new Intent(MapActivity.this,SettingsActivity.class));
                         break;
                     }
                 }

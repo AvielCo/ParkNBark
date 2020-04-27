@@ -44,4 +44,5 @@
     <string name="rate_us_menu_bar">דרג אותנו!</string>
     <string name="rate_us_text">האם תרצה/י לדרג את האפליקציה?</string>
     <string name="rate_us_confirm_button">דרג!</string>
+    <string name="title_activity_settings">הגדרות</string>
 </resources>
