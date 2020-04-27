@@ -231,10 +231,10 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         startActivity(Intent.createChooser(intent, "Share with"));
                         break;
                     }
-                    /*case R.id.nav_contact: {
+                    case R.id.nav_contact: {
                         startActivity(new Intent(MapActivity.this, ContactActivity.class));
                         break;
-                    }*/
+                    }
                     case R.id.nav_locations:{
                         startActivity(new Intent(MapActivity.this, LocationsActivity.class));
                         break;
