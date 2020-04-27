@@ -235,7 +235,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
                         startActivity(new Intent(MapActivity.this, ContactActivity.class));
                         break;
                     }*/
-                    case R.id.nav_locations:
+                    case R.id.nav_locations:{
                         startActivity(new Intent(MapActivity.this, LocationsActivity.class));
                         break;
                     }

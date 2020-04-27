@@ -15,11 +15,12 @@
         android:checkableBehavior="none">
          <item
             android:id="@+id/nav_locations"
-            android:icon="@drawable/ic_info_black_24"
+            android:icon="@drawable/baseline_place_24"
             android:title = "@string/locations" />
 
         <item
             android:id="@+id/nav_changepass"
+            android:icon="@drawable/baseline_pets_24"
             android:title="@string/change_password" />
 
         <item
@@ -33,14 +34,17 @@
 
         <item
             android:id="@+id/nav_credit"
+            android:icon="@drawable/baseline_live_help_24"
             android:title="@string/credit" />
 
         <item
             android:id="@+id/nav_rate_us"
+            android:icon="@drawable/baseline_star_half_24"
             android:title="Rate Us!" />
 
         <item
             android:id="@+id/nav_contact"
+            android:icon="@drawable/baseline_perm_phone_msg_24"
             android:title="@string/contact" />
 
     </group>
@@ -48,7 +52,7 @@
     <group android:id="@+id/menu_sign_out">
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_signout"
+            android:icon="@drawable/baseline_exit_to_app_24"
             android:title="@string/logout" />
     </group>
 
