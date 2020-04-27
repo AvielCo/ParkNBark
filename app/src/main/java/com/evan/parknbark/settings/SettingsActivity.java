@@ -18,6 +18,7 @@ import com.evan.parknbark.utilis.BaseActivity;
 public class SettingsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private String[] settingsArray = {"Change password","Light/Dark Mode","Rate Us"}; //Settings menu items
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
