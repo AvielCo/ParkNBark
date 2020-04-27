@@ -43,7 +43,7 @@
     <string name="change_password">Change password</string>
 
     <string name="contact">Contacts</string>
-
+    <string name="rate_us_menu_bar">Rate Us!</string>
     <string name="rate_us_text">Would you like to rate this app?</string>
     <string name="rate_us_confirm_button">Rate!</string>
     <string name="country_flag">Country flag</string>

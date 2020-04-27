@@ -39,4 +39,9 @@
     <string name="hebrew">עברית</string>
     <string name="russian">רוסית</string>
     <string name="credit">אודות</string>
+    <string name="contact">צור קשר</string>
+
+    <string name="rate_us_menu_bar">דרג אותנו!</string>
+    <string name="rate_us_text">האם תרצה/י לדרג את האפליקציה?</string>
+    <string name="rate_us_confirm_button">דרג!</string>
 </resources>
