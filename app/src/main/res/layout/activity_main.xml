@@ -20,14 +20,16 @@
         android:id="@+id/button_sign_in_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in" />
+        android:text="@string/sign_in"
+        android:background="@drawable/rounded_btn"/>
 
     <Button
         android:id="@+id/button_sign_up_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="@string/register" />
+        android:layout_marginTop="10dp"
+        android:text="@string/register"
+        android:background="@drawable/rounded_btn"/>
 
 </LinearLayout>
 
