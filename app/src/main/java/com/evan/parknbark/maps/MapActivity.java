@@ -31,21 +31,29 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     public static final String TAG = "MapActivity";
     public static final String PARK_LOCATIONS_DB = "parklocations";
     public static final String LATLNG_FIELD = "latlng";
-
+    public static final String PARK_CHECKIN = "parkcheckin";
+    public static final String CHECKIN_FIELD = "currentProfilesInPark";
+    public static final String CHECKIN_MSG = "Check in here?";
+    public static final String CHECKOUT_MSG = "Check out?";
     //Map variables
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
@@ -157,7 +165,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                                 double lat = park.getLatitude();
                                 double lng = park.getLongitude ();
                                 LatLng latLng = new LatLng(lat, lng);
-                                mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet("Check in here?"));
+                                mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet(CHECKIN_MSG));
                             }
 
                         } else {
@@ -222,8 +230,13 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
 
 
     public void checkIn(String title) {
-        db.collection("parkcheckin").document(title)
-                .update("currentProfilesInPark", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+        Log.d(TAG, "checkIn: " + getUserCheckinPark());
+        if(getUserCheckinPark() != null){
+            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+        }
+        db.collection(PARK_CHECKIN).document(title)
+                .update(CHECKIN_FIELD, FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+        setUserCheckinPark(title);
     }
 
     /**
@@ -238,9 +251,16 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                 .setCancelable(true)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        checkIn(marker.getTitle());
-                        dialog.dismiss();
-                        marker.setSnippet("Check out?");
+                        if(marker.getSnippet().equals(CHECKIN_MSG)) {
+                            checkIn(marker.getTitle());
+                            dialog.dismiss();
+                            marker.setSnippet(CHECKOUT_MSG);
+                        }
+                        else if(marker.getSnippet().equals(CHECKOUT_MSG)){
+                            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+                            dialog.dismiss();
+                            marker.setSnippet(CHECKIN_MSG);
+                        }
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -25,14 +25,25 @@ import com.evan.parknbark.maps.LocationsActivity;
 import com.evan.parknbark.maps.MapActivity;
 import com.evan.parknbark.profile.ProfileActivity;
 import com.evan.parknbark.settings.SettingsActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener  {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private TextView textViewFirstLastName;
     private ImageView imageViewCountryFlag;
+
+    public static final String PARK_CHECKIN = "parkcheckin";
+    public static final String CHECKIN_FIELD = "currentProfilesInPark";
+    private String userCheckinPark;
 
     protected void onCreateDrawer() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -46,7 +57,10 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_logout:
+                        if(getUserCheckinPark() == null)
+                            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                         FirebaseAuth.getInstance().signOut();
+
                         finish();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finish();
@@ -158,5 +172,13 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
             default:
                 return false;
         }
+    }
+
+    public String getUserCheckinPark() {
+        return userCheckinPark;
+    }
+
+    public void setUserCheckinPark(String userCheckinPark) {
+        this.userCheckinPark = userCheckinPark;
     }
 }
