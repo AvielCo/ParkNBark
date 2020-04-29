@@ -13,8 +13,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.evan.parknbark.contacts.Contact;
+import com.evan.parknbark.contacts.ExpandableListAdapter;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
 import com.evan.parknbark.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,6 +32,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +43,8 @@ import java.util.List;
 public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     public static final String TAG = "MapActivity";
+    public static final String PARK_LOCATIONS_DB = "parklocations";
+    public static final String LATLNG_FIELD = "latlng";
 
     //Map variables
     private GoogleMap mMap;
@@ -132,27 +140,31 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         }
     }
 
-    /**
-     * loads all the parks into an arraylist that returns to setParkMarkers.
-     *
-     * @return arraylist of parks.
-     */
-    public List<Park> getParks() {
-        List<Park> parksArray = Arrays.asList(new Park("Park Kaplan", "Bazel Street", 31.248640, 34.790501),
-                new Park("Park Ofira", "Ofira Street", 31.245387, 34.770759),
-                new Park("Park Shomron", "Shomron Street", 31.246992, 34.765799));
-        ArrayList<Park> parksArrayList = new ArrayList<>();
-        parksArrayList.addAll(parksArray);
-        return parksArrayList;
-    }
 
     /**
-     * sets markers of all the parks on the map with the option to see their name if the marker is pressed.
+     * each iteration loads a document from the db and then
+     * sets marker with an option to see their name if the marker is pressed.
      */
     public void setParksMarkers() {
-        for (Park park : getParks()) {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(park.getLat(), park.getLon())).title(park.getName()).snippet("Check in here?"));
-        }
+        db.collection(PARK_LOCATIONS_DB)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                GeoPoint park = document.getGeoPoint(LATLNG_FIELD);
+                                double lat = park.getLatitude();
+                                double lng = park.getLongitude ();
+                                LatLng latLng = new LatLng(lat, lng);
+                                mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet("Check in here?"));
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     /**
@@ -189,7 +201,6 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
         getLocationsPermissions();
     }
 

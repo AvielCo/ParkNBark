@@ -22,7 +22,6 @@ public class ContactActivity extends BaseActivity {
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableadapter;
 
-    private List<String> listDataheader;
     private HashMap<String, List<String>> listHashMap;
 
     public static final String PHONE_NUM = "Phone Number: ";
@@ -34,7 +33,6 @@ public class ContactActivity extends BaseActivity {
         setContentView(R.layout.activity_contact);
 
         listHashMap = new HashMap<String, List<String>>();
-        listDataheader = new ArrayList<>();
         getDataFromFirebase(ContactActivity.this);
 
     }
