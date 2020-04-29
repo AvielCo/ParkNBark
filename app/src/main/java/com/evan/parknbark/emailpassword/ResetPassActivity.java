@@ -2,7 +2,7 @@ package com.evan.parknbark.emailpassword;
 
 import androidx.annotation.NonNull;
 
-import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;

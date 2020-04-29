@@ -10,25 +10,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.evan.parknbark.utilis.BaseActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.utilis.User;
+import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import com.evan.parknbark.utilities.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
-public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.OnItemClickListener, View.OnClickListener {
+public class BulletinBoardActivity extends BaseNavDrawerActivity implements NoteAdapter.OnItemClickListener, View.OnClickListener {
 
     private static final String TAG = "BulletinBoardActivity";
     private CollectionReference noteRef;
     private NoteAdapter adapter;
     private FloatingActionButton buttonAddNote;
     private RecyclerView recyclerView;
+    private volatile User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,10 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         mAuth = FirebaseAuth.getInstance();
         noteRef = db.collection("notes");
 
+        buttonAddNote = findViewById(R.id.button_add_note);
+
         findViewById(R.id.button_add_note).setOnClickListener(this);
-        docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
         docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -80,7 +84,6 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
                 .setQuery(query, Note.class)
                 .build();
         adapter = new NoteAdapter(options);
-
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

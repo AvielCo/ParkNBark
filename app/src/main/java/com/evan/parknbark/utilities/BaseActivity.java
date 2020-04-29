@@ -1,33 +1,26 @@
-package com.evan.parknbark.utilis;
+package com.evan.parknbark.utilities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import com.evan.parknbark.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 
-public class BaseActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class BaseActivity extends AppCompatActivity{
 
     protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
-    protected DocumentReference docRef;
-    protected volatile User user;
-    protected DrawerLayout drawer;
 
     protected final String SITE_KEY = "6LfyN-wUAAAAALV11XA__SU7kXTkL_3O_LGcB0Zw";
     private static final String TAG = "BaseActivity";
@@ -51,30 +44,16 @@ public class BaseActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-    public void hideKeyboard(View view) {
-        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        hideProgressBar();
-    }
-
     protected void loadLocale() {
+        String language = getPrefLanguage();
+        changeLang(language);
+    }
+
+    protected String getPrefLanguage(){
         String langPref = "Language";
         SharedPreferences prefs = getSharedPreferences("CommonPrefs",
                 Activity.MODE_PRIVATE);
-        String language = prefs.getString(langPref, "");
-        changeLang(language);
+        return prefs.getString(langPref, "");
     }
 
     protected void changeLang(String lang) {
@@ -96,35 +75,5 @@ public class BaseActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(langPref, lang);
         editor.apply();
-    }
-
-    public void showPopupLanguageSelection(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.language_selection_menu);
-        popup.show();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.lang_english:
-                changeLang("en");
-                finish();
-                startActivity(getIntent());
-                return true;
-            case R.id.lang_hebrew:
-                changeLang("iw");
-                finish();
-                startActivity(getIntent());
-                return true;
-            case R.id.lang_russian:
-                changeLang("ru");
-                finish();
-                startActivity(getIntent());
-                return true;
-            default:
-                return false;
-        }
     }
 }

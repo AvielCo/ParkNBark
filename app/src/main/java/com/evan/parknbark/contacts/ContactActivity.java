@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
 import androidx.annotation.NonNull;
-import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

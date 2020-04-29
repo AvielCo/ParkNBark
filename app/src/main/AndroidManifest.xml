@@ -23,32 +23,36 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.LoginActivity"
-            android:parentActivityName=".utilis.MainActivity"
+            android:parentActivityName=".utilities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".emailpassword.RegisterActivity"
-            android:parentActivityName=".utilis.MainActivity"
+            android:parentActivityName=".utilities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".maps.MapActivity"
-            android:parentActivityName=".utilis.MainActivity"
+            android:parentActivityName=".utilities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".maps.LocationsActivity"
             android:parentActivityName=".maps.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".bulletinboard.BulletinBoardActivity" />
+        <activity android:name=".bulletinboard.BulletinBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".bulletinboard.NewNoteActivity"
-            android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
+            android:parentActivityName=".bulletinboard.BulletinBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".bulletinboard.NoteDescriptionActivity"
-            android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
+            android:parentActivityName=".bulletinboard.BulletinBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".contacts.ContactActivity"
-            android:parentActivityName=".maps.MapActivity" />
+            android:parentActivityName=".maps.MapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".utilis.MainActivity"
+            android:name=".utilities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

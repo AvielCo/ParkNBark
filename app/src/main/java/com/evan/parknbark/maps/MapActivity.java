@@ -1,31 +1,22 @@
 package com.evan.parknbark.maps;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import com.evan.parknbark.settings.*;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.evan.parknbark.utilis.BaseActivity;
-import com.evan.parknbark.utilis.MainActivity;
+import com.evan.parknbark.utilities.BaseNavDrawerActivity;
 import com.evan.parknbark.R;
-import com.evan.parknbark.RateUsActivity;
-import com.evan.parknbark.contacts.ContactActivity;
-import com.evan.parknbark.emailpassword.ChangePassActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,24 +28,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     public static final String TAG = "MapActivity";
-
-    //database
-
-    private FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
-    private DocumentReference mReference;
 
     //Map variables
     private GoogleMap mMap;
@@ -176,25 +158,27 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
     /**
      * method gets users current location and zooms in on location
      * if the location is not enabled shows Beer Sheva and the park locations. updates again when the user enables the gps.
+     *
      * @param userLocation variable that holds the users current location
      */
     public void updateMap(Location userLocation) {
         //TODO (Noah) this whole section till the else should move to the getDeviceLocation method and gps_enabled should move to be a class activity variable. should fix this later.
         boolean gps_enabled = false;
-        LocationManager lm = (LocationManager)MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
         mMap.clear();
         setParksMarkers();
-        try{
+        try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        }catch(Exception ex) {}
-        if(!gps_enabled ) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (!gps_enabled) {
             // notify user
             new AlertDialog.Builder(MapActivity.this)
                     .setMessage("GPS not enabled").show();
             defaultLoc = new LatLng(defaultLan, defaultLon);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, defaultZoom));
-        }
-        else {
+        } else {
             LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
         }
@@ -207,67 +191,7 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback, Goo
         setContentView(R.layout.activity_map);
 
         getLocationsPermissions();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navView = findViewById(R.id.nav_view);
-        navView.bringToFront();
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_logout:
-                        FirebaseAuth.getInstance().signOut();
-                        finish();
-                        startActivity(new Intent(MapActivity.this, MainActivity.class));
-                        break;
-                    case R.id.nav_share: {
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        String text = "Come and join ParkN'Bark at <input some link>";
-                        intent.putExtra(Intent.EXTRA_TEXT, text);
-                        startActivity(Intent.createChooser(intent, "Share with"));
-                        break;
-                    }
-                    case R.id.nav_contact: {
-                        startActivity(new Intent(MapActivity.this, ContactActivity.class));
-                        break;
-                    }
-                    case R.id.nav_locations:{
-                        startActivity(new Intent(MapActivity.this, LocationsActivity.class));
-                        break;
-                    }
-                    case R.id.nav_rate_us: {
-                        startActivity(new Intent(MapActivity.this, RateUsActivity.class));
-                        break;
-                    }
-                    case R.id.nav_settings: {
-                        startActivity(new Intent(MapActivity.this,SettingsActivity.class));
-                        break;
-                    }
-                }
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
     }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
 
     /**
      * onMapReady callback is triggered once the map is ready to be used.

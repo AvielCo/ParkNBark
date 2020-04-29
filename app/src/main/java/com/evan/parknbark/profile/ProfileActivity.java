@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.evan.parknbark.R;
+import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,20 +37,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseNavDrawerActivity {
     private TextInputLayout textInputDogName, textInputDogAge, textInputDogBreed;
-    private static final String KEY_DOG_NAME = "dog name";
-    private static final String KEY_DOG_BREED = "dog breed";
-    private static final String KEY_DOG_AGE = "dog age";
+    private static final String KEY_DOG_NAME = "dogName";
+    private static final String KEY_DOG_BREED = "dogBreed";
+    private static final String KEY_DOG_AGE = "dogAge";
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
     private ImageView imageViewDogPic;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     //getting the current user
-    FirebaseUser user = mAuth.getCurrentUser();
+    private FirebaseUser user = mAuth.getCurrentUser();
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private StorageTask nUploadTask;
@@ -73,31 +73,30 @@ public class ProfileActivity extends AppCompatActivity {
         String dogNameInput = textInputDogName.getEditText().getText().toString().trim();
         String dogBreedInput = textInputDogBreed.getEditText().getText().toString().trim();
         String dogAgeInput = textInputDogAge.getEditText().getText().toString().trim();
+        if(EditTextValidator.isValidEditText(dogNameInput, textInputDogName) | EditTextValidator.isValidEditText(dogBreedInput, textInputDogBreed) |
+                EditTextValidator.isValidEditText(dogAgeInput, textInputDogAge)) {
 
-        //saving only the text fields of the profile
-        Map<String, Object> profile = new HashMap<>();
-        profile.put(KEY_DOG_NAME, dogNameInput);
-        profile.put(KEY_DOG_BREED, dogBreedInput);
-        profile.put(KEY_DOG_AGE, dogAgeInput);
+            Profile profile = new Profile(dogNameInput, dogBreedInput, dogAgeInput);
 
-        db.collection("profiles").document(user.getUid()).set(profile)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(ProfileActivity.this, "profile saved", Toast.LENGTH_SHORT).show();
-                        if (nUploadTask != null && nUploadTask.isInProgress()) {
-                            Toast.makeText(ProfileActivity.this, "upload in progress", Toast.LENGTH_SHORT).show();
-                        } else {
-                            uploadImageToFirebase();
+            db.collection("profiles").document(user.getUid()).set(profile)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(ProfileActivity.this, "profile saved", Toast.LENGTH_SHORT).show();
+                            if (nUploadTask != null && nUploadTask.isInProgress()) {
+                                Toast.makeText(ProfileActivity.this, "upload in progress", Toast.LENGTH_SHORT).show();
+                            } else {
+                                uploadImageToFirebase();
+                            }
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ProfileActivity.this, "Error!" + e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ProfileActivity.this, "Error!" + e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
     //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.

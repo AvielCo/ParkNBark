@@ -1,6 +1,6 @@
 package com.evan.parknbark.maps;
 
-import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilities.BaseActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

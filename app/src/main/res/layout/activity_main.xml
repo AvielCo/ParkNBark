@@ -7,7 +7,7 @@
     android:paddingStart="40dp"
     android:paddingTop="170dp"
     android:paddingEnd="40dp"
-    tools:context="com.evan.parknbark.utilis.MainActivity">
+    tools:context="com.evan.parknbark.utilities.MainActivity">
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/button_google_sign_in"
@@ -27,17 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="@string/register"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:indeterminate="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:paddingTop="5dp"
-        style="?android:attr/progressBarStyleHorizontal"/>
-
+        android:text="@string/register" />
 
 </LinearLayout>
 

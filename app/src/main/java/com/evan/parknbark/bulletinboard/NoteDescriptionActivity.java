@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.R;
 
 public class NoteDescriptionActivity extends BaseActivity {

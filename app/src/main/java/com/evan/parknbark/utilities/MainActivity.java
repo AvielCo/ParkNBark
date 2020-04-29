@@ -1,4 +1,4 @@
-package com.evan.parknbark.utilis;
+package com.evan.parknbark.utilities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,21 +10,20 @@ import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
 import com.evan.parknbark.maps.MapActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
 import es.dmoral.toasty.Toasty;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     GoogleAuthActivity gaa;
-    private static final String TAG = "MainActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         loadLocale();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setProgressBar(R.id.progressBar);
 
         findViewById(R.id.button_sign_in_main).setOnClickListener(this);
         findViewById(R.id.button_sign_up_main).setOnClickListener(this);
@@ -33,7 +32,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         gaa = new GoogleAuthActivity();
 
         //login to firebase and get instance
-        if(mAuth.getCurrentUser() != null)
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null)
             mAuth.signOut();
     }
 
@@ -64,12 +64,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.button_google_sign_in:
                 GoogleSignInAccount googleAccount = gaa.signInWithGoogle();
-                if(googleAccount != null)
+                if (googleAccount != null)
                     updateUI(mAuth.getCurrentUser());
                 break;
 
         }
     }
-
-
 }

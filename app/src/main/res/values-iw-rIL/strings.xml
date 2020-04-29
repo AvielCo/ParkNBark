@@ -35,8 +35,7 @@
     <string name="change_pass_confirm_button">אישור</string>
     <string name="change_password">שנה סיסמא</string>
     <string name="country_flag">דגל מדינה</string>
-    <string name="english">אנגלית</string>
-    <string name="hebrew">עברית</string>
+    <string name="hebrew">Hebrew</string>
     <string name="russian">רוסית</string>
     <string name="credit">אודות</string>
     <string name="contact">צור קשר</string>
@@ -45,4 +44,9 @@
     <string name="rate_us_text">האם תרצה/י לדרג את האפליקציה?</string>
     <string name="rate_us_confirm_button">דרג!</string>
     <string name="title_activity_settings">הגדרות</string>
+    <string name="map">מפה</string>
+    <string name="bulletin_board">לוח מודעות</string>
+    <string name="my_profile">הפרופיל שלי</string>
+    <string name="navigation_drawer_open" translatable="false">פתח מגירה</string>
+    <string name="navigation_drawer_close" translatable="false">סגור מגירה</string>
 </resources>

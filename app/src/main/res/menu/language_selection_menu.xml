@@ -3,15 +3,18 @@
     <item
         android:id="@+id/lang_english"
         android:title="@string/english"
+        android:icon="@drawable/ic_usa"
         />
 
     <item
         android:id="@+id/lang_hebrew"
         android:title="@string/hebrew"
+        android:icon="@drawable/ic_israel"
         />
 
     <item
         android:id="@+id/lang_russian"
         android:title="@string/russian"
+        android:icon="@drawable/ic_russia"
         />
 </menu>

@@ -1,7 +1,5 @@
 package com.evan.parknbark.settings;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +9,8 @@ import android.widget.ListView;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
-import com.evan.parknbark.bulletinboard.NoteAdapter;
 import com.evan.parknbark.emailpassword.ChangePassActivity;
-import com.evan.parknbark.utilis.BaseActivity;
+import com.evan.parknbark.utilities.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 

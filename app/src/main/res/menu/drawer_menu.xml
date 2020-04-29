@@ -3,27 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single"
-        android:id="@+id/menu_top">
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/settings" />
-    </group>
-
-    <group android:id="@+id/menu_middle"
+    <!-- Map -->
+    <group
+        android:id="@+id/menu_map"
         android:checkableBehavior="none">
-         <item
+        <item
+            android:id="@+id/nav_map"
+            android:title="@string/map"
+            android:icon="@drawable/baseline_map_24"/>
+        <item
             android:id="@+id/nav_locations"
             android:icon="@drawable/baseline_place_24"
-            android:title = "@string/locations" />
+            android:title="@string/locations" />
+    </group>
+
+    <!-- Bulletin Board -->
+    <group
+        android:id="@+id/menu_bulletin"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_bulletin"
+            android:title="@string/bulletin_board"
+            android:icon="@drawable/baseline_announcement_24"/>
+    </group>
+
+    <!-- Profile -->
+    <group
+        android:id="@+id/menu_profile"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="@string/my_profile"
+            android:icon="@drawable/baseline_person_24"/>
+    </group>
+
+    <!-- Communication -->
+    <group
+        android:id="@+id/menu_communicate"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share"
             android:title="@string/share" />
+
         <item
-            android:id="@+id/nav_send"
+            android:id="@+id/nav_bug_report"
             android:icon="@drawable/ic_bug_report"
             android:title="@string/bug_report" />
 
@@ -44,7 +69,14 @@
 
     </group>
 
-    <group android:id="@+id/menu_sign_out">
+    <!-- Settings -->
+    <group
+        android:id="@+id/menu_sign_out"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/baseline_settings_applications_24"
+            android:title="@string/settings" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/baseline_exit_to_app_24"

@@ -35,7 +35,6 @@
     <string name="change_pass_confirm_button">todo</string>
     <string name="change_password">todo</string>
     <string name="country_flag">todo</string>
-    <string name="english">todo</string>
     <string name="hebrew">todo</string>
     <string name="russian">todo</string>
     <string name="credit">todo</string>
@@ -44,5 +43,10 @@
     <string name="rate_us_text">todo</string>
     <string name="rate_us_confirm_button">todo</string>
     <string name="title_activity_settings">todo</string>
+    <string name="map">Map</string>
+    <string name="bulletin_board">Bulletin board</string>
+    <string name="my_profile">My profile</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
 </resources>
