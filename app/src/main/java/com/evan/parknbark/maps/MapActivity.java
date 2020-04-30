@@ -8,10 +8,12 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -54,6 +56,10 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
     public static final String CHECKIN_MSG = "Check in here?";
     public static final String CHECKOUT_MSG = "Check out?";
+    public static final String GPS_NOT_ENABLE = "GPS is not enabled. Turn it on?";
+    public static final String ENABLE_GPS_MSG = "Yes";
+    public static final String NOT_ENABLE_GPS_MSG = "No";
+
     //Map variables
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
@@ -63,6 +69,9 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     private LatLng defaultLoc;
     private static final double defaultLan = 31.249927;
     private static final double defaultLon = 34.791930;
+    private AlertDialog alert;
+    private boolean gps_enabled = false;
+
 
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -183,25 +192,46 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
      */
     public void updateMap(Location userLocation) {
         //TODO (Noah) this whole section till the else should move to the getDeviceLocation method and gps_enabled should move to be a class activity variable. should fix this later.
-        boolean gps_enabled = false;
         LocationManager lm = (LocationManager) MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
         mMap.clear();
         setParksMarkers();
+
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         if (!gps_enabled) {
-            // notify user
-            new AlertDialog.Builder(MapActivity.this)
-                    .setMessage("GPS not enabled").show();
+            enableGps(alert);
             defaultLoc = new LatLng(defaultLan, defaultLon);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, defaultZoom));
         } else {
             LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
         }
+    }
+
+    private void enableGps(AlertDialog alert) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if(alert == null){
+            builder.setMessage(GPS_NOT_ENABLE);
+            builder.setPositiveButton(ENABLE_GPS_MSG,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    });
+            builder.setNegativeButton(NOT_ENABLE_GPS_MSG, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        alert = builder.create();
+        alert.show();
     }
 
 
@@ -224,7 +254,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
             getDeviceLocation();
             mMap.setMyLocationEnabled(true);
         }
-        getDeviceLocation();
+
         mMap.setOnInfoWindowClickListener(this);
     }
 
