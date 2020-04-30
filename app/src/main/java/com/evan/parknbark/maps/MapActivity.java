@@ -1,8 +1,9 @@
 package com.evan.parknbark.maps;
-
+import com.evan.parknbark.utilities.*;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -33,6 +34,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -77,6 +79,10 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
+
+    //profiles
+    private ArrayList<User> currentUsers = new ArrayList<User>();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     /**
      * permissions holds the types of permissions needed for the app.
@@ -172,7 +178,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 GeoPoint park = document.getGeoPoint(LATLNG_FIELD);
                                 double lat = park.getLatitude();
-                                double lng = park.getLongitude ();
+                                double lng = park.getLongitude();
                                 LatLng latLng = new LatLng(lat, lng);
                                 mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet(CHECKIN_MSG));
                             }
@@ -214,7 +220,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
 
     private void enableGps(AlertDialog alert) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if(alert == null){
+        if (alert == null) {
             builder.setMessage(GPS_NOT_ENABLE);
             builder.setPositiveButton(ENABLE_GPS_MSG,
                     new DialogInterface.OnClickListener() {
@@ -261,7 +267,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
 
     public void checkIn(String title) {
         Log.d(TAG, "checkIn: " + getUserCheckinPark());
-        if(getUserCheckinPark() != null){
+        if (getUserCheckinPark() != null) {
             db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
         }
         db.collection(PARK_CHECKIN).document(title)
@@ -281,12 +287,11 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                 .setCancelable(true)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        if(marker.getSnippet().equals(CHECKIN_MSG)) {
+                        if (marker.getSnippet().equals(CHECKIN_MSG)) {
                             checkIn(marker.getTitle());
                             dialog.dismiss();
                             marker.setSnippet(CHECKOUT_MSG);
-                        }
-                        else if(marker.getSnippet().equals(CHECKOUT_MSG)){
+                        } else if (marker.getSnippet().equals(CHECKOUT_MSG)) {
                             db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                             dialog.dismiss();
                             marker.setSnippet(CHECKIN_MSG);
@@ -301,6 +306,34 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    /**
+     * retrieving users that stay currently in parks
+     */
+    public void getCurrentUsersInPark(String parkName) {
+        db.collection("parkcheckin").document(parkName).collection("currentProfilesInPark")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null)
+                                currentUsers = (ArrayList<User>) task.getResult().toObjects(User.class);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void userListFragment(){
+        Fragment fragment = new Fragment();
+        Bundle bundle = new Bundle();
+        //bundle.putParcelableArrayList();
+        fragment.setArguments(bundle);
+    }
 }
+
+
 
 

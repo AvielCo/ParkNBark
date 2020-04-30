@@ -68,7 +68,7 @@ public class ProfileActivity extends BaseActivity{
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("profiles");
     }
 
-    //
+
     public void saveProfile(View view) {
         String dogNameInput = textInputDogName.getEditText().getText().toString().trim();
         String dogBreedInput = textInputDogBreed.getEditText().getText().toString().trim();
