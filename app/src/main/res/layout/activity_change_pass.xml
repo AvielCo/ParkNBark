@@ -8,13 +8,14 @@
     android:paddingStart="40dp"
     android:paddingTop="60dp"
     android:paddingEnd="40dp"
+    android:background="#e1f5fe"
     tools:context=".emailpassword.ChangePassActivity">
 
     <TextView
         android:id="@+id/text_view_change_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_marginBottom="-20dp"
         android:padding="10dp"
         android:text="@string/change_pass_explanation_text"
@@ -25,8 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -42,8 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -61,7 +62,11 @@
         android:layout_gravity="center"
         android:drawablePadding="8dp"
         android:text="@string/change_pass_confirm_button"
-        android:drawableRight="@drawable/baseline_check_circle_outline_24"
+        android:background="@drawable/rounded_btn"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableEnd="@drawable/baseline_check_circle_outline_24"
 
         />
 

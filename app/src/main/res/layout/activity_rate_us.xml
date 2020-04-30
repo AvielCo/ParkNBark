@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e1f5fe"
     tools:context=".RateUsActivity">
 
     <TextView
@@ -15,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textAlignment="center"
         android:text="@string/rate_us_text"
         />
@@ -36,8 +37,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/rate_us_confirm_button"
+        android:background="@drawable/rounded_btn"
         android:layout_gravity="center"
-        android:textSize="25dp"
+        android:textSize="25sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_marginBottom="40dp"
         android:textStyle="italic"
         />

@@ -8,8 +8,8 @@
     android:paddingStart="30dp"
     android:paddingTop="30dp"
     android:paddingEnd="30dp"
+    android:background="#e1f5fe"
     tools:context=".profile.ProfileActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +17,7 @@
         android:paddingStart="10dp"
         android:paddingTop="10dp"
         android:paddingEnd="10dp"
+        android:background="#e1f5fe"
         >
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,12 +68,20 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:layout_width="match_parent"
+            <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="upload image"
             android:onClick="uploadImage"
-            android:layout_marginBottom="10dp">
+            android:background="@drawable/rounded_btn"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:drawableEnd="@drawable/baseline_add_a_photo_24"
+            android:drawablePadding="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+
+            >
         </Button>
 
         <ImageView
@@ -83,17 +92,28 @@
         </ImageView>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="save"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_btn"
+            android:drawableEnd="@drawable/baseline_save_alt_24"
+            android:drawablePadding="10dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
             android:onClick="saveProfile"
             android:layout_marginTop="10dp">
         </Button>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="show profiles"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/rounded_btn"
             android:onClick="showProfiles"
             android:layout_marginBottom="10dp">
         </Button>

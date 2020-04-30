@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.evan.parknbark.R;
-import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import com.evan.parknbark.utilities.*;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ProfileActivity extends BaseNavDrawerActivity {
+public class ProfileActivity extends BaseActivity{
     private TextInputLayout textInputDogName, textInputDogAge, textInputDogBreed;
     private static final String KEY_DOG_NAME = "dogName";
     private static final String KEY_DOG_BREED = "dogBreed";
