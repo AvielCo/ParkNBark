@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         findViewById(R.id.button_sign_in_main).setOnClickListener(this);
         findViewById(R.id.button_sign_up_main).setOnClickListener(this);
-        findViewById(R.id.button_google_sign_in).setOnClickListener(this);
+       //findViewById(R.id.button_google_sign_in).setOnClickListener(this);
 
         gaa = new GoogleAuthActivity();
 
@@ -62,11 +62,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.button_sign_up_main:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
-            case R.id.button_google_sign_in:
-                GoogleSignInAccount googleAccount = gaa.signInWithGoogle();
-                if (googleAccount != null)
-                    updateUI(mAuth.getCurrentUser());
-                break;
+//            case R.id.button_google_sign_in:
+//                GoogleSignInAccount googleAccount = gaa.signInWithGoogle();
+//                if (googleAccount != null)
+//                    updateUI(mAuth.getCurrentUser());
+//                break;
 
         }
     }

@@ -9,8 +9,7 @@ public class Park {
     public Park() {
     }
 
-    public Park(String name, String street, double lat, double lon) {
-        this.name = name;
+    public Park( String street, double lat, double lon) {
         this.street = street;
         this.lat = lat;
         this.lon = lon;

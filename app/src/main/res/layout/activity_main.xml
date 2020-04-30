@@ -5,15 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingStart="40dp"
-    android:paddingTop="170dp"
+    android:paddingTop="220dp"
     android:paddingEnd="40dp"
     tools:context="com.evan.parknbark.utilities.MainActivity">
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/button_google_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp" />
 
 
     <Button
