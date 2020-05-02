@@ -105,17 +105,5 @@
             android:layout_marginTop="10dp">
         </Button>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="show profiles"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@drawable/rounded_btn"
-            android:onClick="showProfiles"
-            android:layout_marginBottom="10dp">
-        </Button>
     </LinearLayout>
 </ScrollView>

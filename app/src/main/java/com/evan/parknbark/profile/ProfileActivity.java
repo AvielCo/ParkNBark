@@ -164,8 +164,8 @@ public class ProfileActivity extends BaseActivity{
     }
 
     //showing other user`s profiles
-    public void showProfiles(View view) {
+    /*public void showProfiles(View view) {
         Intent intent = new Intent(this, ImagesActivity.class);
         startActivity(intent);
-    }
+    }*/
 }

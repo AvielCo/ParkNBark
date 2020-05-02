@@ -49,4 +49,6 @@
     <string name="my_profile">הפרופיל שלי</string>
     <string name="navigation_drawer_open" translatable="false">פתח מגירה</string>
     <string name="navigation_drawer_close" translatable="false">סגור מגירה</string>
+    <string name="hello_blank_fragment">חלון ריק</string>
+    <string name="no_users_currently">אין משתמשים</string>
 </resources>

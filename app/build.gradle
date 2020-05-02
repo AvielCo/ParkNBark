@@ -60,6 +60,8 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'androidx.cardview:cardview'
 
+
+
     //google
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
@@ -84,6 +86,7 @@ dependencies {
 
     //test
     implementation 'androidx.preference:preference:1.1.0-rc01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'junit:junit:4.13'

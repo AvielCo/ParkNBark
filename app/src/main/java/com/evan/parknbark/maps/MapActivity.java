@@ -1,12 +1,9 @@
 package com.evan.parknbark.maps;
-import com.evan.parknbark.utilities.*;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,13 +13,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.evan.parknbark.contacts.Contact;
-import com.evan.parknbark.contacts.ExpandableListAdapter;
-import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.evan.parknbark.R;
+import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import com.evan.parknbark.utilities.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,9 +33,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -44,10 +40,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import static com.evan.parknbark.R.id.fragment_container;
 
 public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -81,8 +75,9 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
 
     //profiles
-    private ArrayList<User> currentUsers = new ArrayList<User>();
+    private ArrayList<User> userLocations = new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     /**
      * permissions holds the types of permissions needed for the app.
@@ -265,7 +260,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     }
 
 
-    public void checkIn(String title) {
+    /*public void checkIn(String title) {
         Log.d(TAG, "checkIn: " + getUserCheckinPark());
         if (getUserCheckinPark() != null) {
             db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
@@ -273,7 +268,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         db.collection(PARK_CHECKIN).document(title)
                 .update(CHECKIN_FIELD, FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
         setUserCheckinPark(title);
-    }
+    }*/
 
     /**
      * comment this
@@ -281,6 +276,9 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
      * @param marker
      */
     @Override
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ATTENTION!!!!!!!!! uncomment "checkIn(marker.getTitle());" should be after an if section.!
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void onInfoWindowClick(Marker marker) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
         builder.setMessage(marker.getSnippet())
@@ -288,7 +286,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         if (marker.getSnippet().equals(CHECKIN_MSG)) {
-                            checkIn(marker.getTitle());
+                            //checkIn(marker.getTitle());
                             dialog.dismiss();
                             marker.setSnippet(CHECKOUT_MSG);
                         } else if (marker.getSnippet().equals(CHECKOUT_MSG)) {
@@ -308,29 +306,50 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     }
 
     /**
-     * retrieving users that stay currently in parks
+     * retrieving users that stay currently in parks from DB
      */
-    public void getCurrentUsersInPark(String parkName) {
+    public void getUserLocation(String parkName) {
         db.collection("parkcheckin").document(parkName).collection("currentProfilesInPark")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            if (task.getResult() != null)
-                                currentUsers = (ArrayList<User>) task.getResult().toObjects(User.class);
+                            if (task.getResult().toObjects(User.class) != null) {
+                                userLocations = ((ArrayList<User>) task.getResult().toObjects(User.class));
+                                System.out.println(userLocations);
+                            }
                         } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
+                            Log.w(TAG, "Error getting users.", task.getException());
                         }
                     }
                 });
     }
 
-    public void userListFragment(){
-        Fragment fragment = new Fragment();
-        Bundle bundle = new Bundle();
-        //bundle.putParcelableArrayList();
-        fragment.setArguments(bundle);
+    /**
+     * After a click on a marker this function will be activated
+     */
+    public boolean onMarkerClick(Marker marker) {
+        //creating a fragment that holds the users that checked in
+        usersFragment usersfragment = new usersFragment();
+        if(usersfragment!=null) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(fragment_container, usersfragment);
+
+            getUserLocation(marker.getTitle());
+            final Bundle bdl = new Bundle();
+            //bdl.putString("users",userLocations );
+            usersfragment.setArguments(bdl);
+            ft.commit();
+        }
+        else {
+            Log.e(TAG, "Error in creating usersfragment");
+        }
+
+
+
+        return false;
     }
 }
 
