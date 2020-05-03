@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
 
     protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();

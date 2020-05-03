@@ -5,11 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:background="#e1f5fe"
+    android:fitsSystemWindows="true"
     tools:context="com.evan.parknbark.bulletinboard.NewNoteActivity">
 
-
     <com.google.android.material.textfield.TextInputLayout
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
         android:id="@+id/text_input_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +28,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
         android:id="@+id/text_input_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

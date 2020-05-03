@@ -11,8 +11,6 @@
     android:background="#e1f5fe"
     tools:context="com.evan.parknbark.utilities.MainActivity">
 
-
-
     <Button
         android:id="@+id/button_sign_in_main"
         android:layout_width="wrap_content"

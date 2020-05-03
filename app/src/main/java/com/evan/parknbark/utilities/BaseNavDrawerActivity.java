@@ -35,11 +35,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener  {
+public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
-    private TextView textViewFirstLastName;
-    private ImageView imageViewCountryFlag;
 
     public static final String PARK_CHECKIN = "parkcheckin";
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
@@ -52,52 +50,7 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navView = findViewById(R.id.nav_view);
         navView.bringToFront();
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_logout:
-                        if(getUserCheckinPark() == null)
-                            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
-                        FirebaseAuth.getInstance().signOut();
-
-                        finish();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                        break;
-                    case R.id.nav_share:
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        String text = "Come and join ParkN'Bark at <input some link>";
-                        intent.putExtra(Intent.EXTRA_TEXT, text);
-                        startActivity(Intent.createChooser(intent, "Share with"));
-                        break;
-                    case R.id.nav_contact:
-                        startActivity(new Intent(getApplicationContext(), ContactActivity.class));
-                        break;
-                    case R.id.nav_locations:
-                        startActivity(new Intent(getApplicationContext(), LocationsActivity.class));
-                        break;
-                    case R.id.nav_rate_us:
-                        startActivity(new Intent(getApplicationContext(), RateUsActivity.class));
-                        break;
-                    case R.id.nav_settings:
-                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                        break;
-                    case R.id.nav_bulletin:
-                        startActivity(new Intent(getApplicationContext(), BulletinBoardActivity.class));
-                        break;
-                    case R.id.nav_profile:
-                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                        break;
-                    case R.id.nav_map:
-                        startActivity(new Intent(getApplicationContext(), MapActivity.class));
-                        break;
-                }
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+        navView.setNavigationItemSelectedListener(this);
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -107,16 +60,16 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
 
         View header = navView.getHeaderView(0);
 
-        textViewFirstLastName = header.findViewById(R.id.nav_header_user_fname);
-        imageViewCountryFlag = header.findViewById(R.id.country_flag_menu);
+        TextView textViewFirstLastName = header.findViewById(R.id.nav_header_user_fname);
+        ImageView imageViewCountryFlag = header.findViewById(R.id.country_flag_menu);
 
         //Set flag for current language
         String prefLanguage = getPrefLanguage();
-        if(prefLanguage.equalsIgnoreCase("en"))
+        if (prefLanguage.equalsIgnoreCase("en"))
             imageViewCountryFlag.setImageResource(R.drawable.ic_usa);
-        else if(prefLanguage.equalsIgnoreCase("iw"))
+        else if (prefLanguage.equalsIgnoreCase("iw"))
             imageViewCountryFlag.setImageResource(R.drawable.ic_israel);
-        else if(prefLanguage.equalsIgnoreCase("ru"))
+        else if (prefLanguage.equalsIgnoreCase("ru"))
             imageViewCountryFlag.setImageResource(R.drawable.ic_russia);
 
         //Set name for current user
@@ -180,5 +133,50 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
 
     public void setUserCheckinPark(String userCheckinPark) {
         this.userCheckinPark = userCheckinPark;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_logout:
+                if (getUserCheckinPark() == null)
+                    db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+                FirebaseAuth.getInstance().signOut();
+
+                finish();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+                break;
+            case R.id.nav_share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String text = "Come and join ParkN'Bark at <input some link>";
+                intent.putExtra(Intent.EXTRA_TEXT, text);
+                startActivity(Intent.createChooser(intent, "Share with"));
+                break;
+            case R.id.nav_contact:
+                startActivity(new Intent(getApplicationContext(), ContactActivity.class));
+                break;
+            case R.id.nav_locations:
+                startActivity(new Intent(getApplicationContext(), LocationsActivity.class));
+                break;
+            case R.id.nav_rate_us:
+                startActivity(new Intent(getApplicationContext(), RateUsActivity.class));
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                break;
+            case R.id.nav_bulletin:
+                startActivity(new Intent(getApplicationContext(), BulletinBoardActivity.class));
+                break;
+            case R.id.nav_profile:
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                break;
+            case R.id.nav_map:
+                startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
