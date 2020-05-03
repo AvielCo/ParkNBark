@@ -6,7 +6,7 @@
     <!-- Map -->
     <group
         android:id="@+id/menu_map"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_map"
             android:title="@string/map"
@@ -20,7 +20,7 @@
     <!-- Bulletin Board -->
     <group
         android:id="@+id/menu_bulletin"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_bulletin"
             android:title="@string/bulletin_board"
@@ -30,7 +30,7 @@
     <!-- Profile -->
     <group
         android:id="@+id/menu_profile"
-        android:checkableBehavior="none">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
             android:title="@string/my_profile"
@@ -40,7 +40,7 @@
     <!-- Communication -->
     <group
         android:id="@+id/menu_communicate"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
 
         <item
             android:id="@+id/nav_share"
@@ -72,7 +72,7 @@
     <!-- Settings -->
     <group
         android:id="@+id/menu_sign_out"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/baseline_settings_applications_24"
