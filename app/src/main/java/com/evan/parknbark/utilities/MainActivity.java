@@ -70,4 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         }
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

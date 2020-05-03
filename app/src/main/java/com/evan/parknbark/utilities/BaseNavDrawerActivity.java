@@ -21,6 +21,7 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
+import com.evan.parknbark.emailpassword.LoginActivity;
 import com.evan.parknbark.maps.LocationsActivity;
 import com.evan.parknbark.maps.MapActivity;
 import com.evan.parknbark.profile.ProfileActivity;
@@ -38,6 +39,7 @@ import java.util.Map;
 public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    protected NavigationView navView;
 
     public static final String PARK_CHECKIN = "parkcheckin";
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
@@ -48,7 +50,8 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navView = findViewById(R.id.nav_view);
+
+        navView = findViewById(R.id.nav_view);
         navView.bringToFront();
         navView.setNavigationItemSelectedListener(this);
 
@@ -139,13 +142,12 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_logout:
-                if (getUserCheckinPark() == null)
+                if (getUserCheckinPark() != null)
                     db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                 FirebaseAuth.getInstance().signOut();
-
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+                finishAffinity();
                 break;
             case R.id.nav_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);

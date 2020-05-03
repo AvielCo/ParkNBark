@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -56,11 +57,11 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     public static final String LATLNG_FIELD = "latlng";
     public static final String PARK_CHECKIN = "parkcheckin";
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
-    public static final String CHECKIN_MSG = "Check in here?";
-    public static final String CHECKOUT_MSG = "Check out?";
-    public static final String GPS_NOT_ENABLE = "GPS is not enabled. Turn it on?";
-    public static final String ENABLE_GPS_MSG = "Yes";
-    public static final String NOT_ENABLE_GPS_MSG = "No";
+    public String CHECKIN_MSG;
+    public String CHECKOUT_MSG;
+    public String GPS_NOT_ENABLE;
+    public String ENABLE_GPS_MSG;
+    public String NOT_ENABLE_GPS_MSG;
 
     //Map variables
     private GoogleMap mMap;
@@ -83,6 +84,18 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     //profiles
     private ArrayList<User> currentUsers = new ArrayList<User>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
+        getLocationsPermissions();
+        NOT_ENABLE_GPS_MSG = getString(R.string.no);
+        ENABLE_GPS_MSG = getString(R.string.yes);
+        GPS_NOT_ENABLE = getString(R.string.gps_not_enabled);
+        CHECKOUT_MSG = getString(R.string.checkout_msg);
+        CHECKIN_MSG = getString(R.string.checkin_msg);
+    }
 
     /**
      * permissions holds the types of permissions needed for the app.
@@ -240,14 +253,6 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         alert.show();
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
-        getLocationsPermissions();
-    }
-
     /**
      * onMapReady callback is triggered once the map is ready to be used.
      * it checks if permissions are given. if they are given - it gets users location and sets its location on map.
@@ -331,6 +336,12 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         Bundle bundle = new Bundle();
         //bundle.putParcelableArrayList();
         fragment.setArguments(bundle);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        FirebaseAuth.getInstance().signOut();
     }
 }
 
