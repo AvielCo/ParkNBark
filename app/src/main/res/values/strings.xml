@@ -55,4 +55,6 @@
     <string name="settings">settings</string>
     <string name="reset_pass_explanation_text">Please enter the E-Mail of your account and press \"Send\" button.  A link will be send to your E-Mail, enter that link to set new password.</string>
 
+    <string name="update_contact">Update Contact</string>
+
 </resources>

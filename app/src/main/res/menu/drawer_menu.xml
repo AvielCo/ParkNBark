@@ -67,6 +67,11 @@
             android:icon="@drawable/baseline_perm_phone_msg_24"
             android:title="@string/contact" />
 
+        <item
+            android:id="@+id/nav_edit_contact"
+            android:title="Edit Contacts"
+            android:icon="@drawable/ic_editcontact"/>
+
     </group>
 
     <!-- Settings -->

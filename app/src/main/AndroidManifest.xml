@@ -86,11 +86,19 @@
             android:parentActivityName=".profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!-- ETC -->
+        <!-- Contacts -->
         <activity
             android:name=".contacts.ContactActivity"
             android:launchMode="singleInstance"
             android:parentActivityName=".maps.MapActivity" />
+
+        <activity
+            android:name=".contacts.EditContactActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".maps.MapActivity" />
+
+        <!-- Rating -->
+
         <activity
             android:name=".RateUsActivity"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />
