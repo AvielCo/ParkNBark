@@ -28,73 +28,73 @@
         <!-- App settings (User) -->
         <activity
             android:name=".settings.SettingsActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".maps.MapActivity" />
 
         <!-- Login, Register, Reset/Change password -->
         <activity
             android:name=".emailpassword.LoginActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".utilities.MainActivity" />
         <activity
             android:name=".emailpassword.RegisterActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".utilities.MainActivity" />
         <activity
             android:name=".emailpassword.ResetPassActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".emailpassword.LoginActivity" />
         <activity
             android:name=".emailpassword.ChangePassActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".settings.SettingsActivity" />
 
         <!-- Map -->
         <activity
             android:name=".maps.MapActivity"
-            android:launchMode="singleInstance"
             android:parentActivityName=".utilities.MainActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".maps.LocationsActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".maps.MapActivity" />
 
         <!-- Bulletin Board -->
         <activity
             android:name=".bulletinboard.BulletinBoardActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".bulletinboard.NewNoteActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
         <activity
             android:name=".bulletinboard.NoteDescriptionActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
 
         <!-- Profile -->
         <activity
             android:name=".profile.ProfileActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".profile.ImagesActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Contacts -->
         <activity
             android:name=".contacts.ContactActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".maps.MapActivity" />
 
         <activity
             android:name=".contacts.EditContactActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:parentActivityName=".maps.MapActivity" />
 
         <!-- Rating -->
