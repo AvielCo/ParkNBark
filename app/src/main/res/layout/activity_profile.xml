@@ -8,7 +8,7 @@
     android:paddingStart="30dp"
     android:paddingTop="30dp"
     android:paddingEnd="30dp"
-    android:background="#e1f5fe"
+    android:background="@color/colorAppBackground"
     tools:context=".profile.ProfileActivity">
     <LinearLayout
         android:layout_width="match_parent"

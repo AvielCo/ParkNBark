@@ -53,7 +53,8 @@ public class BaseActivity extends AppCompatActivity{
         String langPref = "Language";
         SharedPreferences prefs = getSharedPreferences("CommonPrefs",
                 Activity.MODE_PRIVATE);
-        return prefs.getString(langPref, "");
+        final String prefLang = prefs.getString(langPref, Locale.getDefault().getLanguage());
+        return prefLang;
     }
 
     protected void changeLang(String lang) {

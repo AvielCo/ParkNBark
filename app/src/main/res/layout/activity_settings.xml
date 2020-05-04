@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#e1f5fe"
+    android:background="@color/colorAppBackground"
     tools:context=".settings.SettingsActivity">
 
     <TextView
@@ -15,11 +15,10 @@
         android:textSize="30sp"
         android:textAllCaps="false"
         android:textStyle="bold"
-        android:drawableStart="@drawable/baseline_phonelink_setup_24"
-        android:drawablePadding="10dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_height="40dp">
     </TextView>
 
@@ -29,7 +28,6 @@
         android:id="@+id/setting_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

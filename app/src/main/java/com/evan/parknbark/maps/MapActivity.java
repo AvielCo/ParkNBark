@@ -29,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -180,7 +181,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                                 double lat = park.getLatitude();
                                 double lng = park.getLongitude();
                                 LatLng latLng = new LatLng(lat, lng);
-                                mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet(CHECKIN_MSG));
+                                mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet(CHECKIN_MSG).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_app_dog_logo)));
                             }
 
                         } else {
