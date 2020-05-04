@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -45,6 +46,7 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
     public static final String INVITE_TXT = "Come and join ParkN'Bark at <input some link>";
     public static final String SHARE_WITH_TXT = "Share with";
+    public static final String WRONG_PERMISSION = "You don't have the right permission";
     private String userCheckinPark;
 
     private volatile User user;
@@ -203,7 +205,9 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
                             user = task.getResult().toObject(User.class);
                             if (user.getPermission().equals("admin"))
                                 startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
-
+                            else{
+                                Toast.makeText(getApplicationContext(), WRONG_PERMISSION, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
