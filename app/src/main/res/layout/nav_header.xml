@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
-    android:background="@color/colorAccent"
+    android:layout_height="155dp"
+    android:background="#81d4fa"
     android:gravity="bottom"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -15,19 +15,19 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:src="@mipmap/app_logo1_foreground"
+            android:layout_marginTop="5dp"
+            />
 
         <TextView
             android:id="@+id/nav_header_user_fname"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="-10dp"
+            android:textColor="#ffe082"
+            />
 
     </LinearLayout>
 

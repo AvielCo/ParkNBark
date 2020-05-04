@@ -6,10 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingStart="40dp"
-    android:paddingTop="220dp"
+    android:paddingTop="40dp"
     android:paddingEnd="40dp"
-    android:background="#e1f5fe"
+    android:background="@color/colorAppBackground"
     tools:context="com.evan.parknbark.utilities.MainActivity">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:src="@mipmap/app_logo1_foreground" />
 
     <Button
         android:id="@+id/button_sign_in_main"
