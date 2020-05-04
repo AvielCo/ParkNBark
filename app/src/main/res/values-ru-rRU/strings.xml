@@ -46,5 +46,10 @@
     <string name="title">заглавие</string>
     <string name="credit">кредит</string>
     <string name="my_profile">профайл</string>
+    <string name="gps_not_enabled">TODO</string>
+    <string name="yes">DA</string>
+    <string name="no">NIET</string>
+    <string name="checkin_msg">TODO</string>
+    <string name="checkout_msg">TODO</string>
 
 </resources>

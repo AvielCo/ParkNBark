@@ -59,6 +59,10 @@ public class BulletinBoardActivity extends BaseNavDrawerActivity implements Note
             }
         });
         setUpRecyclerView();
+
+        //prevent the user from logging out, so the app wont crash when click on back key.
+        //logging out only available from map activity :)
+        navView.getMenu().findItem(R.id.nav_logout).setVisible(false);
     }
 
     private void setItemTouchHelper(){

@@ -61,7 +61,6 @@ public class NewNoteActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
-
         if (EditTextValidator.isValidEditText(title, textInputTitle) | !EditTextValidator.isValidEditText(description, textInputDescription)) {
             CollectionReference notebookRef = FirebaseFirestore.getInstance()
                     .collection("notes");
