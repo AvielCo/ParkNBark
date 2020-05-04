@@ -2,15 +2,13 @@ package com.evan.parknbark.utilities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.PersistableBundle;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
@@ -21,6 +19,7 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
+import com.evan.parknbark.contacts.EditContactActivity;
 import com.evan.parknbark.emailpassword.LoginActivity;
 import com.evan.parknbark.maps.LocationsActivity;
 import com.evan.parknbark.maps.MapActivity;
@@ -30,20 +29,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     protected NavigationView navView;
 
+    public static final String TAG = "BaseNavDrawer";
     public static final String PARK_CHECKIN = "parkcheckin";
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
+    public static final String INVITE_TXT = "Come and join ParkN'Bark at <input some link>";
+    public static final String SHARE_WITH_TXT = "Share with";
     private String userCheckinPark;
+
+    private volatile User user;
+
 
     protected void onCreateDrawer() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -130,10 +135,18 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
         }
     }
 
+    /**
+     *
+     * @return the name of the park current user has checked in into.
+     */
     public String getUserCheckinPark() {
         return userCheckinPark;
     }
 
+    /**
+     *
+     * @param userCheckinPark gets text and sets it to the variable
+     */
     public void setUserCheckinPark(String userCheckinPark) {
         this.userCheckinPark = userCheckinPark;
     }
@@ -145,16 +158,20 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
                 if (getUserCheckinPark() != null)
                     db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                 FirebaseAuth.getInstance().signOut();
+
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
                 finishAffinity();
+
                 break;
             case R.id.nav_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                String text = "Come and join ParkN'Bark at <input some link>";
-                intent.putExtra(Intent.EXTRA_TEXT, text);
-                startActivity(Intent.createChooser(intent, "Share with"));
+                intent.putExtra(Intent.EXTRA_TEXT, INVITE_TXT);
+                startActivity(Intent.createChooser(intent, SHARE_WITH_TXT));
                 break;
             case R.id.nav_contact:
                 startActivity(new Intent(getApplicationContext(), ContactActivity.class));
@@ -177,8 +194,24 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
             case R.id.nav_map:
                 startActivity(new Intent(getApplicationContext(), MapActivity.class));
                 break;
+            case R.id.nav_edit_contact:
+                DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
+                docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            user = task.getResult().toObject(User.class);
+                            if (user.getPermission().equals("admin"))
+                                startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
+
+                        }
+                    }
+                });
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
