@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.evan.parknbark.R;
 import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
@@ -67,6 +69,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                if (googleAccount != null)
 //                    updateUI(mAuth.getCurrentUser());
 //                break;
+            case R.id.darkMode:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
 
         }
     }

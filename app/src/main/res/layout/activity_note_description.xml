@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e1f5fe"
-    android:orientation="vertical"
+    android:background="@color/mainBackground"
     android:fitsSystemWindows="true"
-    app:cardBackgroundColor="#e1f5fe"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/mainBackground"
     tools:context="com.evan.parknbark.bulletinboard.NoteDescriptionActivity">
 
     <TextView
@@ -19,8 +19,8 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="@string/date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/mainText" />
 
     <TextView
         android:id="@+id/text_view_description_des"
@@ -30,7 +30,8 @@
         android:layout_alignParentStart="true"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:text="@string/description"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/description" />
+        android:textColor="@color/mainText" />
 
 </RelativeLayout>

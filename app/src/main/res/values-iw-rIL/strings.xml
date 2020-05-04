@@ -30,8 +30,8 @@
     <string name="save">שמירה</string>
     <string name="locations">מקומות</string>
     <string name="change_pass_explanation_text">אנא הכנס את הסיסמא הנוכחית, אחר כך הכנס את הסיסמא החדשה ולחץ על \"שלח\"</string>
-    <string name="change_pass_enter_new_pass_hint">הכנס סיסמא חדשה</string>
-    <string name="change_pass_current_pass_hint">הכנס סיסמא קיימת</string>
+    <string name="change_pass_enter_new_pass_hint">" סיסמא חדשה"</string>
+    <string name="change_pass_current_pass_hint">" סיסמא קיימת"</string>
     <string name="change_pass_confirm_button">אישור</string>
     <string name="change_password">שנה סיסמא</string>
     <string name="country_flag">דגל מדינה</string>
@@ -52,4 +52,7 @@
     <string name="no">לא</string>
     <string name="checkin_msg">להרשם כאן?</string>
     <string name="checkout_msg">לעזוב?</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="save_image">Save</string>
+    <string name="show_profiles">Show Profiles</string>
 </resources>

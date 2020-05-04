@@ -51,5 +51,8 @@
     <string name="no">NIET</string>
     <string name="checkin_msg">TODO</string>
     <string name="checkout_msg">TODO</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="save_image">Save</string>
+    <string name="show_profiles">Show Profiles</string>
 
 </resources>

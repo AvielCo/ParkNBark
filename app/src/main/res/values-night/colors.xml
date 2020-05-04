@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/colorPurple</color>
-    <color name="colorPrimaryDark">@color/colorDarkBlue</color>
-    <color name="colorAccent">@color/colorLightBlue</color>
+    <color name="colorPrimary">@color/colorLightGreen</color>
+    <color name="colorPrimaryDark">@color/colorDarkGreen</color>
+    <color name="colorAccent">@color/colorRed</color>
 
     <color name="colorWhite">#FFFF</color>
     <color name="colorBlack">#000000</color>
@@ -15,8 +15,8 @@
     <color name="colorDarkBlue">#3700B3</color>
     <color name="colorLightBlue">#03DAC5</color>
 
-    <color name="mainText">@color/colorBlack</color>
-    <color name="textAlt">@color/colorWhite</color>
-    <color name="mainBackground">@color/colorWhiteBlue</color>
-    <color name="mainButton">@color/colorDarkBlue</color>
+    <color name="mainText">@color/colorWhite</color>
+    <color name="textAlt">@color/colorBlack</color>
+    <color name="mainBackground">@color/colorBlack</color>
+    <color name="mainButton">@color/colorDarkGreen</color>
 </resources>

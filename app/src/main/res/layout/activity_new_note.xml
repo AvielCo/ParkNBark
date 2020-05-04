@@ -4,43 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#e1f5fe"
+    android:background="@color/mainBackground"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.evan.parknbark.bulletinboard.NewNoteActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
         android:id="@+id/text_input_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        app:counterEnabled="true">
+        style="@style/TextInputLayoutStyle"
+        android:paddingTop="20dp"
+        app:startIconDrawable="@drawable/ic_title_black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/title"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:textColor="@color/mainText" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
         android:id="@+id/text_input_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true"
-        app:counterEnabled="true">
+        style="@style/TextInputLayoutStyle"
+        app:startIconDrawable="@drawable/ic_description_black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/description"
-            android:inputType="textMultiLine"/>
+            android:inputType="textMultiLine"
+            android:textColor="@color/mainText" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

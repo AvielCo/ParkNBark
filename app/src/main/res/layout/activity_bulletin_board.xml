@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="com.evan.parknbark.bulletinboard.BulletinBoardActivity"
-                android:background="#e1f5fe">
+                android:background="@color/mainBackground">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"

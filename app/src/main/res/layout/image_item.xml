@@ -17,7 +17,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="Name"
-            android:textColor="@android:color/black"
+            android:textColor="@color/mainText"
             android:textSize="20sp" />
 
         <ImageView
