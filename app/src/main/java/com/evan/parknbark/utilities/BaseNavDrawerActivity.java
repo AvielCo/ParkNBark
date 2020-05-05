@@ -219,6 +219,4 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }
