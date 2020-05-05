@@ -118,19 +118,22 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.lang_english:
-                changeLang("en");
-                finish();
-                startActivity(getIntent());
+                if(changeLang("en")) {
+                    finish();
+                    startActivity(getIntent());
+                }
                 return true;
             case R.id.lang_hebrew:
-                changeLang("iw");
-                finish();
-                startActivity(getIntent());
+                if(changeLang("iw")) {
+                    finish();
+                    startActivity(getIntent());
+                }
                 return true;
             case R.id.lang_russian:
-                changeLang("ru");
-                finish();
-                startActivity(getIntent());
+                if(changeLang("ru")) {
+                    finish();
+                    startActivity(getIntent());
+                }
                 return true;
             default:
                 return false;
