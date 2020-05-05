@@ -1,4 +1,6 @@
-package com.evan.parknbark.validation;
+package com.evan.parknbark;
+
+import com.evan.parknbark.validation.EmailValidator;
 
 import org.junit.Before;
 import org.junit.Test;

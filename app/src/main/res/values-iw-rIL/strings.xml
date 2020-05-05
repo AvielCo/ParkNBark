@@ -47,8 +47,9 @@
     <string name="map">מפה</string>
     <string name="bulletin_board">לוח מודעות</string>
     <string name="my_profile">הפרופיל שלי</string>
-    <string name="navigation_drawer_open" translatable="false">פתח מגירה</string>
-    <string name="navigation_drawer_close" translatable="false">סגור מגירה</string>
-    <string name="hello_blank_fragment">חלון ריק</string>
-    <string name="no_users_currently">אין משתמשים</string>
+    <string name="gps_not_enabled">חיישן מיקום לא פועל, להפעיל?</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="checkin_msg">להרשם כאן?</string>
+    <string name="checkout_msg">לעזוב?</string>
 </resources>

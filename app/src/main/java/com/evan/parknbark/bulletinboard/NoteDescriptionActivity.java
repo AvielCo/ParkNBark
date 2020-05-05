@@ -8,7 +8,7 @@ import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.R;
 
 public class NoteDescriptionActivity extends BaseActivity {
-    TextView textViewTitle, textViewDescription, textViewDate;
+    TextView textViewDescription, textViewDate;
     private static final String TAG = "NoteDescriptionActivity";
 
     @Override
@@ -17,9 +17,7 @@ public class NoteDescriptionActivity extends BaseActivity {
         setContentView(R.layout.activity_note_description);
         Intent i = getIntent();
         Note displayNote = (Note) i.getSerializableExtra("NOTE_TO_SEE");
-
-        textViewTitle = findViewById(R.id.text_view_title_des);
-        textViewTitle.setText(displayNote.getTitle());
+        setTitle(displayNote.getTitle());
 
         textViewDescription = findViewById(R.id.text_view_description_des);
         textViewDescription.setText(displayNote.getDescription());

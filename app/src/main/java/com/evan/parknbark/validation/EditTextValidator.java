@@ -13,6 +13,8 @@ import javax.annotation.Nullable;
 public class EditTextValidator implements TextWatcher {
 
     private static final int EMAIL_ADDRESS = 33;
+    private static final int TEXT = 1;
+
     private boolean mIsValid = false;
 
     public boolean isValid() {
@@ -34,10 +36,22 @@ public class EditTextValidator implements TextWatcher {
                 mTextInputLayout.setError("Illegal email address.");
                 return false;
             }
+            /**
+             *  if the input type is of type text we check if the phone or fax are input correctly with PhoneFaxValidator.
+             */
+        else if(inputType == TEXT){
+            if(!PhoneFaxValidator.isValidMobileOrFax(string, mTextInputLayout)){
+                return false;
+            }
+        }
         mTextInputLayout.setError(null);
         return true;
     }
 
+    public static boolean isValidMobileOrFax(String num) {
+        return num.length() == 10;
+
+    }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

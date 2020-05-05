@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="55dip">
+    android:layout_height="55dp">
 
 
     <TextView
@@ -12,7 +12,8 @@
         android:id="@+id/lblListItem"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:textSize="16dp"/>
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingEnd="?android:attr/expandableListPreferredChildIndicatorRight"
+        android:textSize="16sp"/>
 
 </LinearLayout>
