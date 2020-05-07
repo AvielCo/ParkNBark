@@ -45,7 +45,6 @@ public class FirebaseDataHelper extends BaseActivity {
     }
 
     public void readParks(final DataStatus dataStatus){
-
         db.collection(PARK_LOCATIONS_DB)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

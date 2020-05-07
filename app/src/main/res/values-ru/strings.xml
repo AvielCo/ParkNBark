@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ParkNBark</string>
     <string name="reset_pass_explanation_text">"Пожалуйста, введите ваш адрес электронной почты и нажмите кнопку «Отправить». Ссылка будет отправлена ​​на ваш E-Mail, введите эту ссылку, чтобы установить новый пароль. "</string>
@@ -51,5 +50,6 @@
     <string name="no">NIET</string>
     <string name="checkin_msg">TODO</string>
     <string name="checkout_msg">TODO</string>
+    <string name="update_contact">TODO</string>
 
 </resources>
