@@ -2,22 +2,27 @@ package com.evan.parknbark.utilities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.view.MenuItem;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 
 
-import com.evan.parknbark.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 
+import android.content.res.Resources;
+import android.widget.Toast;
+
 public class BaseActivity extends AppCompatActivity {
+
+    private final String KEY_LANGUAGE = "Language";
 
     protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -45,42 +50,59 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void loadLocale() {
-        String language = getPrefLanguage();
-        changeLang(language);
+        changeLang(null);
     }
 
-    protected String getPrefLanguage(){
-        String langPref = "Language";
+    protected String getPrefLanguage() {
         SharedPreferences prefs = getSharedPreferences("CommonPrefs",
                 Activity.MODE_PRIVATE);
-        final String prefLang = prefs.getString(langPref, Locale.getDefault().getLanguage());
-        if(prefLang.equals("en") || prefLang.equals("iw") || prefLang.equals("ru"))
-            return prefLang;
-        else return "en";
+        String prefLang;
+        if (prefs.contains(KEY_LANGUAGE))
+            prefLang = prefs.getString(KEY_LANGUAGE, Locale.getDefault().getLanguage());
+        else {
+            prefLang = new Locale("en", "US").getLanguage();
+            saveLocale(prefLang);
+        }
+        return prefLang;
     }
 
-    protected boolean changeLang(String lang) {
-        String langPref = "Language";
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs",
-                Activity.MODE_PRIVATE);
-        final String prefLang = prefs.getString(langPref, Locale.getDefault().getLanguage());
+    protected boolean requestChangeLang(String lang) {
+        final String prefLang = getPrefLanguage();
         if (lang.equalsIgnoreCase(prefLang))
             return false;
-        Locale myLocale = new Locale(lang);
+        return changeLang(lang);
+    }
+
+    private boolean changeLang(String lang){
+        String country;
+        if(lang == null){
+            lang = getPrefLanguage();
+        }
+        switch (lang) {
+            case "iw":
+                country = "IL";
+                break;
+            case "ru":
+                country = "RU";
+                break;
+            default:
+                country = "US";
+        }
+        Locale myLocale = new Locale(lang, country);
         saveLocale(lang);
         Locale.setDefault(myLocale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        config.locale = myLocale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        Resources res = getBaseContext().getResources();
+        Configuration config = res.getConfiguration();
+        config.setLocale(myLocale);
+        res.updateConfiguration(config, res.getDisplayMetrics());
         return true;
     }
 
     private void saveLocale(String lang) {
-        String langPref = "Language";
         SharedPreferences prefs = getSharedPreferences("CommonPrefs",
                 Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(langPref, lang);
+        editor.putString(KEY_LANGUAGE, lang);
         editor.apply();
     }
 }

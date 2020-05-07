@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ParkNBark</string>
     <string name="register">הרשם</string>
@@ -39,7 +38,6 @@
     <string name="russian">רוסית</string>
     <string name="credit">אודות</string>
     <string name="contact">צור קשר</string>
-
     <string name="rate_us_menu_bar">דרג אותנו!</string>
     <string name="rate_us_text">האם תרצה/י לדרג את האפליקציה?</string>
     <string name="rate_us_confirm_button">דרג!</string>
@@ -52,4 +50,5 @@
     <string name="no">לא</string>
     <string name="checkin_msg">להרשם כאן?</string>
     <string name="checkout_msg">לעזוב?</string>
+    <string name="update_contact">עדכון</string>
 </resources>

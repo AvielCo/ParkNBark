@@ -39,7 +39,6 @@
     <string name="change_pass_current_pass_hint">Enter your current password</string>
     <string name="change_pass_confirm_button">Confirm</string>
     <string name="change_password">Change password</string>
-
     <string name="contact">Contacts</string>
     <string name="rate_us_menu_bar">Rate Us!</string>
     <string name="rate_us_text">Would you like to rate this app?</string>
@@ -59,11 +58,5 @@
     <string name="no">No</string>
     <string name="checkin_msg">Check in here?</string>
     <string name="checkout_msg">Checkout?</string>
-
-    <string name="update_contact">Update Contact</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="no_users_currently">no_users_currently</string>
-
+    <string name="update_contact">Update contact</string>
 </resources>
