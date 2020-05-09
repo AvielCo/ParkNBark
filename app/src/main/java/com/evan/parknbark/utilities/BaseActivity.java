@@ -1,12 +1,10 @@
 package com.evan.parknbark.utilities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
@@ -51,41 +49,53 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void hideSoftKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    protected void loadLocale(Context context){
-        changeLang(getPrefLanguage(), context);
-    }
-
-    protected void changeToNewLocale(String newLanguage, Context context){
-        if(getPrefLanguage().equals(newLanguage))
-            return;
-        changeLang(newLanguage, context);
-        saveLocale(newLanguage);
+    protected void loadLocale() {
+        changeLang(null);
     }
 
     protected String getPrefLanguage() {
         SharedPreferences prefs = getSharedPreferences("CommonPrefs",
                 Activity.MODE_PRIVATE);
         String prefLang;
-        prefLang = prefs.getString(KEY_LANGUAGE, "");
-        prefLang = prefLang.isEmpty() ? Locale.getDefault().getLanguage() : prefLang;
+        if (prefs.contains(KEY_LANGUAGE))
+            prefLang = prefs.getString(KEY_LANGUAGE, Locale.getDefault().getLanguage());
+        else {
+            prefLang = new Locale("en", "US").getLanguage();
+            saveLocale(prefLang);
+        }
         return prefLang;
     }
 
-    private void changeLang(String lang, Context context) {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Resources res = context.getResources();
+    protected boolean requestChangeLang(String lang) {
+        final String prefLang = getPrefLanguage();
+        if (lang.equalsIgnoreCase(prefLang))
+            return false;
+        return changeLang(lang);
+    }
+
+    private boolean changeLang(String lang){
+        String country;
+        if(lang == null){
+            lang = getPrefLanguage();
+        }
+        switch (lang) {
+            case "iw":
+                country = "IL";
+                break;
+            case "ru":
+                country = "RU";
+                break;
+            default:
+                country = "US";
+        }
+        Locale myLocale = new Locale(lang, country);
+        saveLocale(lang);
+        Locale.setDefault(myLocale);
+        Resources res = getBaseContext().getResources();
         Configuration config = res.getConfiguration();
-        config.setLocale(locale);
+        config.setLocale(myLocale);
         res.updateConfiguration(config, res.getDisplayMetrics());
+        return true;
     }
 
     private void saveLocale(String lang) {
