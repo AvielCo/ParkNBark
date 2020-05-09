@@ -29,6 +29,8 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:launchMode="singleTop"
+            android:icon="@drawable/baseline_settings_applications_24"
+            android:label="@string/settings_label"
             android:parentActivityName=".maps.MapActivity" />
 
         <!-- Login, Register, Reset/Change password -->
@@ -39,14 +41,17 @@
         <activity
             android:name=".emailpassword.RegisterActivity"
             android:launchMode="singleTop"
+            android:label="@string/register_label"
             android:parentActivityName=".utilities.MainActivity" />
         <activity
             android:name=".emailpassword.ResetPassActivity"
             android:launchMode="singleTop"
+            android:label="@string/reset_pass_label"
             android:parentActivityName=".emailpassword.LoginActivity" />
         <activity
             android:name=".emailpassword.ChangePassActivity"
             android:launchMode="singleTop"
+            android:label="@string/change_pass_label"
             android:parentActivityName=".settings.SettingsActivity" />
 
         <!-- Map -->
@@ -58,20 +63,24 @@
         <activity
             android:name=".maps.LocationsActivity"
             android:launchMode="singleTop"
+            android:label="@string/locations_label"
             android:parentActivityName=".maps.MapActivity" />
 
         <!-- Bulletin Board -->
         <activity
             android:name=".bulletinboard.BulletinBoardActivity"
             android:launchMode="singleTop"
+            android:label="@string/bulletin_board_label"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".bulletinboard.NewNoteActivity"
             android:launchMode="singleTop"
+            android:label="@string/new_note_label"
             android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
         <activity
             android:name=".bulletinboard.NoteDescriptionActivity"
             android:launchMode="singleTop"
+            android:label="@string/bulletin_board_label"
             android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
 
         <!-- Profile -->
@@ -90,11 +99,13 @@
         <activity
             android:name=".contacts.ContactActivity"
             android:launchMode="singleTop"
+            android:label="@string/contacts_label"
             android:parentActivityName=".maps.MapActivity" />
 
         <activity
             android:name=".contacts.EditContactActivity"
             android:launchMode="singleTop"
+            android:label="@string/edit_contacts_label"
             android:parentActivityName=".maps.MapActivity" />
 
         <!-- Rating -->
