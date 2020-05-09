@@ -63,10 +63,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
-            Toasty.info(this, "Hello " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+            finish();
             startActivity(new Intent(LoginActivity.this, MapActivity.class));
-            //startActivity(new Intent(this,ChangePassActivity.class)); //Change password activity - will be attached to settings later
-        } else
+        }
+        else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }
 
@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
                 break;
             case R.id.button_sign_in:
+                hideSoftKeyboard();
                 String emailInput = textInputEmail.getEditText().getText().toString().trim();
                 String passwordInput = textInputPassword.getEditText().getText().toString().trim();
                 signIn(emailInput, passwordInput);

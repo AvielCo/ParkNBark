@@ -47,6 +47,7 @@ public class NewNoteActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_note:
+                hideSoftKeyboard();
                 saveNote();
                 return true;
             default:

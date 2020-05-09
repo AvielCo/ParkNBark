@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <!-- TODO: don't forget to remove photo and other texts -->
+        <ImageView
+            android:id="@+id/image_view_profile_picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_israel" />
+
+        <TextView
+            android:id="@+id/textView_user_firstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User_first_name"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/image_view_profile_picture"/>
+
+        <TextView
+            android:id="@+id/textView_user_lastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User_last_name"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/textView_user_firstName"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
