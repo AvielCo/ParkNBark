@@ -53,6 +53,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         int i = v.getId();
         if(i == R.id.button_send_reset_pass){
+            hideSoftKeyboard();
             String email = textInputResetPassEmail.getEditText().getText().toString().trim();
             resetPassword(email);
         }

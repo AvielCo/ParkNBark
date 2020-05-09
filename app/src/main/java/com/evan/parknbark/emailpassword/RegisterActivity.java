@@ -90,6 +90,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.button_sign_up) {
+            hideSoftKeyboard();
             String emailInput = textInputEmail.getEditText().getText().toString().trim();
             String passwordInput = textInputPassword.getEditText().getText().toString().trim();
             String firstNameInput = textInputFName.getEditText().getText().toString().trim();

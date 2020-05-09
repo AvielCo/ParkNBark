@@ -1,6 +1,10 @@
 package com.evan.parknbark.maps;
+
 import com.evan.parknbark.utilities.*;
+
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -16,6 +20,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -35,6 +40,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -73,9 +80,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     private LatLng defaultLoc;
     private static final double defaultLan = 31.249927;
     private static final double defaultLon = 34.791930;
-    private AlertDialog alert;
     private boolean gps_enabled = false;
-
 
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -98,6 +103,12 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         CHECKIN_MSG = getString(R.string.checkin_msg);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDeviceLocation();
+    }
+
     /**
      * permissions holds the types of permissions needed for the app.
      * this code requests the permissions from the user. if the user has granted those permissions -> the map is initiated
@@ -105,14 +116,12 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
      */
     private void getLocationsPermissions() {
         String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mLocationPermissionsGranted = true;
-                initMap();
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-            }
-        }
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionsGranted = true;
+        } else
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        initMap();
     }
 
     /**
@@ -126,18 +135,16 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mLocationPermissionsGranted = false;
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            mLocationPermissionsGranted = false;
-                            return;
-                        }
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        mLocationPermissionsGranted = false;
+                        return;
                     }
-                    mLocationPermissionsGranted = true;
-                    initMap();
                 }
+                mLocationPermissionsGranted = true;
+                initMap();
             }
         }
     }
@@ -194,7 +201,10 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                                 double lat = park.getLatitude();
                                 double lng = park.getLongitude();
                                 LatLng latLng = new LatLng(lat, lng);
-                                mMap.addMarker(new MarkerOptions().position(latLng).title(document.getId()).snippet(CHECKIN_MSG).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_app_dog_logo)));
+                                mMap.addMarker(new MarkerOptions().position(latLng)
+                                        .title(document.getId())
+                                        .snippet(CHECKIN_MSG)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_app_dog_logo)));
                             }
 
                         } else {
@@ -211,47 +221,32 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
      * @param userLocation variable that holds the users current location
      */
     public void updateMap(Location userLocation) {
-        //TODO (Noah) this whole section till the else should move to the getDeviceLocation method and gps_enabled should move to be a class activity variable. should fix this later.
         LocationManager lm = (LocationManager) MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
         mMap.clear();
         setParksMarkers();
-
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        if (!gps_enabled) {
-            enableGps(alert);
+        gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        //give user the park locations even if the permission for the
+        //current location has not been granted.
+        if (!gps_enabled || !mLocationPermissionsGranted) {
+            //tell the user to turn on the gps only if permission to location has been granted.
+            //else, don't ask to turn on GPS.
+            if (!gps_enabled && mLocationPermissionsGranted)
+                enableGps();
             defaultLoc = new LatLng(defaultLan, defaultLon);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, defaultZoom));
-        } else {
+        } else { //the user has gps enabled and permission is granted.
             LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
         }
     }
 
-    private void enableGps(AlertDialog alert) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if (alert == null) {
-            builder.setMessage(GPS_NOT_ENABLE);
-            builder.setPositiveButton(ENABLE_GPS_MSG,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        }
-                    });
-            builder.setNegativeButton(NOT_ENABLE_GPS_MSG, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-        }
-        alert = builder.create();
-        alert.show();
+    private void enableGps() {
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.map_coordinator_layout);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, GPS_NOT_ENABLE, Snackbar.LENGTH_SHORT)
+                .setAction(ENABLE_GPS_MSG, v -> { //clicked YES
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                });
+        snackbar.show();
     }
 
     /**
@@ -261,12 +256,10 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
             mMap.setMyLocationEnabled(true);
-        }
-
+        } else updateMap(null);
         mMap.setOnInfoWindowClickListener(this);
     }
 
@@ -292,7 +285,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         builder.setMessage(marker.getSnippet())
                 .setCancelable(true)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         if (marker.getSnippet().equals(CHECKIN_MSG)) {
                             checkIn(marker.getTitle());
                             dialog.dismiss();
@@ -332,7 +325,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                 });
     }
 
-    public void userListFragment(){
+    public void userListFragment() {
         Fragment fragment = new Fragment();
         Bundle bundle = new Bundle();
         //bundle.putParcelableArrayList();
@@ -345,7 +338,3 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         FirebaseAuth.getInstance().signOut();
     }
 }
-
-
-
-

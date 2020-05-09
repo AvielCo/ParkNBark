@@ -78,7 +78,9 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.button_change_pass_confirm)
+        if (i == R.id.button_change_pass_confirm) {
+            hideSoftKeyboard();
             changePassword();
+        }
     }
 }
