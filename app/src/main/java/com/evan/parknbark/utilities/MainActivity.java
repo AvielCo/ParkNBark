@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        loadLocale();
+        loadLocale(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);

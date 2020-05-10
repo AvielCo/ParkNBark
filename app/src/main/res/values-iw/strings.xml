@@ -51,4 +51,13 @@
     <string name="checkin_msg">להרשם כאן?</string>
     <string name="checkout_msg">לעזוב?</string>
     <string name="update_contact">עדכון</string>
+    <string name="settings_label">הגדרות</string>
+    <string name="register_label">הרשמה</string>
+    <string name="change_pass_label">שינוי סיסמא</string>
+    <string name="reset_pass_label">שחזור סיסמא</string>
+    <string name="locations_label">מקומות</string>
+    <string name="bulletin_board_label">לוח מודעות</string>
+    <string name="new_note_label">New note</string>
+    <string name="contacts_label">צרו קשר</string>
+    <string name="edit_contacts_label">הגדרת "צרו קשר"</string>
 </resources>

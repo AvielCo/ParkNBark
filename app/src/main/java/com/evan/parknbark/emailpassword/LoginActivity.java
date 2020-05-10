@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
                 break;
             case R.id.button_sign_in:
+                hideSoftKeyboard();
                 String emailInput = textInputEmail.getEditText().getText().toString().trim();
                 String passwordInput = textInputPassword.getEditText().getText().toString().trim();
                 signIn(emailInput, passwordInput);

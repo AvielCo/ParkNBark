@@ -59,4 +59,14 @@
     <string name="checkin_msg">Check in here?</string>
     <string name="checkout_msg">Checkout?</string>
     <string name="update_contact">Update contact</string>
+    <string name="settings_label">Settings</string>
+    <string name="register_label">Registration</string>
+    <string name="change_pass_label">Change password</string>
+    <string name="reset_pass_label">Password reset</string>
+    <string name="locations_label">Locations</string>
+    <string name="bulletin_board_label">Bulletin Board</string>
+    <string name="new_note_label">New note</string>
+    <string name="contacts_label">Contacts</string>
+    <string name="edit_contacts_label">Edit contacts</string>
+
 </resources>
