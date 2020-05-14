@@ -39,7 +39,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private boolean isUploadedImage = false;
 
     //getting the current user
-    private FirebaseUser currentUser = mAuth.getCurrentUser();
+    private FirebaseUser currentUser;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
 
@@ -57,15 +57,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mImageViewDogPic = findViewById(R.id.image_view_dog_pic);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
+        currentUser = mAuth.getCurrentUser();
 
         setProgressBar(R.id.progressBar);
     }
 
 
-    public void saveProfile() {
-        String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
-        String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();
-        String dogAgeInput = mTextInputDogAge.getEditText().getText().toString().trim();
+    public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput ,boolean test) {
+        if(test){
+            return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) || EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) ||
+                    EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge);
+        }
         if (EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) | EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) |
                 EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge)) {
             showProgressBar();
@@ -85,6 +87,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 }
             });
         }
+        return true;
     }
 
     //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.
@@ -168,7 +171,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         hideSoftKeyboard();
         switch (i){
             case R.id.button_save_profile:
-                saveProfile();
+                String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
+                String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();
+                String dogAgeInput = mTextInputDogAge.getEditText().getText().toString().trim();
+                saveProfile(dogNameInput, dogBreedInput, dogAgeInput, false);
                 break;
             case R.id.button_upload_image:
                 uploadImage();

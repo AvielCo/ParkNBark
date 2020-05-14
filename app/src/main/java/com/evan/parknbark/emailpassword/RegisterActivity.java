@@ -41,7 +41,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     /*
     Registration functionality summary
      */
-    public void signUp(final String email, final String password, final String firstName, final String lastName) {
+    public boolean signUp(final String email, final String password, final String firstName, final String lastName, boolean test) {
+        if(test){
+            return EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)
+                    & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName);
+        }
         if (EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)
                 & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName)) {
             showProgressBar();
@@ -76,6 +80,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         }
                     });
         }
+        return true;
     }
 
     private void updateUI(FirebaseUser user) {
@@ -95,7 +100,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             String passwordInput = textInputPassword.getEditText().getText().toString().trim();
             String firstNameInput = textInputFName.getEditText().getText().toString().trim();
             String lastNameInput = textInputLName.getEditText().getText().toString().trim();
-            signUp(emailInput, passwordInput, firstNameInput, lastNameInput);
+            signUp(emailInput, passwordInput, firstNameInput, lastNameInput, false);
         }
     }
 }

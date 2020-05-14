@@ -16,11 +16,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         loadLocale(this);
+        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
 
         findViewById(R.id.button_sign_in_main).setOnClickListener(this);
         findViewById(R.id.button_sign_up_main).setOnClickListener(this);

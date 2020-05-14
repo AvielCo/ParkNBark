@@ -47,18 +47,20 @@ public class NewNoteActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_note:
+                String title = textInputTitle.getEditText().getText().toString();
+                String description = textInputDescription.getEditText().getText().toString();
                 hideSoftKeyboard();
-                saveNote();
+                saveNote(title, description, false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void saveNote() {
-        String title = textInputTitle.getEditText().getText().toString();
-        String description = textInputDescription.getEditText().getText().toString();
-
+    public boolean saveNote(String title, String description, boolean test) {
+        if(test){
+            return EditTextValidator.isValidEditText(title, textInputTitle) || !EditTextValidator.isValidEditText(description, textInputDescription);
+        }
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
@@ -70,5 +72,6 @@ public class NewNoteActivity extends BaseActivity {
             Toasty.info(this, "Note added", Toast.LENGTH_SHORT).show();
             finish();
         }
+        return true;
     }
 }

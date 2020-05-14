@@ -4,23 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.evan.parknbark.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import android.content.res.Resources;
@@ -28,8 +21,8 @@ import android.content.res.Resources;
 import es.dmoral.toasty.Toasty;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    protected FirebaseFirestore db = FirebaseFirestore.getInstance();
+    protected FirebaseAuth mAuth;
+    protected FirebaseFirestore db;
 
     private final String KEY_LANGUAGE = "Language";
 
@@ -41,6 +34,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         ERROR_MSG = getResources().getString(R.string.error_message);
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void setProgressBar(int resId) {
@@ -115,4 +110,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         editor.putString(KEY_LANGUAGE, lang);
         editor.apply();
     }
+
 }
