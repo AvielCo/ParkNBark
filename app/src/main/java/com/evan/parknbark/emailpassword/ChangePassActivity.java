@@ -39,10 +39,11 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.button_change_pass_confirm).setOnClickListener(this);
     }
 
-    private void changePassword() {
-        final String currentPassword = mTextInputCurrentPassword.getEditText().getText().toString().trim();
-        final String newPassword = mTextInputNewPassword.getEditText().getText().toString().trim();
-
+    public boolean changePassword(String currentPassword, String newPassword, boolean test) {
+        if (test) {
+            return EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword) &
+                    EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword) && !currentPassword.equals(newPassword);
+        }
         if (EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword) &
                 EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword) && !currentPassword.equals(newPassword)) {
             showProgressBar();
@@ -67,20 +68,21 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                                 Toasty.info(ChangePassActivity.this, "The current password you enter is invalid!", Toasty.LENGTH_SHORT).show();
                         }
                     });
-        }
-        else {
+        } else {
             Toasty.info(ChangePassActivity.this, "New password cannot be the same as the current password", Toasty.LENGTH_SHORT).show();
             hideProgressBar();
         }
-
+        return true;
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.button_change_pass_confirm) {
+            final String currentPassword = mTextInputCurrentPassword.getEditText().getText().toString().trim();
+            final String newPassword = mTextInputNewPassword.getEditText().getText().toString().trim();
             hideSoftKeyboard();
-            changePassword();
+            changePassword(currentPassword, newPassword, false);
         }
     }
 }

@@ -22,9 +22,10 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
 
     /**
      * binding the view holder with the model.
-     * @param holder view holder
+     *
+     * @param holder   view holder
      * @param position position of the note
-     * @param model the model of the view holder
+     * @param model    the model of the view holder
      */
     @Override
     protected void onBindViewHolder(@NonNull NoteViewHolder holder, int position, @NonNull Note model) {
@@ -40,11 +41,11 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         return new NoteViewHolder(v);
     }
 
-    public void deleteItem(int pos){
+    public void deleteItem(int pos) {
         getSnapshots().getSnapshot(pos).getReference().delete();
     }
 
-    class NoteViewHolder extends RecyclerView.ViewHolder{
+    class NoteViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle, textViewDate;
 
         public NoteViewHolder(@NonNull final View itemView) {
@@ -55,7 +56,7 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
@@ -63,11 +64,11 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         }
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 }

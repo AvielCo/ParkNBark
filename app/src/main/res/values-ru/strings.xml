@@ -51,5 +51,9 @@
     <string name="checkin_msg">TODO</string>
     <string name="checkout_msg">TODO</string>
     <string name="update_contact">TODO</string>
-
+    <string name="users_in_park">Users in park</string>
+    <string name="error_message">Произошла ошибка\\n Пожалуйста, попробуйте позже.</string>
+    <string name="profile_saved">Профиль успешно сохранен!</string>
+    <string name="required">*Необходимые</string>
+    <string name="upload_image">Загрузить изображение</string>
 </resources>

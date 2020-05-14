@@ -51,4 +51,9 @@
     <string name="checkin_msg">להרשם כאן?</string>
     <string name="checkout_msg">לעזוב?</string>
     <string name="update_contact">עדכון</string>
+    <string name="users_in_park">Users in park</string>
+    <string name="error_message">אירעה שגיאה\\nנסה שוב מאוחר יותר</string>
+    <string name="profile_saved">הפרופיל נשמר בהצלחה!</string>
+    <string name="required">*נדרש</string>
+    <string name="upload_image">העלה תמונה</string>
 </resources>

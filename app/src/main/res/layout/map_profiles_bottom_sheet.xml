@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAppBackground"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/text_view_park_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/button_check_out"
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rounded_btn"
+            android:text="@string/checkout_msg"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+        <!--TODO: Temporary button, need to redesign-->
+
+        <Button
+            android:id="@+id/button_check_in"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/rounded_btn"
+            android:text="@string/checkin_msg"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_view_users_in_park"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/users_in_park"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scrollbars="vertical" />
+
+</LinearLayout>
