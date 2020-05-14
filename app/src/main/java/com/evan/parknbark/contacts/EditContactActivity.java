@@ -3,30 +3,21 @@ package com.evan.parknbark.contacts;
 import androidx.annotation.NonNull;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.evan.parknbark.R;
-import com.evan.parknbark.profile.ProfileActivity;
 import com.evan.parknbark.utilities.BaseActivity;
-import com.evan.parknbark.utilities.User;
 import com.evan.parknbark.validation.EditTextValidator;
-import com.evan.parknbark.validation.PhoneFaxValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +99,7 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
      */
     @Override
     public void onClick(View v) {
+        hideSoftKeyboard();
         String updateText = updatedContactFieldTxt.getEditText().getText().toString();
         if(EditTextValidator.isValidEditText(updateText, updatedContactFieldTxt) ){
             updateContact(updateText, contactSpinner.getSelectedItem().toString(), fieldSpinner.getSelectedItem().toString());

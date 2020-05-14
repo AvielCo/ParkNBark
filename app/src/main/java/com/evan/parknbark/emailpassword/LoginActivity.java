@@ -9,7 +9,7 @@ import android.view.View;
 
 import android.widget.Toast;
 
-import com.evan.parknbark.maps.MapActivity;
+import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.R;
 import com.evan.parknbark.validation.EditTextValidator;
@@ -63,10 +63,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void updateUI(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
-            Toasty.info(this, "Hello " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+            finish();
             startActivity(new Intent(LoginActivity.this, MapActivity.class));
-            //startActivity(new Intent(this,ChangePassActivity.class)); //Change password activity - will be attached to settings later
-        } else
+        }
+        else
             Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
     }
 

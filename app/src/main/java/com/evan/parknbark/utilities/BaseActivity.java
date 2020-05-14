@@ -4,36 +4,44 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.Build;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.evan.parknbark.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import android.content.res.Resources;
-import android.widget.Toast;
 
-public class BaseActivity extends AppCompatActivity {
+import es.dmoral.toasty.Toasty;
 
-    private final String KEY_LANGUAGE = "Language";
-
+public abstract class BaseActivity extends AppCompatActivity {
     protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    protected final String SITE_KEY = "6LfyN-wUAAAAALV11XA__SU7kXTkL_3O_LGcB0Zw";
-    private static final String TAG = "BaseActivity";
+    private final String KEY_LANGUAGE = "Language";
 
-    @VisibleForTesting
     public ProgressBar mProgressBar;
+
+    protected String ERROR_MSG;
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        ERROR_MSG = getResources().getString(R.string.error_message);
+    }
 
     public void setProgressBar(int resId) {
         mProgressBar = findViewById(resId);
@@ -59,12 +67,24 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void loadLocale(Context context) {
+    protected void showErrorToast(){
+        Toasty.error(getApplicationContext(), ERROR_MSG, Toasty.LENGTH_LONG).show();
+    }
+
+    protected void showSuccessToast(int resId){
+        Toasty.success(getApplicationContext(), getResources().getString(resId), Toasty.LENGTH_SHORT).show();
+    }
+
+    protected void showInfoToast(int resId){
+        Toasty.info(getApplicationContext(), getResources().getString(resId), Toasty.LENGTH_SHORT).show();
+    }
+
+    protected void loadLocale(Context context){
         changeLang(getPrefLanguage(), context);
     }
 
-    protected void changeToNewLocale(String newLanguage, Context context) {
-        if (getPrefLanguage().equals(newLanguage))
+    protected void changeToNewLocale(String newLanguage, Context context){
+        if(getPrefLanguage().equals(newLanguage))
             return;
         changeLang(newLanguage, context);
         saveLocale(newLanguage);

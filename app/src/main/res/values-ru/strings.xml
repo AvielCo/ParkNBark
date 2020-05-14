@@ -51,14 +51,9 @@
     <string name="checkin_msg">TODO</string>
     <string name="checkout_msg">TODO</string>
     <string name="update_contact">TODO</string>
-    <string name="settings_label">Настройки</string>
-    <string name="register_label">Регистрация</string>
-    <string name="change_pass_label">Изменение пароля</string>
-    <string name="reset_pass_label">Обновление пароля</string>
-    <string name="locations_label">Локации</string>
-    <string name="bulletin_board_label">Доска обьявлений</string>
-    <string name="new_note_label">New note</string>
-    <string name="contacts_label">Контакты</string>
-    <string name="edit_contacts_label">Изменить контакты</string>
-
+    <string name="users_in_park">Users in park</string>
+    <string name="error_message">Произошла ошибка\\n Пожалуйста, попробуйте позже.</string>
+    <string name="profile_saved">Профиль успешно сохранен!</string>
+    <string name="required">*Необходимые</string>
+    <string name="upload_image">Загрузить изображение</string>
 </resources>

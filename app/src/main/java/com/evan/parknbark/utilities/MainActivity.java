@@ -3,18 +3,12 @@ package com.evan.parknbark.utilities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
-import com.evan.parknbark.maps.MapActivity;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseAuth;
+import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.google.firebase.auth.FirebaseUser;
-
-
-import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     GoogleAuthActivity gaa;
@@ -22,6 +16,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         loadLocale(this);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -31,26 +27,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
        //findViewById(R.id.button_google_sign_in).setOnClickListener(this);
 
         gaa = new GoogleAuthActivity();
-
-        //login to firebase and get instance
-        mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null)
-            mAuth.signOut();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Toasty.info(this, "Hello " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        if (user != null)
             startActivity(new Intent(this, MapActivity.class));
-        }
     }
 
     @Override

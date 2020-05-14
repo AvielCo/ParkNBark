@@ -21,10 +21,9 @@ import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
 import com.evan.parknbark.contacts.EditContactActivity;
-import com.evan.parknbark.emailpassword.LoginActivity;
-import com.evan.parknbark.maps.LocationsActivity;
-import com.evan.parknbark.maps.MapActivity;
-import com.evan.parknbark.profile.ProfileActivity;
+import com.evan.parknbark.map_profile.maps.LocationsActivity;
+import com.evan.parknbark.map_profile.maps.MapActivity;
+import com.evan.parknbark.map_profile.profile.ProfileActivity;
 import com.evan.parknbark.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,8 +34,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
 
-
-public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+public abstract class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     protected NavigationView navView;
@@ -137,7 +135,6 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
     }
 
     /**
-     *
      * @return the name of the park current user has checked in into.
      */
     public String getUserCheckinPark() {
@@ -145,7 +142,6 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
     }
 
     /**
-     *
      * @param userCheckinPark gets text and sets it to the variable
      */
     public void setUserCheckinPark(String userCheckinPark) {
@@ -160,13 +156,8 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
                     db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                 FirebaseAuth.getInstance().signOut();
 
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
-
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-                finishAffinity();
-
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 break;
             case R.id.nav_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -204,7 +195,7 @@ public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnM
                             user = task.getResult().toObject(User.class);
                             if (user.getPermission().equals("admin"))
                                 startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
-                            else{
+                            else {
                                 Toast.makeText(getApplicationContext(), WRONG_PERMISSION, Toast.LENGTH_SHORT).show();
                             }
                         }
