@@ -1,4 +1,4 @@
-package com.evan.parknbark.maps;
+package com.evan.parknbark.map_profile.maps;
 
 import android.util.Log;
 
@@ -6,18 +6,14 @@ import androidx.annotation.NonNull;
 
 import com.evan.parknbark.utilities.BaseActivity;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

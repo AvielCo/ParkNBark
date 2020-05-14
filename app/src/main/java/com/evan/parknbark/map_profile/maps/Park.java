@@ -1,4 +1,4 @@
-package com.evan.parknbark.maps;
+package com.evan.parknbark.map_profile.maps;
 
 public class Park {
     private String name;

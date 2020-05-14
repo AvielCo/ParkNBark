@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.evan.parknbark.R;
-import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.utilities.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,11 +23,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
-public class BulletinBoardActivity extends BaseNavDrawerActivity implements NoteAdapter.OnItemClickListener, View.OnClickListener {
+public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.OnItemClickListener, View.OnClickListener {
 
     private static final String TAG = "BulletinBoardActivity";
-    private CollectionReference noteRef;
-    private NoteAdapter adapter;
+    private CollectionReference mNoteRef;
+    private NoteAdapter mAdapter;
     private FloatingActionButton buttonAddNote;
     private RecyclerView recyclerView;
     private volatile User user;
@@ -38,7 +38,7 @@ public class BulletinBoardActivity extends BaseNavDrawerActivity implements Note
         setContentView(R.layout.activity_bulletin_board);
 
         mAuth = FirebaseAuth.getInstance();
-        noteRef = db.collection("notes");
+        mNoteRef = db.collection("notes");
 
         buttonAddNote = findViewById(R.id.button_add_note);
 
@@ -59,10 +59,6 @@ public class BulletinBoardActivity extends BaseNavDrawerActivity implements Note
             }
         });
         setUpRecyclerView();
-
-        //prevent the user from logging out, so the app wont crash when click on back key.
-        //logging out only available from map activity :)
-        navView.getMenu().findItem(R.id.nav_logout).setVisible(false);
     }
 
     private void setItemTouchHelper(){
@@ -76,25 +72,25 @@ public class BulletinBoardActivity extends BaseNavDrawerActivity implements Note
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                adapter.deleteItem(viewHolder.getAdapterPosition());
+                mAdapter.deleteItem(viewHolder.getAdapterPosition());
             }
         }).attachToRecyclerView(recyclerView);
     }
 
     private void setUpRecyclerView() {
-        Query query = noteRef.orderBy("date", Query.Direction.DESCENDING);
+        Query query = mNoteRef.orderBy("date", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Note> options = new FirestoreRecyclerOptions.Builder<Note>()
                 .setQuery(query, Note.class)
                 .build();
-        adapter = new NoteAdapter(options);
+        mAdapter = new NoteAdapter(options);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mAdapter);
 
-        adapter.setOnItemClickListener(this);
+        mAdapter.setOnItemClickListener(this);
     }
 
     private void goToNoteDescription(Note note) {
@@ -106,13 +102,13 @@ public class BulletinBoardActivity extends BaseNavDrawerActivity implements Note
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.startListening();
+        mAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+        mAdapter.stopListening();
     }
 
     @Override

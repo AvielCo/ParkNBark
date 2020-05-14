@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/colorAppBackground"
+    app:cardCornerRadius="4dp"
+    android:focusable="true">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:padding="4dp"
+        android:layout_gravity="center|top">
 
         <!-- TODO: don't forget to remove photo and other texts -->
+
         <ImageView
             android:id="@+id/image_view_profile_picture"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_israel" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/ic_default_profile_picture"/>
 
         <TextView
             android:id="@+id/textView_user_firstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User_first_name"
+            android:layout_toEndOf="@id/image_view_profile_picture"
+            android:layout_centerInParent="true"
+            android:gravity="center"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:layout_toEndOf="@id/image_view_profile_picture"/>
+            android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/textView_user_lastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/textView_user_firstName"
+            android:layout_centerInParent="true"
             android:text="User_last_name"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@id/textView_user_firstName"/>
+            android:textColor="#000000"/>
 
     </RelativeLayout>
 

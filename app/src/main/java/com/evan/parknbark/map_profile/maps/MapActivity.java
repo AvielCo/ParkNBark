@@ -1,18 +1,12 @@
-package com.evan.parknbark.maps;
+package com.evan.parknbark.map_profile.maps;
 
-import com.evan.parknbark.utilities.*;
-
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -20,12 +14,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
-import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.evan.parknbark.contacts.Contact;
-import com.evan.parknbark.contacts.ExpandableListAdapter;
+import com.evan.parknbark.map_profile.MapProfileBottomSheetDialog;
+import com.evan.parknbark.map_profile.profile.Profile;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
 import com.evan.parknbark.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,11 +33,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,23 +46,22 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, MapProfileBottomSheetDialog.BottomSheetListener {
 
-    public static final String TAG = "MapActivity";
-    public static final String PARK_LOCATIONS_DB = "parklocations";
-    public static final String LATLNG_FIELD = "latlng";
-    public static final String PARK_CHECKIN = "parkcheckin";
-    public static final String CHECKIN_FIELD = "currentProfilesInPark";
-    public String CHECKIN_MSG;
-    public String CHECKOUT_MSG;
-    public String GPS_NOT_ENABLE;
-    public String ENABLE_GPS_MSG;
-    public String NOT_ENABLE_GPS_MSG;
+    private static final String TAG = "MapActivity";
+    private static final String PARK_LOCATIONS_DB = "parklocations";
+    private static final String LATLNG_FIELD = "latlng";
+    private static final String PARK_CHECKIN = "parkcheckin";
+    private static final String CHECKIN_FIELD = "currentProfilesInPark";
+    private static final String PROFILES = "profiles";
+    private String CHECKIN_MSG;
+    private String CHECKOUT_MSG;
+    private String GPS_NOT_ENABLE;
+    private String ENABLE_GPS_MSG;
+    private boolean check_in_flag;
 
     //Map variables
     private GoogleMap mMap;
@@ -88,15 +80,15 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
 
     //profiles
-    private ArrayList<User> currentUsers = new ArrayList<User>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference profilesRef = db.collection(PROFILES);
+    private Marker currentClickedMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         getLocationsPermissions();
-        NOT_ENABLE_GPS_MSG = getString(R.string.no);
         ENABLE_GPS_MSG = getString(R.string.yes);
         GPS_NOT_ENABLE = getString(R.string.gps_not_enabled);
         CHECKOUT_MSG = getString(R.string.checkout_msg);
@@ -107,6 +99,12 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     protected void onResume() {
         super.onResume();
         getDeviceLocation();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        FirebaseAuth.getInstance().signOut();
     }
 
     /**
@@ -184,7 +182,6 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         }
     }
 
-
     /**
      * each iteration loads a document from the db and then
      * sets marker with an option to see their name if the marker is pressed.
@@ -240,6 +237,10 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         }
     }
 
+    /**
+     * If gps is disabled, prompt a snack bar message to tell the user that his GPS
+     * is turned off and a button to turn it on.
+     */
     private void enableGps() {
         CoordinatorLayout coordinatorLayout = findViewById(R.id.map_coordinator_layout);
         Snackbar snackbar = Snackbar.make(coordinatorLayout, GPS_NOT_ENABLE, Snackbar.LENGTH_SHORT)
@@ -263,17 +264,6 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         mMap.setOnInfoWindowClickListener(this);
     }
 
-
-    public void checkIn(String title) {
-        Log.d(TAG, "checkIn: " + getUserCheckinPark());
-        if (getUserCheckinPark() != null) {
-            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
-        }
-        db.collection(PARK_CHECKIN).document(title)
-                .update(CHECKIN_FIELD, FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
-        setUserCheckinPark(title);
-    }
-
     /**
      * comment this
      *
@@ -281,61 +271,82 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
      */
     @Override
     public void onInfoWindowClick(Marker marker) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(MapActivity.this);
-        builder.setMessage(marker.getSnippet())
-                .setCancelable(true)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        if (marker.getSnippet().equals(CHECKIN_MSG)) {
-                            checkIn(marker.getTitle());
-                            dialog.dismiss();
-                            marker.setSnippet(CHECKOUT_MSG);
-                        } else if (marker.getSnippet().equals(CHECKOUT_MSG)) {
-                            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
-                            dialog.dismiss();
-                            marker.setSnippet(CHECKIN_MSG);
-                        }
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
+        check_in_flag = marker.getSnippet().equals(CHECKIN_MSG);
+        getCurrentUsersInPark(marker.getTitle());
+        currentClickedMarker = marker;
     }
 
     /**
      * retrieving users that stay currently in parks
      */
-    public void getCurrentUsersInPark(String parkName) {
-        db.collection("parkcheckin").document(parkName).collection("currentProfilesInPark")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void getCurrentUsersInPark(String parkName) {
+        db.collection(PARK_CHECKIN).document(parkName).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            if (task.getResult() != null)
-                                currentUsers = (ArrayList<User>) task.getResult().toObjects(User.class);
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                 //cast always going to be successful
+                                @SuppressWarnings("unchecked") ArrayList<String> currentUsersInParkUID = (ArrayList<String>) document.get(CHECKIN_FIELD);
+                                getCurrentUsersInParkDetails(currentUsersInParkUID);
+                            }
                         }
                     }
                 });
     }
 
-    public void userListFragment() {
-        Fragment fragment = new Fragment();
-        Bundle bundle = new Bundle();
-        //bundle.putParcelableArrayList();
-        fragment.setArguments(bundle);
+    /**
+     * get users detail
+     *
+     * @param usersUID Users in the selected park as arraylist of UID.
+     */
+    private void getCurrentUsersInParkDetails(ArrayList<String> usersUID) {
+        profilesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Profile> currentUsersInParkDetails = new ArrayList<>();
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        if (usersUID.contains(documentSnapshot.getId()) && !documentSnapshot.getId().equals(mAuth.getCurrentUser().getUid())) { //Found user details
+                            currentUsersInParkDetails.add(documentSnapshot.toObject(Profile.class));
+                        }
+                    }
+                    Collections.sort(currentUsersInParkDetails, (o1, o2) -> o1.getLastName().compareTo(o2.getLastName())); //sort by last name
+                    setUpRecyclerView(currentUsersInParkDetails);
+                } else Log.d(TAG, "onComplete: Failure" + task.getException().getMessage());
+            }
+        });
+    }
+
+    private void setUpRecyclerView(ArrayList<Profile> profiles) {
+        MapProfileBottomSheetDialog bottomSheetDialog = new MapProfileBottomSheetDialog(profiles, currentClickedMarker, CHECKIN_MSG);
+        bottomSheetDialog.show(getSupportFragmentManager(), "idk");
     }
 
     @Override
-    public void onBackPressed() {
-        finish();
-        FirebaseAuth.getInstance().signOut();
+    public void onButtonClickedInsideBottomSheet() {
+        if (currentClickedMarker.getSnippet().equals(CHECKIN_MSG)) {
+            checkIn(currentClickedMarker.getTitle());
+            currentClickedMarker.setSnippet(CHECKOUT_MSG);
+        } else {
+            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+            currentClickedMarker.setSnippet(CHECKIN_MSG);
+        }
+    }
+
+    /**
+     * Check in the selected park.
+     *
+     * @param title name of the park
+     */
+    public void checkIn(String title) {
+        Log.d(TAG, "checkIn: " + getUserCheckinPark());
+        if (getUserCheckinPark() != null) {
+            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+        }
+        db.collection(PARK_CHECKIN).document(title).update(CHECKIN_FIELD, FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+        setUserCheckinPark(title);
     }
 }
 

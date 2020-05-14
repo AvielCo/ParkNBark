@@ -59,4 +59,9 @@
     <string name="checkin_msg">Check in here?</string>
     <string name="checkout_msg">Checkout?</string>
     <string name="update_contact">Update contact</string>
+    <string name="users_in_park">Users in park</string>
+    <string name="error_message">An error has been occurred\\nplease try again later.</string>
+    <string name="profile_saved">Profile saved successfully!</string>
+    <string name="required">*Required</string>
+    <string name="upload_image">Upload image</string>
 </resources>

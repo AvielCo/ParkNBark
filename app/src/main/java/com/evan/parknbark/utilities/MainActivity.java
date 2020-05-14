@@ -7,7 +7,7 @@ import android.view.View;
 import com.evan.parknbark.R;
 import com.evan.parknbark.emailpassword.*;
 import com.evan.parknbark.google.GoogleAuthActivity;
-import com.evan.parknbark.maps.MapActivity;
+import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -56,5 +56,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onBackPressed() {
         finish();
     }
-
 }

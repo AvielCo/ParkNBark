@@ -1,4 +1,4 @@
-package com.evan.parknbark.maps;
+package com.evan.parknbark.map_profile.maps;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;

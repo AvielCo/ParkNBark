@@ -21,10 +21,9 @@ import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
 import com.evan.parknbark.contacts.EditContactActivity;
-import com.evan.parknbark.emailpassword.LoginActivity;
-import com.evan.parknbark.maps.LocationsActivity;
-import com.evan.parknbark.maps.MapActivity;
-import com.evan.parknbark.profile.ProfileActivity;
+import com.evan.parknbark.map_profile.maps.LocationsActivity;
+import com.evan.parknbark.map_profile.maps.MapActivity;
+import com.evan.parknbark.map_profile.profile.ProfileActivity;
 import com.evan.parknbark.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +34,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
 
-public class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+public abstract class BaseNavDrawerActivity extends BaseActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     protected NavigationView navView;
