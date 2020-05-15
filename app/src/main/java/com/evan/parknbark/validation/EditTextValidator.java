@@ -1,14 +1,11 @@
 package com.evan.parknbark.validation;
 
+import android.content.Context;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 
+import com.evan.parknbark.R;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
 
 public class EditTextValidator implements TextWatcher {
 
@@ -25,16 +22,16 @@ public class EditTextValidator implements TextWatcher {
         return !str.toString().isEmpty();
     }
 
-    public static boolean isValidEditText(CharSequence string, TextInputLayout mTextInputLayout) {
-        if (mTextInputLayout != null) {
+    public static boolean isValidEditText(CharSequence string, TextInputLayout mTextInputLayout, Context context) {
+        if (mTextInputLayout != null && context != null) {
             if (!isValidString(string)) {
-                mTextInputLayout.setError("Field cannot be empty.");
+                mTextInputLayout.setError(context.getString(R.string.empty_field));
                 return false;
             }
             int inputType = mTextInputLayout.getEditText().getInputType();
             if (inputType == EMAIL_ADDRESS)
                 if (!EmailValidator.isValidEmail(string)) {
-                    mTextInputLayout.setError("Illegal email address.");
+                    mTextInputLayout.setError(context.getString(R.string.illegal_email));
                     return false;
                 }
                 /**

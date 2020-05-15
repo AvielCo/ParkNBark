@@ -29,20 +29,17 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void resetPassword(String email){
-        if (EditTextValidator.isValidEditText(email, textInputResetPassEmail)) {
+        if (EditTextValidator.isValidEditText(email, textInputResetPassEmail, getApplicationContext())) {
             showProgressBar();
             mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         //Success//
-                        Toasty.info(ResetPassActivity.this, "Sent! Please check your E-Mail.", Toasty.LENGTH_SHORT).show();
+                        Toasty.info(ResetPassActivity.this, getString(R.string.reset_pass_success), Toasty.LENGTH_SHORT, true).show();
                         startActivity(new Intent(ResetPassActivity.this, LoginActivity.class));
-                    } else {
-                        //Failure//
-                        String errorMSG = task.getException().getMessage();
-                        Toasty.error(ResetPassActivity.this, "Error occurred. " + errorMSG, Toasty.LENGTH_SHORT).show();
-                    }
+                    } else
+                        showErrorToast();
                     hideProgressBar();
                 }
             });

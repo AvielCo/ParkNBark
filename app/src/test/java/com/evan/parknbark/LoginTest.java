@@ -21,7 +21,7 @@ public class LoginTest {
     }
 
     @Test
-    public void loginTest_() {
+    public void loginTest() {
         LoginActivity activity = new LoginActivity();
         assertTrue("Successfully logged in!", activity.signIn(email, password, true));
     }

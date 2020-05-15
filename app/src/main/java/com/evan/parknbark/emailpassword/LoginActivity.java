@@ -48,9 +48,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public boolean signIn(String email, String password, boolean test) {
         if(test){
-            return EditTextValidator.isValidEditText(email, null) && EditTextValidator.isValidEditText(password, null);
+            return EditTextValidator.isValidEditText(email, textInputEmail, null) && EditTextValidator.isValidEditText(password, textInputPassword, null);
         }
-        if (EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)) {
+        if (EditTextValidator.isValidEditText(email, textInputEmail, getApplicationContext()) &
+                EditTextValidator.isValidEditText(password, textInputPassword, getApplicationContext())) {
             showProgressBar();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -63,8 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             else {
                                 Exception e = task.getException();
                                 Log.d(TAG, "onFailure: " + e.getMessage());
-                                Toasty.error(LoginActivity.this, e.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
+                                showErrorToast();
                             }
                             hideProgressBar();
                         }
@@ -80,7 +80,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             startActivity(new Intent(LoginActivity.this, MapActivity.class));
         }
         else
-            Toasty.error(this, "Error!", Toast.LENGTH_SHORT).show();
+            showErrorToast();
     }
 
     @Override

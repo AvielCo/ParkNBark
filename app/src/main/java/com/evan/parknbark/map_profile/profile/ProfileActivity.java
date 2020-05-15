@@ -63,13 +63,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput ,boolean test) {
-        if(test){
-            return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) || EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) ||
-                    EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge);
+    public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput, boolean test) {
+        if (test) {
+            return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName, null) && EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed, null) &&
+                    EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge, null);
         }
-        if (EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) | EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) |
-                EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge)) {
+        if (EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName, getApplicationContext()) & EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed, getApplicationContext()) &
+                EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge, getApplicationContext())) {
             showProgressBar();
             DocumentReference usersDocRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
             usersDocRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
@@ -155,11 +155,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             showSuccessToast(R.string.profile_saved);
                             hideProgressBar();
-                        }
-                        else showErrorToast();
+                        } else showErrorToast();
                     }
                 });
 
@@ -169,7 +168,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         int i = v.getId();
         hideSoftKeyboard();
-        switch (i){
+        switch (i) {
             case R.id.button_save_profile:
                 String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
                 String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();

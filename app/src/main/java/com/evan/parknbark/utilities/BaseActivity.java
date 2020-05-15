@@ -110,5 +110,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         editor.putString(KEY_LANGUAGE, lang);
         editor.apply();
     }
-
 }

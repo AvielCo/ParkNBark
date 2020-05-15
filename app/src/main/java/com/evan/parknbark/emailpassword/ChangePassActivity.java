@@ -41,11 +41,11 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
 
     public boolean changePassword(String currentPassword, String newPassword, boolean test) {
         if (test) {
-            return EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword) &
-                    EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword) && !currentPassword.equals(newPassword);
+            return EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword, null) &
+                    EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword, null) && !currentPassword.equals(newPassword);
         }
-        if (EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword) &
-                EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword) && !currentPassword.equals(newPassword)) {
+        if (EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword, getApplicationContext()) &
+                EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword, getApplicationContext()) && !currentPassword.equals(newPassword)) {
             showProgressBar();
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
             firebaseUser.reauthenticate(credential)
@@ -57,19 +57,19 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task1) {
                                         if (task1.isSuccessful()) {
-                                            Toasty.info(ChangePassActivity.this, "Password changed successfully", Toasty.LENGTH_SHORT).show();
+                                            Toasty.info(ChangePassActivity.this, getString(R.string.change_password_success), Toasty.LENGTH_SHORT).show();
                                             ChangePassActivity.this.startActivity(new Intent(ChangePassActivity.this, LoginActivity.class));
                                         } else
-                                            Toasty.info(ChangePassActivity.this, "Password change failed", Toasty.LENGTH_SHORT).show();
+                                            showErrorToast();
                                         hideProgressBar();
                                     }
                                 });
                             } else
-                                Toasty.info(ChangePassActivity.this, "The current password you enter is invalid!", Toasty.LENGTH_SHORT).show();
+                                Toasty.info(ChangePassActivity.this, getString(R.string.change_password_current_invalid), Toasty.LENGTH_SHORT).show();
                         }
                     });
         } else {
-            Toasty.info(ChangePassActivity.this, "New password cannot be the same as the current password", Toasty.LENGTH_SHORT).show();
+            Toasty.info(ChangePassActivity.this, getString(R.string.change_pass_same_old_new), Toasty.LENGTH_SHORT).show();
             hideProgressBar();
         }
         return true;

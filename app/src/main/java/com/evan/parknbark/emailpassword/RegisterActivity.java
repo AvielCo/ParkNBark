@@ -43,11 +43,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
      */
     public boolean signUp(final String email, final String password, final String firstName, final String lastName, boolean test) {
         if(test){
-            return EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)
-                    & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName);
+            return EditTextValidator.isValidEditText(email, textInputEmail, null) & EditTextValidator.isValidEditText(password, textInputPassword, null)
+                    & EditTextValidator.isValidEditText(firstName, textInputFName, null) & EditTextValidator.isValidEditText(lastName, textInputLName, null);
         }
-        if (EditTextValidator.isValidEditText(email, textInputEmail) & EditTextValidator.isValidEditText(password, textInputPassword)
-                & EditTextValidator.isValidEditText(firstName, textInputFName) & EditTextValidator.isValidEditText(lastName, textInputLName)) {
+        if (EditTextValidator.isValidEditText(email, textInputEmail, getApplicationContext()) & EditTextValidator.isValidEditText(password, textInputPassword, getApplicationContext())
+                & EditTextValidator.isValidEditText(firstName, textInputFName, getApplicationContext()) & EditTextValidator.isValidEditText(lastName, textInputLName, getApplicationContext())) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -69,14 +69,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                                     updateUI(mAuthCurrentUser);
                                                 } else
                                                     Log.d(TAG, "db.collection: onComplete: ERROR!!! " + task.getException().getMessage());
-                                                hideProgressBar();
                                             }
                                         });
                             } else {
                                 Log.d(TAG, "createUserWithEmailAndPassword: onComplete: ERROR!!! " + task.getException().getMessage());
-                                Toasty.error(RegisterActivity.this, task.getException().getMessage(), Toasty.LENGTH_SHORT).show();
-                                hideProgressBar();
+                                showErrorToast();
                             }
+                            hideProgressBar();
                         }
                     });
         }
@@ -85,7 +84,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Toasty.success(RegisterActivity.this, "Registered successfully.\nPlease log in.", Toast.LENGTH_LONG).show();
+            Toasty.success(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_LONG, true).show();
             mAuth.signOut();
             finish();
         }
@@ -104,40 +103,3 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 }
-
-/**
-Just an example on how to add reCAPTCHA to the registration
-
-SafetyNet.getClient(getApplicationContext()).verifyWithRecaptcha(SITE_KEY)
-            .addOnSuccessListener((Executor) RegisterActivity.this,
-                    new OnSuccessListener<SafetyNetApi.RecaptchaTokenResponse>() {
-                        @Override
-                        public void onSuccess(SafetyNetApi.RecaptchaTokenResponse response) {
-                            // Indicates communication with reCAPTCHA service was
-                            // successful.
-                            String userResponseToken = response.getTokenResult();
-                            if (!userResponseToken.isEmpty()) {
-                                // Validate the user response token using the
-                                // reCAPTCHA siteverify API.
-                            }
-                        }
-                    })
-            .addOnFailureListener((Executor) RegisterActivity.this, new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    if (e instanceof ApiException) {
-                        // An error occurred when communicating with the
-                        // reCAPTCHA service. Refer to the status code to
-                        // handle the error appropriately.
-                        ApiException apiException = (ApiException) e;
-                        int statusCode = apiException.getStatusCode();
-                        Log.d(TAG, "Error: " + CommonStatusCodes
-                                .getStatusCodeString(statusCode));
-                    } else {
-                        // A different, unknown type of error occurred.
-                        Log.d(TAG, "Error: " + e.getMessage());
-                    }
-                }
-            });
-
-*/
