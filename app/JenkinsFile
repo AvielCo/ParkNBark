@@ -34,13 +34,15 @@ pipeline {
         sh './gradlew assembleDebug'
       }
     }
-    stage('email'){
-      steps{
-          step([$class: 'Mailer', 
-          notifyEveryUnstableBuild: false, 
-          recipients: 'emilyzo@ac.sce.ac.il', 
-          sendToIndividuals: false])
-        }
-    }
   }
+  stages{
+     stage('email'){
+        steps{
+            step([$class: 'Mailer', 
+            notifyEveryUnstableBuild: false, 
+            recipients: 'emilyzo@ac.sce.ac.il', 
+            sendToIndividuals: false])
+          }
+      }
+    }
 }
