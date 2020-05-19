@@ -36,10 +36,12 @@ pipeline {
     }
   }
   post{
-      step([$class: 'Mailer', 
-      notifyEveryUnstableBuild: false, 
-      recipients: 'emilyzo@ac.sce.ac.il', 
-      sendToIndividuals: false])
+      always{
+        step([$class: 'Mailer', 
+        notifyEveryUnstableBuild: false, 
+        recipients: 'emilyzo@ac.sce.ac.il', 
+        sendToIndividuals: false])
+        }
     }
   
 }
