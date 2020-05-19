@@ -42,11 +42,6 @@ pipeline {
         recipients: 'emilyzo@ac.sce.ac.il', 
         sendToIndividuals: false])
        }
-      always {
-        script{
-         echo 'Build <a href=\'${BUILD_URL}\'>${JOB_DISPLAY_NAME} #${BUILD_NUMBER}</a> has been built. Took ${BUILD_DURATION}. See the <a href=\'${BUILD_URL}/console\'>output</a>.'
-        }
-      }
     }  
 }
 
