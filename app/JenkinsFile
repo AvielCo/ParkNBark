@@ -44,7 +44,7 @@ pipeline {
        }
       always {
         script{
-         message: 'Build <a href=\'${BUILD_URL}\'>${JOB_DISPLAY_NAME} #${BUILD_NUMBER}</a> has been built. Took ${BUILD_DURATION}. See the <a href=\'${BUILD_URL}/console\'>output</a>.'
+         echo 'Build <a href=\'${BUILD_URL}\'>${JOB_DISPLAY_NAME} #${BUILD_NUMBER}</a> has been built. Took ${BUILD_DURATION}. See the <a href=\'${BUILD_URL}/console\'>output</a>.'
         }
       }
     }  
