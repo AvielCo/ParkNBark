@@ -23,6 +23,6 @@ public class LoginTest {
     @Test
     public void loginTest() {
         LoginActivity activity = new LoginActivity();
-        assertTrue("Successfully logged in!", activity.signIn(email, password, true));
+        assertTrue("Error test failed!", activity.signIn(email, password, true));
     }
 }

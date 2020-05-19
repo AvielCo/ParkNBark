@@ -26,6 +26,6 @@ public class RegisterTest {
     @Test
     public void registerTest(){
         RegisterActivity activity = new RegisterActivity();
-        assertTrue("Successfully registered!", activity.signUp(email, password, firstName, lastName, true));
+        assertTrue("Error test failed!", activity.signUp(email, password, firstName, lastName, true));
     }
 }

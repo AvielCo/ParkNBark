@@ -82,7 +82,7 @@ public class NewNoteDialog extends DialogFragment {
 
     public boolean saveNote(String title, String description, boolean test) {
         if (test) {
-            return EditTextValidator.isValidEditText(title, textInputTitle, null) && !EditTextValidator.isValidEditText(description, textInputDescription, null);
+            return EditTextValidator.isValidEditText(title, textInputTitle, null) && EditTextValidator.isValidEditText(description, textInputDescription, null);
         }
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());

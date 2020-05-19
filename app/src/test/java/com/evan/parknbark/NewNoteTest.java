@@ -20,6 +20,6 @@ public class NewNoteTest {
     @Test
     public void newNoteTest() {
         NewNoteDialog activity = new NewNoteDialog();
-        assertTrue("Successfully saved new note!", activity.saveNote(title, description, true));
+        assertTrue("Error test failed!", activity.saveNote(title, description, true));
     }
 }
