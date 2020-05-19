@@ -37,7 +37,7 @@ pipeline {
     post {
         failure {
             step([$class: 'Mailer', 
-            notifyEveryUnstableBuild: true, 
+            notifyEveryUnstableBuild: false, 
             recipients: 'emilyzo@ac.sce.ac.il', 
             sendToIndividuals: false])
         }
