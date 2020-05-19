@@ -43,10 +43,6 @@ pipeline {
         sendToIndividuals: false])
        }
       always {
-        hipchatSend color: 'GREEN', 
-        room: 'My room', 
-        failOnError: true, 
-        notify: false, 
         message: 'Build <a href=\'${BUILD_URL}\'>${JOB_DISPLAY_NAME} #${BUILD_NUMBER}</a> has been built. Took ${BUILD_DURATION}. See the <a href=\'${BUILD_URL}/console\'>output</a>.'
       }
     }  
