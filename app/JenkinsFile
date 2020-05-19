@@ -34,5 +34,15 @@ pipeline {
         sh './gradlew assembleDebug'
       }
     }
+    post {
+        failure {
+            step([$class: 'Mailer', 
+            notifyEveryUnstableBuild: true, 
+            recipients: 'emilyzo@ac.sce.ac.il', 
+            sendToIndividuals: false])
+        }
+    }
+      
+    }
   }
 }
