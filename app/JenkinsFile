@@ -35,14 +35,11 @@ pipeline {
       }
     }
   }
-
-   stage('email'){
-      steps{
-          step([$class: 'Mailer', 
-          notifyEveryUnstableBuild: false, 
-          recipients: 'emilyzo@ac.sce.ac.il', 
-          sendToIndividuals: false])
-        }
+  post{
+      step([$class: 'Mailer', 
+      notifyEveryUnstableBuild: false, 
+      recipients: 'emilyzo@ac.sce.ac.il', 
+      sendToIndividuals: false])
     }
-
+  
 }
