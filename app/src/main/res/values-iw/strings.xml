@@ -56,4 +56,7 @@
     <string name="profile_saved">הפרופיל נשמר בהצלחה!</string>
     <string name="required">*נדרש</string>
     <string name="upload_image">העלה תמונה</string>
+    <string name="watch_my_profile">צפה בפרופ</string>
+    <string name="edit_profile">ערוך פרופיל</string>
+    <string name="edit_my_profile">ערוך את הפרופיל</string>
 </resources>

@@ -2,7 +2,6 @@ package com.evan.parknbark.utilities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +23,7 @@ import com.evan.parknbark.contacts.EditContactActivity;
 import com.evan.parknbark.map_profile.maps.LocationsActivity;
 import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.map_profile.profile.ProfileActivity;
+import com.evan.parknbark.map_profile.profile.WatchProfile;
 import com.evan.parknbark.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -179,6 +179,9 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 break;
             case R.id.nav_bulletin:
                 startActivity(new Intent(getApplicationContext(), BulletinBoardActivity.class));
+                break;
+            case R.id.nav_watch_profile:
+                startActivity(new Intent(getApplicationContext(), WatchProfile.class));
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));

@@ -63,7 +63,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput ,boolean test) {
+    public void saveProfile(View v){
+        String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
+        String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();
+        String dogAgeInput = mTextInputDogAge.getEditText().getText().toString().trim();
+        saveProfileDetails(dogNameInput,dogBreedInput,dogAgeInput,false);
+    }
+
+    public boolean saveProfileDetails(String dogNameInput, String dogBreedInput, String dogAgeInput ,boolean test) {
         if(test){
             return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) || EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) ||
                     EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge);
@@ -91,7 +98,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.
-    public void uploadImage() {
+    public void uploadImage(View v) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -171,13 +178,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         hideSoftKeyboard();
         switch (i){
             case R.id.button_save_profile:
-                String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
-                String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();
-                String dogAgeInput = mTextInputDogAge.getEditText().getText().toString().trim();
-                saveProfile(dogNameInput, dogBreedInput, dogAgeInput, false);
+                saveProfile(v);
                 break;
             case R.id.button_upload_image:
-                uploadImage();
+                uploadImage(v);
                 break;
         }
     }

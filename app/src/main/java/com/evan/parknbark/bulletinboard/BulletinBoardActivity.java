@@ -1,14 +1,14 @@
 package com.evan.parknbark.bulletinboard;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
@@ -50,8 +50,10 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
                 if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
                     if (user.getPermission().equals("admin")) {
-                        findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
                         setItemTouchHelper();
+                    }
+                    if (user.getPermission().equals("user")) {
+                        findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
                     }
                 } else {
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
