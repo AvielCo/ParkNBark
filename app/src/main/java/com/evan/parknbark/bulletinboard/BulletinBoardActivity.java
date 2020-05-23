@@ -1,14 +1,13 @@
 package com.evan.parknbark.bulletinboard;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
@@ -50,10 +49,8 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
                 if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
                     if (user.getPermission().equals("admin")) {
-                        setItemTouchHelper();
-                    }
-                    if (user.getPermission().equals("user")) {
                         findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
+                        setItemTouchHelper();
                     }
                 } else {
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
@@ -95,12 +92,6 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         mAdapter.setOnItemClickListener(this);
     }
 
-    private void goToNoteDescription(Note note) {
-        Intent intent = new Intent(this, NoteDescriptionActivity.class);
-        intent.putExtra("NOTE_TO_SEE", note);
-        startActivity(intent);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -116,13 +107,25 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
     @Override
     public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
         Note note = documentSnapshot.toObject(Note.class);
-        goToNoteDescription(note);
+        openNoteDescriptionDialog(note);
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
         if(i == R.id.button_add_note)
-            BulletinBoardActivity.this.startActivity(new Intent(BulletinBoardActivity.this, NewNoteActivity.class));
+            openNewNoteDialog();
+    }
+
+    private void openNoteDescriptionDialog(Note note) {
+        Bundle bundle = new Bundle();
+        bundle.putString("note_title", note.getTitle());
+        bundle.putString("note_desc", note.getDescription());
+        bundle.putString("note_date", note.getDate());
+        NoteDescriptionDialog.display(getSupportFragmentManager()).setArguments(bundle);
+    }
+
+    private void openNewNoteDialog(){
+        NewNoteDialog.display(getSupportFragmentManager());
     }
 }

@@ -60,10 +60,6 @@
             android:parentActivityName=".map_profile.maps.MapActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".bulletinboard.NewNoteActivity"
-            android:launchMode="singleTop"
-            android:parentActivityName=".bulletinboard.BulletinBoardActivity" />
-        <activity
             android:name=".bulletinboard.NoteDescriptionActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".bulletinboard.BulletinBoardActivity" /> <!-- Profile -->

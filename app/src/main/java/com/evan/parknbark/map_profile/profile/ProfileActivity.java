@@ -63,20 +63,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    public void saveProfile(View v){
-        String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
-        String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();
-        String dogAgeInput = mTextInputDogAge.getEditText().getText().toString().trim();
-        saveProfileDetails(dogNameInput,dogBreedInput,dogAgeInput,false);
-    }
-
-    public boolean saveProfileDetails(String dogNameInput, String dogBreedInput, String dogAgeInput ,boolean test) {
-        if(test){
-            return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) || EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) ||
-                    EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge);
+    public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput, boolean test) {
+        if (test) {
+            return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName, null) && EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed, null) &&
+                    EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge, null);
         }
-        if (EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName) | EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed) |
-                EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge)) {
+        if (EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName, getApplicationContext()) & EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed, getApplicationContext()) &
+                EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge, getApplicationContext())) {
             showProgressBar();
             DocumentReference usersDocRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
             usersDocRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
@@ -98,7 +91,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.
-    public void uploadImage(View v) {
+    public void uploadImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -162,11 +155,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             showSuccessToast(R.string.profile_saved);
                             hideProgressBar();
-                        }
-                        else showErrorToast();
+                        } else showErrorToast();
                     }
                 });
 
@@ -176,12 +168,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         int i = v.getId();
         hideSoftKeyboard();
-        switch (i){
+        switch (i) {
             case R.id.button_save_profile:
-                saveProfile(v);
+                String dogNameInput = mTextInputDogName.getEditText().getText().toString().trim();
+                String dogBreedInput = mTextInputDogBreed.getEditText().getText().toString().trim();
+                String dogAgeInput = mTextInputDogAge.getEditText().getText().toString().trim();
+                saveProfile(dogNameInput, dogBreedInput, dogAgeInput, false);
                 break;
             case R.id.button_upload_image:
-                uploadImage(v);
+                uploadImage();
                 break;
         }
     }

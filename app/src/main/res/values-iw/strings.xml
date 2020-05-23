@@ -56,7 +56,13 @@
     <string name="profile_saved">הפרופיל נשמר בהצלחה!</string>
     <string name="required">*נדרש</string>
     <string name="upload_image">העלה תמונה</string>
-    <string name="watch_my_profile">צפה בפרופ</string>
-    <string name="edit_profile">ערוך פרופיל</string>
-    <string name="edit_my_profile">ערוך את הפרופיל</string>
+    <string name="new_note">הודעה חדשה</string>
+    <string name="new_note_success">הודעה חדשה נוספה בהצלחה</string>
+    <string name="empty_field">שדה זה לא יכול להיות ריק.</string>
+    <string name="illegal_email">אימייל לא חוקי.</string>
+    <string name="change_password_success">הסיסמא שונתה בהצלחה.</string>
+    <string name="change_password_current_invalid">הסיסמה הנוכחית שהזנת אינה חוקית!</string>
+    <string name="change_pass_same_old_new">הסיסמה החדשה לא יכולה להיות זהה לסיסמה הנוכחית.</string>
+    <string name="register_success">נרשמת בהצלחה!</string>
+    <string name="reset_pass_success">נשלח! אנא בדוק את הדוא\"ל שלך.</string>
 </resources>

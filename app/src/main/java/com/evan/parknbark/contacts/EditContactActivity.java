@@ -101,10 +101,9 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         hideSoftKeyboard();
         String updateText = updatedContactFieldTxt.getEditText().getText().toString();
-        if(EditTextValidator.isValidEditText(updateText, updatedContactFieldTxt) ){
+        if(EditTextValidator.isValidEditText(updateText, updatedContactFieldTxt, getApplicationContext()) ){
             updateContact(updateText, contactSpinner.getSelectedItem().toString(), fieldSpinner.getSelectedItem().toString());
         }
-
     }
 
     /**

@@ -60,11 +60,17 @@
     <string name="checkout_msg">Checkout?</string>
     <string name="update_contact">Update contact</string>
     <string name="users_in_park">Users in park</string>
-    <string name="error_message">An error has been occurred please try again later.</string>
+    <string name="error_message">An error has been occurred\\nplease try again later.</string>
     <string name="profile_saved">Profile saved successfully!</string>
     <string name="required">*Required</string>
     <string name="upload_image">Upload image</string>
-    <string name="watch_my_profile">watch_my_profile</string>
-    <string name="edit_profile">edit_profile</string>
-    <string name="edit_my_profile">edit_my_profile</string>
+    <string name="new_note">New Note</string>
+    <string name="new_note_success">Successfully added new note.</string>
+    <string name="empty_field">Field cannot be empty.</string>
+    <string name="illegal_email">Illegal email address.</string>
+    <string name="change_password_success">Password changed successfully.</string>
+    <string name="change_password_current_invalid">The current password you entered is invalid!</string>
+    <string name="change_pass_same_old_new">New password cannot be the same as the current password.</string>
+    <string name="register_success">Registered successfully.\\nPlease log in.</string>
+    <string name="reset_pass_success">Sent! Please check your E-Mail.</string>
 </resources>

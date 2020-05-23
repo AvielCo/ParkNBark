@@ -22,9 +22,9 @@ public class ProfileCreationTest {
     }
 
     @Test
-    public void registerTest_(){
+    public void profileCreationTest(){
         ProfileActivity activity = new ProfileActivity();
-        assertTrue("Successfully created new profile!", activity.saveProfile(dogName, dogBreed, dogAge, true));
+        assertTrue("Error test failed!", activity.saveProfile(dogName, dogBreed, dogAge, true));
     }
 
 }

@@ -23,6 +23,11 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
+    <style name="AppTheme.FromToPointAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/anim_in_point</item>
+        <item name="android:windowExitAnimation">@anim/anim_out_point</item>
+    </style>
+
     <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="behavior_peekHeight">70dp</item>
     </style>

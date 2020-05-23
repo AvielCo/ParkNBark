@@ -1,7 +1,6 @@
 package com.evan.parknbark;
 
-import com.evan.parknbark.bulletinboard.NewNoteActivity;
-import com.evan.parknbark.emailpassword.ChangePassActivity;
+import com.evan.parknbark.bulletinboard.NewNoteDialog;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +18,8 @@ public class NewNoteTest {
     }
 
     @Test
-    public void changePassTest() {
-        NewNoteActivity activity = new NewNoteActivity();
-        assertTrue("Successfully saved new note!", activity.saveNote(title, description, true));
+    public void newNoteTest() {
+        NewNoteDialog activity = new NewNoteDialog();
+        assertTrue("Error test failed!", activity.saveNote(title, description, true));
     }
 }

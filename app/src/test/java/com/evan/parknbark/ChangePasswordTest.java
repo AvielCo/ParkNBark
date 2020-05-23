@@ -21,6 +21,6 @@ public class ChangePasswordTest {
     @Test
     public void changePassTest() {
         ChangePassActivity activity = new ChangePassActivity();
-        assertTrue("Successfully changed password!", activity.changePassword(currentPass, newPass, true));
+        assertTrue("Error test failed!", activity.changePassword(currentPass, newPass, true));
     }
 }
