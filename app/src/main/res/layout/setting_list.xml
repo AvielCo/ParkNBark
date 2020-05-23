@@ -10,5 +10,5 @@
     android:textStyle="bold"
     android:textColor="#caae53"
     android:layout_margin="2dp"
-    >
+    android:text="Item">
 </TextView>

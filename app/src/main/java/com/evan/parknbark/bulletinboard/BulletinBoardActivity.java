@@ -29,7 +29,6 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
     private NoteAdapter mAdapter;
     private FloatingActionButton buttonAddNote;
     private RecyclerView recyclerView;
-    private volatile User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +41,13 @@ public class BulletinBoardActivity extends BaseActivity implements NoteAdapter.O
         buttonAddNote = findViewById(R.id.button_add_note);
 
         findViewById(R.id.button_add_note).setOnClickListener(this);
-        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
-        docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    user = task.getResult().toObject(User.class);
-                    if (user.getPermission().equals("admin")) {
-                        findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
-                        setItemTouchHelper();
-                    }
-                } else {
-                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                }
-            }
-        });
+
+        String currentUserPermission = getIntent().getStringExtra("current_user_permission");
         setUpRecyclerView();
+        if (currentUserPermission.equals("admin")) {
+            findViewById(R.id.button_add_note).setVisibility(View.INVISIBLE);
+            setItemTouchHelper();
+        }
     }
 
     private void setItemTouchHelper(){

@@ -21,6 +21,7 @@ import com.evan.parknbark.map_profile.MapProfileBottomSheetDialog;
 import com.evan.parknbark.map_profile.profile.Profile;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
 import com.evan.parknbark.R;
+import com.evan.parknbark.utilities.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -93,6 +94,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         GPS_NOT_ENABLE = getString(R.string.gps_not_enabled);
         CHECKOUT_MSG = getString(R.string.checkout_msg);
         CHECKIN_MSG = getString(R.string.checkin_msg);
+        currentUserPermission = getIntent().getStringExtra("current_user_permission");
     }
 
     @Override

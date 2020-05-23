@@ -11,10 +11,12 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.emailpassword.ChangePassActivity;
 import com.evan.parknbark.utilities.BaseActivity;
+import com.evan.parknbark.utilities.User;
 
 public class SettingsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private String[] settingsArray = {"Change password","Light/Dark Mode","Rate Us"}; //Settings menu items
+    private String[] admin = {"Edit"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class SettingsActivity extends BaseActivity implements AdapterView.OnItem
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
+        //current user details (first name... permission)
+        String currentUserPermission = getIntent().getStringExtra("current_user_permission");
     }
 
     //On click implementation for items in the menu

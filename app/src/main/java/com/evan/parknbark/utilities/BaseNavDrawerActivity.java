@@ -25,12 +25,9 @@ import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.map_profile.profile.ProfileActivity;
 import com.evan.parknbark.map_profile.profile.WatchProfile;
 import com.evan.parknbark.settings.SettingsActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
 
@@ -47,7 +44,7 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
     public static final String WRONG_PERMISSION = "You don't have the right permission";
     private String userCheckinPark;
 
-    private volatile User user;
+    protected String currentUserPermission;
 
 
     protected void onCreateDrawer() {
@@ -128,7 +125,7 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
             default:
                 return false;
         }
-        changeToNewLocale(lang,this);
+        changeToNewLocale(lang, this);
         finish();
         startActivity(getIntent());
         return true;
@@ -155,7 +152,6 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 if (getUserCheckinPark() != null)
                     db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                 FirebaseAuth.getInstance().signOut();
-
                 finish();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 break;
@@ -175,10 +171,11 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 startActivity(new Intent(getApplicationContext(), RateUsActivity.class));
                 break;
             case R.id.nav_settings:
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class).putExtra("current_user_permission", currentUserPermission));
                 break;
             case R.id.nav_bulletin:
-                startActivity(new Intent(getApplicationContext(), BulletinBoardActivity.class));
+                //starting activity and sending the user details to check if he is admin or nah
+                startActivity(new Intent(getApplicationContext(), BulletinBoardActivity.class).putExtra("current_user_permission", currentUserPermission));
                 break;
             case R.id.nav_watch_profile:
                 startActivity(new Intent(getApplicationContext(), WatchProfile.class));
@@ -190,20 +187,10 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 startActivity(new Intent(getApplicationContext(), MapActivity.class));
                 break;
             case R.id.nav_edit_contact:
-                DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
-                docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            user = task.getResult().toObject(User.class);
-                            if (user.getPermission().equals("admin"))
-                                startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
-                            else {
-                                Toast.makeText(getApplicationContext(), WRONG_PERMISSION, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
+                if (currentUserPermission.equals("admin"))
+                    startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
+                else
+                    Toast.makeText(getApplicationContext(), WRONG_PERMISSION, Toast.LENGTH_SHORT).show();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
