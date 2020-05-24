@@ -34,9 +34,9 @@ pipeline {
         sh './gradlew assembleDebug'
       }
     }
-    stage ('Initialize') {
+    stage ('Lintering') {
       steps {
-       ssh -p $JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile
+        sh -p '$JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile'
       }
     }
   }
