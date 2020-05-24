@@ -36,7 +36,7 @@ pipeline {
     }
     stage ('Initialize') {
       steps {
-        echo 'Placeholder.'
+       ssh -p $JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile
       }
     }
   }
@@ -50,7 +50,7 @@ pipeline {
        always{
           mail to: 'emilyzo@ac.sce.ac.il',
           subject: "Job '${JOB_NAME}' (${BUILD_NUMBER})",
-          body: "You go to ${BUILD_URL} and check the build"
+          body: "You can go to ${BUILD_URL} and check the build"
        }
     } 
 }
