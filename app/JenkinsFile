@@ -34,11 +34,11 @@ pipeline {
         sh './gradlew assembleDebug'
       }
     }
-    stage ('Lintering') {
-      steps {
-        sh -p '$JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile'
-      }
-    }
+    //stage ('Lintering') {
+     // steps {
+      // sh -p '$JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile'
+      //}
+   // }
   }
   post{
       failure{
