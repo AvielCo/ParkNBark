@@ -42,7 +42,7 @@ pipeline {
         recipients: 'emilyzo@ac.sce.ac.il',
         sendToIndividuals: false])
        }
-       always{
+       success{
           mail to: 'emilyzo@ac.sce.ac.il',
           subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
           body: "Please go to ${BUILD_URL} and verify the build"
