@@ -21,7 +21,7 @@ public class NoteDescriptionDialog extends DialogFragment {
     private static final String TAG = "NoteDescriptionDialog";
     private Toolbar toolbar;
 
-    public static NoteDescriptionDialog display(FragmentManager fragmentManager) {
+    static NoteDescriptionDialog display(FragmentManager fragmentManager) {
         NoteDescriptionDialog noteDescriptionDialog = new NoteDescriptionDialog();
         noteDescriptionDialog.show(fragmentManager, TAG);
 
@@ -43,7 +43,7 @@ public class NoteDescriptionDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.note_description_dialog, container, false);
+        View v = inflater.inflate(R.layout.dialog_note_description, container, false);
         toolbar = v.findViewById(R.id.toolbar);
         textViewDate = v.findViewById(R.id.text_view_date_des);
         textViewDescription = v.findViewById(R.id.text_view_description_des);

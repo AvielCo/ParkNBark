@@ -13,8 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.evan.parknbark.R;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import es.dmoral.toasty.Toasty;
 
@@ -33,10 +30,9 @@ public class NewNoteDialog extends DialogFragment {
     private TextInputLayout textInputTitle;
     private TextInputLayout textInputDescription;
 
-    public static NewNoteDialog display(FragmentManager fragmentManager) {
+    static void display(FragmentManager fragmentManager) {
         NewNoteDialog exampleDialog = new NewNoteDialog();
         exampleDialog.show(fragmentManager, TAG);
-        return exampleDialog;
     }
 
     @Override
@@ -54,7 +50,7 @@ public class NewNoteDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.new_note_dialog, container, false);
+        View v = inflater.inflate(R.layout.dialog_new_note, container, false);
         toolbar = v.findViewById(R.id.toolbar);
         textInputDescription = v.findViewById(R.id.text_input_description);
         textInputTitle = v.findViewById(R.id.text_input_title);
