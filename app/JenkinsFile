@@ -42,7 +42,9 @@ pipeline {
         recipients: 'emilyzo@ac.sce.ac.il', 
         sendToIndividuals: false])
        }
-    }  
+    } 
+    <property environment="env"/>
+    <property name="label" value="${env.JOB_NAME}-${env.BUILD_NUMBER}"/>
 }
 
   
