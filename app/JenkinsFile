@@ -34,6 +34,11 @@ pipeline {
         sh './gradlew assembleDebug'
       }
     }
+    stage ('Initialize') {
+      steps {
+        echo 'Placeholder.'
+      }
+    }
   }
   post{
       failure{
@@ -45,7 +50,7 @@ pipeline {
        always{
           mail to: 'emilyzo@ac.sce.ac.il',
           subject: "Job '${JOB_NAME}' (${BUILD_NUMBER})",
-          body: "Please go to ${BUILD_URL} and verify the build"
+          body: "You go to ${BUILD_URL} and check the build"
        }
     } 
 }
