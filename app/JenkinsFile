@@ -36,15 +36,15 @@ pipeline {
     }
   }
   post{
-      always{
+      failure{
         step([$class: 'Mailer', 
         notifyEveryUnstableBuild: true, 
         recipients: 'emilyzo@ac.sce.ac.il',
         sendToIndividuals: false])
        }
-       success{
+       always{
           mail to: 'emilyzo@ac.sce.ac.il',
-          subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+          subject: "Job '${JOB_NAME}' (${BUILD_NUMBER})",
           body: "Please go to ${BUILD_URL} and verify the build"
        }
     } 
