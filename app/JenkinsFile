@@ -1,3 +1,8 @@
+env.MYTOOL_VERSION = '1.33'
+node {
+  sh '/usr/local/mytool-$MYTOOL_VERSION/bin/start'
+}
+
 pipeline {
   agent {
     docker {
