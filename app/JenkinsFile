@@ -34,6 +34,14 @@ pipeline {
         sh './gradlew assembleDebug'
       }
     }
+    stage('Static Code Analysis') {
+            steps {
+                script {
+                    sh './gradlew checkstyle'
+                    recordIssues enabledForFailure: true, aggregatingResults: true, tool: checkStyle(pattern: 'app/build/reports/checkstyle/checkstyle.xml')
+                }
+            }
+        }
     //stage ('Lintering') {
      // steps {
       // sh -p '$JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile'
@@ -42,10 +50,10 @@ pipeline {
   }
   post{
       failure{
-        step([$class: 'Mailer', 
-        notifyEveryUnstableBuild: true, 
-        recipients: 'emilyzo@ac.sce.ac.il',
-        sendToIndividuals: false])
+        emailext(subject: '$JOB_NAME - Build# $BUILD_NUMBER - $BUILD_STATUS',
+                 body: '$DEFAULT_CONTENT',
+                 replyTo: 'avielco@ac.sce.ac.il',
+                 to: 'avielco@ac.sce.ac.il'
        }
        always{
           mail to: 'emilyzo@ac.sce.ac.il',
