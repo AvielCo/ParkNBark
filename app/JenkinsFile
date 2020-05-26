@@ -53,7 +53,7 @@ pipeline {
         emailext(subject: '$JOB_NAME - Build# $BUILD_NUMBER - $BUILD_STATUS',
                  body: '$DEFAULT_CONTENT',
                  replyTo: 'avielco@ac.sce.ac.il',
-                 to: 'avielco@ac.sce.ac.il'
+                 to: 'avielco@ac.sce.ac.il')
        }
        always{
           mail to: 'emilyzo@ac.sce.ac.il',
