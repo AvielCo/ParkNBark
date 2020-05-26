@@ -186,12 +186,6 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
             case R.id.nav_map:
                 startActivity(new Intent(getApplicationContext(), MapActivity.class));
                 break;
-            case R.id.nav_edit_contact:
-                if (currentUserPermission.equals("admin"))
-                    startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
-                else
-                    Toast.makeText(getApplicationContext(), WRONG_PERMISSION, Toast.LENGTH_SHORT).show();
-                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

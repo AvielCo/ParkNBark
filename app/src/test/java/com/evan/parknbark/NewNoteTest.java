@@ -13,8 +13,8 @@ public class NewNoteTest {
 
     @Before
     public void setUp() throws Exception {
-        title = "Some shitty old pass";
-        description = "New password :)";
+        title = "test title";
+        description = "descriptionnnnnn :)";
     }
 
     @Test

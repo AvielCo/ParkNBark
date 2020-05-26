@@ -51,11 +51,6 @@
             android:title="@string/share" />
 
         <item
-            android:id="@+id/nav_bug_report"
-            android:icon="@drawable/ic_bug_report"
-            android:title="@string/bug_report" />
-
-        <item
             android:id="@+id/nav_credit"
             android:icon="@drawable/baseline_live_help_24"
             android:title="@string/credit" />
@@ -69,11 +64,6 @@
             android:id="@+id/nav_contact"
             android:icon="@drawable/baseline_perm_phone_msg_24"
             android:title="@string/contact" />
-
-        <item
-            android:id="@+id/nav_edit_contact"
-            android:title="Edit Contacts"
-            android:icon="@drawable/ic_editcontact"/>
 
     </group>
 

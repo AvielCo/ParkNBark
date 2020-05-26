@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 29
@@ -42,16 +44,39 @@ tasks.withType(Test) {
     }
 }
 
+task checkstyle(type: Checkstyle) {
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+
+    source 'src/main/java'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    ignoreFailures true
+    showViolations true
+
+    classpath = files()
+}
+
+
+checkstyle {
+    toolVersion "8.17"
+}
+
+project.afterEvaluate {
+    preBuild.dependsOn 'checkstyle'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //firebase
-    implementation 'com.google.firebase:firebase-analytics:17.4.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
     implementation 'com.google.firebase:firebase-database:19.3.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
+
 
     //animation / view design
     implementation 'androidx.appcompat:appcompat:1.1.0'

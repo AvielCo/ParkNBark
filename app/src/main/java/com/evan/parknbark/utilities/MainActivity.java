@@ -54,12 +54,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onBackPressed() {
         finish();
     }
-
-    /*@Override
-    public void taskResults(User user) {
-        if (user != null) {
-            this.user = user;
-            updateUI(mAuth.getCurrentUser());
-        }
-    }*/
 }
