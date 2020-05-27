@@ -13,7 +13,7 @@ public class ChangePasswordTest {
 
     @Before
     public void setUp() throws Exception {
-        currentPass = "";
+        currentPass = "Some shitty old pass";
         newPass = "New password :)";
     }
 
