@@ -78,7 +78,6 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/upload_image"
-            android:onClick="uploadImage"
             />
 
         <ProgressBar
@@ -105,7 +104,6 @@
             android:layout_margin="10dp"
             android:src="@drawable/baseline_save_alt_24"
             android:text="@string/save"
-            android:onClick="saveProfile"
             />
 
     </LinearLayout>

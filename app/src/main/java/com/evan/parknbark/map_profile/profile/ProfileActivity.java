@@ -13,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.evan.parknbark.R;
-import com.evan.parknbark.utilities.*;
+import com.evan.parknbark.utilities.BaseActivity;
+import com.evan.parknbark.utilities.User;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +59,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
         currentUser = mAuth.getCurrentUser();
+
+        findViewById(R.id.button_save_profile).setOnClickListener(this);
+        findViewById(R.id.button_upload_image).setOnClickListener(this);
 
         setProgressBar(R.id.progressBar);
     }

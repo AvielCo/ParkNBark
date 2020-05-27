@@ -1,16 +1,16 @@
 package com.evan.parknbark.emailpassword;
 
-import androidx.annotation.NonNull;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.utilities.User;
 import com.evan.parknbark.validation.EditTextValidator;
-import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -55,7 +55,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) { //There is no user with the same email address
                                 FirebaseUser mAuthCurrentUser = mAuth.getCurrentUser();
-                                User newUser = new User(firstName, lastName, "user");
+                                User newUser = new User(firstName, lastName, "user", email);
 
                                 UserProfileChangeRequest update = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(firstName + " " + lastName)

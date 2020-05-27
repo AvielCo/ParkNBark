@@ -73,4 +73,6 @@
     <string name="change_pass_same_old_new">New password cannot be the same as the current password.</string>
     <string name="register_success">Registered successfully.\\nPlease log in.</string>
     <string name="reset_pass_success">Sent! Please check your E-Mail.</string>
+    <string name="watch_profile">Show profile</string>
+    <string name="ban_user">Ban user</string>
 </resources>

@@ -3,6 +3,9 @@ package com.evan.parknbark.utilities;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    private String emailAddress;
+    private boolean isBanned;
+    private String banReason;
     private String firstName;
     private String lastName;
     private String permission;
@@ -12,11 +15,14 @@ public class User implements Serializable {
         //do not delete.
     }
 
-    public User(String firstName, String lastName, String permission) {
+    public User(String firstName, String lastName, String permission, String emailAddress) {
         setFirstName(firstName);
         setLastName(lastName);
         setPermission(permission);
         setAppRate(0);
+        setEmailAddress(emailAddress);
+        setBanned(false);
+        setBanReason("");
     }
 
     public float getAppRate() { return appRate; }
@@ -45,5 +51,29 @@ public class User implements Serializable {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    public String getBanReason() {
+        return banReason;
+    }
+
+    public void setBanReason(String banReason) {
+        this.banReason = banReason;
     }
 }

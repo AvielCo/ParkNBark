@@ -1,10 +1,5 @@
 package com.evan.parknbark.map_profile.maps;
 
-import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +9,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.MapProfileBottomSheetDialog;
 import com.evan.parknbark.map_profile.profile.Profile;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
-import com.evan.parknbark.R;
-import com.evan.parknbark.utilities.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,8 +32,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,7 +44,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, MapProfileBottomSheetDialog.BottomSheetListener {
 
@@ -290,7 +285,8 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                  //cast always going to be successful
-                                @SuppressWarnings("unchecked") ArrayList<String> currentUsersInParkUID = (ArrayList<String>) document.get(CHECKIN_FIELD);
+                                @SuppressWarnings("unchecked")
+                                ArrayList<String> currentUsersInParkUID = (ArrayList<String>) document.get(CHECKIN_FIELD);
                                 getCurrentUsersInParkDetails(currentUsersInParkUID);
                             }
                         }
