@@ -1,7 +1,6 @@
 package com.evan.parknbark;
 
 import com.evan.parknbark.emailpassword.ChangePassActivity;
-import com.evan.parknbark.emailpassword.LoginActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ public class ChangePasswordTest {
 
     @Before
     public void setUp() throws Exception {
-        currentPass = "Some shitty old pass";
+        currentPass = "";
         newPass = "New password :)";
     }
 

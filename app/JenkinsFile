@@ -54,11 +54,14 @@ pipeline {
                  body: '$DEFAULT_CONTENT',
                  replyTo: 'avielco@ac.sce.ac.il',
                  to: 'avielco@ac.sce.ac.il')
+
+        emailext(subject: '$JOB_NAME - Build# $BUILD_NUMBER - $BUILD_STATUS',
+                 body: '$DEFAULT_CONTENT',
+                 replyTo: 'emilyzo@ac.sce.ac.il',
+                 to: 'emilyzo@ac.sce.ac.il')
        }
-       always{
-          mail to: 'emilyzo@ac.sce.ac.il',
-          subject: "Job '${JOB_NAME}' (${BUILD_NUMBER})",
-          body: "You can go to ${BUILD_URL} and check the build"
+       success{
+        echo 'Build success. good job bruh'
        }
     } 
 }
