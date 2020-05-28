@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     app:cardBackgroundColor="#FFFFE8"
-    android:background="#e1f5fe"
+    android:background="@color/colorAppBackground"
     android:clickable="true"
     android:focusable="true">
 

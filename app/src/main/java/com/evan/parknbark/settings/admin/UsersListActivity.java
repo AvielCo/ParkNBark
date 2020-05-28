@@ -45,7 +45,7 @@ public class UsersListActivity extends BaseActivity {
                     String firstName = (String) document.get("firstName");
                     String lastName = (String) document.get("lastName");
                     String email = (String) document.get("emailAddress");
-                    UserItem user = new UserItem(firstName + lastName, email);
+                    UserItem user = new UserItem(firstName + " " + lastName, email);
                     userList.add(user);
                 }
                 initOptionsHashMap();

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.evan.parknbark.R;
+
 import java.util.List;
 
 public class LocationsConfig {
@@ -29,8 +32,8 @@ public class LocationsConfig {
         public ParkItemView(ViewGroup parent) {
             super(LayoutInflater.from(mContext).inflate(R.layout.parks_items_lists ,parent, false));
 
-            mName = (TextView) itemView.findViewById(R.id.park_name);
-            mStreet = (TextView) itemView.findViewById(R.id.street);
+            mName = itemView.findViewById(R.id.text_view_park_name);
+            mStreet = itemView.findViewById(R.id.text_view_street);
         }
 
         public void bind(Park park){

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="55dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
 
     <TextView
+        android:id="@+id/lblListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lblListItem"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="5dp"
         android:paddingEnd="?android:attr/expandableListPreferredChildIndicatorRight"
-        android:textSize="16sp"/>
+        android:paddingBottom="5dp"
+        android:text="some text"
+        android:textSize="16sp" />
 
 </LinearLayout>

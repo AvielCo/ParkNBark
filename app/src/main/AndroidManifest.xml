@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".map_profile.profile.WatchProfile" />
 
         <activity android:name=".utilities.MainActivity"

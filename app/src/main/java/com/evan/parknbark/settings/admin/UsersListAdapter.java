@@ -46,7 +46,7 @@ public class UsersListAdapter extends BaseExpandableListAdapter {
                 email = getGroup(groupPosition).getEmail();
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.activity_users_list, parent);
+            view = inflater.inflate(R.layout.user_list_parent_item, null);
         }
         TextView tv_displayName = view.findViewById(R.id.text_view_display_name),
                 tv_email = view.findViewById(R.id.text_view_email);
@@ -77,7 +77,7 @@ public class UsersListAdapter extends BaseExpandableListAdapter {
         final String childText = (String) getChild(groupPosition, childPosition);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.activity_users_list, parent);
+            view = inflater.inflate(R.layout.user_list_child_item, null);
         }
         TextView item = view.findViewById(R.id.text_view_item);
         item.setText(childText);

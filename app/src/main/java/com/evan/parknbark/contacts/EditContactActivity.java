@@ -1,12 +1,12 @@
 package com.evan.parknbark.contacts;
 
-import androidx.annotation.NonNull;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
@@ -47,9 +47,9 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
      * setting up the variable for each of the views in the xml file.
      */
     private void setUpViews() {
-        updatedContactFieldTxt = (TextInputLayout) findViewById(R.id.edittxt_contact_field);
-        contactSpinner = (Spinner)findViewById(R.id.contact_document_spinner);
-        fieldSpinner = (Spinner)findViewById(R.id.contact_field_spinner);
+        updatedContactFieldTxt = findViewById(R.id.edit_text_contact_field);
+        contactSpinner = findViewById(R.id.contact_document_spinner);
+        fieldSpinner = findViewById(R.id.contact_field_spinner);
         findViewById(R.id.button_update_contact_field).setOnClickListener(this);
         setUpSpinners();
     }
@@ -75,7 +75,7 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
                                     Map<String, Object> map = document.getData();
                                     if (map != null) {
                                         for (Map.Entry<String, Object> entry : map.entrySet()) {
-                                            listField.add(entry.getKey().toString());
+                                            listField.add(entry.getKey());
                                         }
                                     }
                                     gotFields = true;
@@ -125,7 +125,7 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(EditContactActivity.this, FAILED_UPDATE, Toast.LENGTH_SHORT).show();
                     }
-                });;
+                });
 
     }
 }

@@ -11,8 +11,8 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.contacts.EditContactActivity;
 import com.evan.parknbark.emailpassword.ChangePassActivity;
+import com.evan.parknbark.settings.admin.UsersListActivity;
 import com.evan.parknbark.utilities.BaseActivity;
-import com.evan.parknbark.utilities.User;
 
 public class SettingsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
@@ -51,13 +51,14 @@ public class SettingsActivity extends BaseActivity implements AdapterView.OnItem
                     startActivity(new Intent(getApplicationContext(), ChangePassActivity.class));
                     break;
 
-                case 2:
+                case 1:
                     //Rate Us!
                     startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
                     break;
 
-                case 3:
-                    //show all users in fullscreen dialog
+                case 2:
+                    startActivity(new Intent(getApplicationContext(), UsersListActivity.class));
+                    break;
             }
         }
         else{
