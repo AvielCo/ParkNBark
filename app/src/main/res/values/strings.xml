@@ -77,4 +77,8 @@
     <string name="ban_user">Ban user</string>
     <string name="ban_user_explanation">Are you sure you want to ban the following user?</string>
     <string name="ban_user_button">Ban User</string>
+    <string name="ban_reason"><u><b>Reason for a ban:</b></u></string>
+    <string name="ban_user_name">Name: </string>
+    <string name="ban_user_email">E-Mail: </string>
+    <string name="ban_user_uid">UID: </string>
 </resources>
