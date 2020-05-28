@@ -10,6 +10,8 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -28,6 +30,7 @@ public class UsersListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_list);
         expandableListView = findViewById(R.id.expandable_list_view_users);
+
         initData();
     }
 
@@ -45,7 +48,8 @@ public class UsersListActivity extends BaseActivity {
                     String firstName = (String) document.get("firstName");
                     String lastName = (String) document.get("lastName");
                     String email = (String) document.get("emailAddress");
-                    UserItem user = new UserItem(firstName + " " + lastName, email);
+                    String uid = document.getId();
+                    UserItem user = new UserItem(firstName + " " + lastName, email, uid);
                     userList.add(user);
                 }
                 initOptionsHashMap();
@@ -60,6 +64,7 @@ public class UsersListActivity extends BaseActivity {
         for (int i = 0; i < userList.size(); i++) {
             userItemOptions.put(userList.get(i), options);
         }
+
         initAdapter();
     }
 

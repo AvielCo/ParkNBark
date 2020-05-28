@@ -51,7 +51,7 @@
     <string name="bulletin_board">Bulletin board</string>
     <string name="my_profile">My profile</string>
     <string name="hebrew">עברית</string>
-    <string name="settings">settings</string>
+    <string name="settings">Settings</string>
     <string name="reset_pass_explanation_text">Please enter the E-Mail of your account and press \"Send\" button.  A link will be send to your E-Mail, enter that link to set new password.</string>
     <string name="gps_not_enabled">GPS is not enabled. Turn it on?</string>
     <string name="yes">Yes</string>

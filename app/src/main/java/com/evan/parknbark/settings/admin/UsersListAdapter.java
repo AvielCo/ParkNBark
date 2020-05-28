@@ -43,16 +43,18 @@ public class UsersListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
         String displayName = getGroup(groupPosition).getDisplayName(),
-                email = getGroup(groupPosition).getEmail();
+                email = getGroup(groupPosition).getEmail(),
+                uid = getGroup(groupPosition).getUid();
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.user_list_parent_item, null);
         }
         TextView tv_displayName = view.findViewById(R.id.text_view_display_name),
-                tv_email = view.findViewById(R.id.text_view_email);
+                tv_email = view.findViewById(R.id.text_view_email),
+                tv_uid = view.findViewById(R.id.text_view_display_uid);
         tv_displayName.setText(displayName);
         tv_email.setText(email);
-
+        tv_uid.setText(uid);
         return view;
     }
 
