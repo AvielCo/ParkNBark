@@ -1,6 +1,8 @@
 package com.evan.parknbark.settings.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
@@ -30,8 +32,18 @@ public class UsersListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_list);
         expandableListView = findViewById(R.id.expandable_list_view_users);
-
         initData();
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Bundle b = new Bundle();
+                b.putString("uid",userList.get(groupPosition).getUid());
+                b.putString("name",userList.get(groupPosition).getDisplayName());
+                b.putString("email",userList.get(groupPosition).getEmail());
+                startActivity(new Intent(UsersListActivity.this,BanActivity.class).putExtras(b));
+                return false;
+            }
+        });
     }
 
     private void initData() {

@@ -75,4 +75,6 @@
     <string name="reset_pass_success">Sent! Please check your E-Mail.</string>
     <string name="watch_profile">Show profile</string>
     <string name="ban_user">Ban user</string>
+    <string name="ban_user_explanation">Are you sure you want to ban the following user?</string>
+    <string name="ban_user_button">Ban User</string>
 </resources>
