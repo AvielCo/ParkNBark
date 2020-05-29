@@ -30,8 +30,7 @@
         android:textStyle="bold"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/ban_user_name"
-        >
+        android:text="@string/ban_user_name" >
     </TextView>
 
     <TextView
@@ -43,8 +42,7 @@
         android:textStyle="bold"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/ban_user_email"
-        >
+        android:text="@string/ban_user_email" >
     </TextView>
 
     <TextView
@@ -56,8 +54,7 @@
         android:textStyle="bold"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/ban_user_uid"
-        >
+        android:text="@string/ban_user_uid" >
     </TextView>
 
     <TextView
@@ -67,26 +64,25 @@
         android:textSize="18sp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/ban_reason"
-
-        >
+        android:text="@string/ban_reason" >
     </TextView>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/ban_reason_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:inputType="textMultiLine"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
+        android:background="@drawable/text_input_drawable"
         android:gravity="top"
+        android:inputType="textMultiLine"
         android:lines="4"
-        android:background="@color/colorWhite">
+        android:paddingStart="5dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="3dp"
+        android:textStyle="italic">
 
     </com.google.android.material.textfield.TextInputEditText>
 

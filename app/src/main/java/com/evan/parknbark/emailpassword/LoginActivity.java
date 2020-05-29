@@ -1,6 +1,7 @@
 package com.evan.parknbark.emailpassword;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import android.content.Intent;
@@ -25,7 +26,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firestore.v1.UpdateDocumentRequest;
 
 import es.dmoral.toasty.Toasty;
@@ -84,8 +87,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         User user = task.getResult().toObject(User.class);
-                        startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                                .putExtra("current_user_permission", user.getPermission()));
+                        if (!user.isBanned()) {
+                            startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                                    .putExtra("current_user_permission", user.getPermission()));
+                        }
+                        else {
+                            Toasty.info(LoginActivity.this, "YOU BANNED!", Toasty.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
