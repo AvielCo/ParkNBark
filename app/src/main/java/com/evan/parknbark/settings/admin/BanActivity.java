@@ -29,9 +29,9 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_ban);
         b = getIntent().getExtras();
         findViewById(R.id.ban_user_button).setOnClickListener(this);
-        TextView name = findViewById(R.id.banned_user_name);
-             email = findViewById(R.id.banned_user_email);
-            uid = findViewById(R.id.banned_user_uid);
+        TextView name = findViewById(R.id.banned_user_name),
+             email = findViewById(R.id.banned_user_email),
+             uid = findViewById(R.id.banned_user_uid);
         banReason = findViewById(R.id.ban_reason_text_input);
         String n = getString(R.string.ban_user_name) + " " + b.getString("name"),
             e = getString(R.string.ban_user_email) + " " + b.getString("email"),
