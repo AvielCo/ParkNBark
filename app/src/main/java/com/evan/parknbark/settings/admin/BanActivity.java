@@ -51,7 +51,7 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
                 Toasty.info(BanActivity.this, ("You have to describe a reason for a ban."), Toasty.LENGTH_SHORT).show();
             } else {
                 db.collection("users").document(b.getString("uid"))
-                        .update(bannedField, "true", reasonField, banReason.getText().toString().trim())
+                        .update(bannedField, true, reasonField, banReason.getText().toString().trim())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
