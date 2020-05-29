@@ -1,18 +1,11 @@
 package com.evan.parknbark.utilities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.evan.parknbark.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,7 +39,7 @@ public class SplashScreenActivity extends BaseActivity {
                         User user = task.getResult().toObject(User.class);
                         //if user is logged in, put the permission into bundle
                         //else, do nothing
-                        bundle.putString("current_user_permission", user.getPermission());
+                        bundle.putSerializable("current_user", user);
                     }
                 }
             });
