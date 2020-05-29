@@ -1,10 +1,14 @@
 package com.evan.parknbark.bulletinboard;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +20,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.evan.parknbark.R;
 
+import es.dmoral.toasty.Toasty;
+
 public class NoteDescriptionDialog extends DialogFragment {
     private TextView textViewDescription, textViewDate;
     private static final String TAG = "NoteDescriptionDialog";
@@ -24,7 +30,6 @@ public class NoteDescriptionDialog extends DialogFragment {
     static NoteDescriptionDialog display(FragmentManager fragmentManager) {
         NoteDescriptionDialog noteDescriptionDialog = new NoteDescriptionDialog();
         noteDescriptionDialog.show(fragmentManager, TAG);
-
         return noteDescriptionDialog;
     }
 
@@ -47,7 +52,7 @@ public class NoteDescriptionDialog extends DialogFragment {
         toolbar = v.findViewById(R.id.toolbar);
         textViewDate = v.findViewById(R.id.text_view_date_des);
         textViewDescription = v.findViewById(R.id.text_view_description_des);
-        setNote();
+        setNote(v);
         return v;
     }
 
@@ -58,10 +63,18 @@ public class NoteDescriptionDialog extends DialogFragment {
         toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
     }
 
-    private void setNote(){
+    private void setNote(View v){
         Bundle bundle = this.getArguments();
         toolbar.setTitle(bundle.getString("note_title"));
         textViewDescription.setText(bundle.getString("note_desc"));
         textViewDate.setText(bundle.getString("note_date"));
+        v.findViewById(R.id.button_copy_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("description", bundle.getString("note_desc")));
+                Toasty.success(getContext(), getContext().getString(R.string.copy_success), Toasty.LENGTH_SHORT).show();
+            }
+        });
     }
 }

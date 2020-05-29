@@ -65,4 +65,15 @@
     <string name="change_pass_same_old_new">הסיסמה החדשה לא יכולה להיות זהה לסיסמה הנוכחית.</string>
     <string name="register_success">נרשמת בהצלחה!</string>
     <string name="reset_pass_success">נשלח! אנא בדוק את הדוא\"ל שלך.</string>
+    <string name="watch_profile">צפה בפרופיל</string>
+    <string name="ban_user">חסום משתמש</string>
+    <string name="copy_success">הועתק בהצלחה</string>
+    <string name="ban_user_explanation">האם אתה בטוח שברצונך לחסום את המשתמש הבא?</string>
+    <string name="ban_reason"><u><b>סיבת חסימה:</b></u></string>
+    <string name="ban_user_name">שם:</string>
+    <string name="ban_user_email">אימייל:</string>
+    <string name="ban_user_uid">מספר מזהה:</string>
+    <string name="about_content">Park N Bark היא אפליקציה המיועדת להקל על בעלי כלבים לפגוש בעלי כלבים אחרים ולתת לכלביהם לשחק בקלות הטכנולוגיה המודרנית בהישג יד. האפליקציה פותחה בעזרת המנטורים הדס חסידים, דני אלמוג וסאלי ויצמן ששימשו חונכים לפרויקט זה. הצוות הסתמך על מקור נתונים פתוח שסופק על ידי עיריית באר שבע.</string>
+    <string name="banned_user_success">המשתמש נחסם!</string>
+    <string name="ban_empty_string">חובה להוסיף סיבה לחסימה.</string>
 </resources>

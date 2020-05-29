@@ -57,7 +57,7 @@
     <string name="required">*Необходимые</string>
     <string name="upload_image">Загрузить изображение</string>
     <string name="new_note">Новая заметка</string>
-    <string name="new_note_success">Успешно добавлена ​​новая заметка.</string>
+    <string name="new_note_success">Успешно добавлена новая заметка.</string>
     <string name="empty_field">Поле не может быть пустым</string>
     <string name="illegal_email">Неверный адрес электронной почты.</string>
     <string name="change_pass_same_old_new">Новый пароль не может совпадать с текущим паролем.</string>
@@ -65,4 +65,15 @@
     <string name="change_password_success">Пароль успешно изменен.</string>
     <string name="register_success">" Зарегистрирован успешно. \\n Пожалуйста, войдите."</string>
     <string name="reset_pass_success">Отправлено!\\n Пожалуйста, проверьте свою электронную почту.</string>
+    <string name="ban_user">Бан пользователя</string>
+    <string name="watch_profile">Показать профиль</string>
+    <string name="copy_success">" Успешно скопировано"</string>
+    <string name="ban_user_explanation">Вы уверены, что хотите забанить следующего пользователя?</string>
+    <string name="ban_reason"><u><b>Причина запрета:</b></u></string>
+    <string name="ban_user_name">Имя:</string>
+    <string name="ban_user_email">Электронное письмо:</string>
+    <string name="ban_user_uid">" идентификация пользователя:"</string>
+    <string name="about_content">Park N Bark - это приложение, предназначенное для того, чтобы владельцы собак могли легче познакомиться с другими владельцами собак и позволить своим собакам играть с простотой современных технологий. Приложение было разработано с помощью наставников Хадас Хасидим, Дани Альмог и Сали Вейцман, которые были наставниками для этого проекта. Команда опиралась на открытый источник данных, предоставленный муниципалитетом Беэр-Шева.</string>
+    <string name="banned_user_success">ПОЛЬЗОВАТЕЛЬ ЗАПРЕЩЕН!</string>
+    <string name="ban_empty_string">Вы должны описать причину запрета.</string>
 </resources>

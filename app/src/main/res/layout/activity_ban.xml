@@ -97,7 +97,7 @@
         android:background="@drawable/rounded_btn"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        android:text="@string/ban_user_button"
+        android:text="@string/ban_user"
         >
     </Button>
 

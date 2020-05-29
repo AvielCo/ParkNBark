@@ -30,8 +30,8 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
         b = getIntent().getExtras();
         findViewById(R.id.ban_user_button).setOnClickListener(this);
         TextView name = findViewById(R.id.banned_user_name);
-        TextView email = findViewById(R.id.banned_user_email);
-        TextView uid = findViewById(R.id.banned_user_uid);
+             email = findViewById(R.id.banned_user_email);
+            uid = findViewById(R.id.banned_user_uid);
         banReason = findViewById(R.id.ban_reason_text_input);
         String n = getString(R.string.ban_user_name) + " " + b.getString("name"),
             e = getString(R.string.ban_user_email) + " " + b.getString("email"),
@@ -47,8 +47,8 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.ban_user_button) {
-            if (banReason.getText().toString().isEmpty()) {
-                Toasty.info(BanActivity.this, ("You have to describe a reason for a ban."), Toasty.LENGTH_SHORT).show();
+            if (banReason.getText().toString().trim().isEmpty()) {
+                Toasty.info(BanActivity.this, getString(R.string.empty_field), Toasty.LENGTH_SHORT).show();
             } else {
                 db.collection("users").document(b.getString("uid"))
                         .update(bannedField, "true", reasonField, banReason.getText().toString().trim())
@@ -56,10 +56,10 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toasty.info(BanActivity.this, ("THE USER WAS BANNED!"), Toasty.LENGTH_SHORT).show();
+                            Toasty.info(BanActivity.this, getString(R.string.banned_user_success), Toasty.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toasty.info(BanActivity.this, ("Something went wrong!"), Toasty.LENGTH_SHORT).show();
+                            showErrorToast();
                         }
                     }
                 });
