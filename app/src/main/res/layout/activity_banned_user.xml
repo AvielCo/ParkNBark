@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorAppBackground"
+    android:fitsSystemWindows="true"
+    tools:context=".emailpassword.BannedUserActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/you_banned_msg"
+        android:layout_marginTop="5dp"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/colorBanned">
+    </TextView>
+
+    <ImageView
+        android:layout_width="220dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/banned_pic"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp">
+    </ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/you_banned_explanation"
+        android:textStyle="bold"
+        android:textSize="15sp">
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="18sp"
+        android:text="@string/account_details">
+    </TextView>
+
+    <TextView
+        android:id="@+id/ban_detail_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="1dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="16sp"
+        android:text="@string/ban_user_name">
+    </TextView>
+
+    <TextView
+        android:id="@+id/ban_detail_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="1dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="16sp"
+        android:text="@string/ban_user_email">
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="2dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="18sp"
+        android:text="@string/ban_reason">
+    </TextView>
+
+    <TextView
+        android:id="@+id/ban_detail_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="1dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="16sp">
+    </TextView>
+
+</LinearLayout>

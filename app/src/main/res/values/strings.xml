@@ -76,10 +76,13 @@
     <string name="ban_user">Ban user</string>
     <string name="ban_user_explanation">Are you sure you want to ban the following user?</string>
     <string name="ban_reason"><u><b>Reason for a ban:</b></u></string>
-    <string name="ban_user_name">Name: </string>
-    <string name="ban_user_email">E-Mail: </string>
-    <string name="ban_user_uid">UID: </string>
+    <string name="ban_user_name"><b>Name:</b></string>
+    <string name="ban_user_email"><b>E-Mail:</b></string>
+    <string name="ban_user_uid"><b>UID:</b></string>
     <string name="copy_success">Successfully copied.</string>
     <string name="banned_user_success">THE USER WAS BANNED!</string>
     <string name="ban_empty_string">You must describe a reason for a ban.</string>
+    <string name="you_banned_msg">You\'ve been banned!</string>
+    <string name="you_banned_explanation">Your account has been banned by administration due to violation of application\'s rules of use.\nIf you wish to appeal against the ban, contact the administration via noonethere@noserver.com e-mail.</string>
+    <string name="account_details"><u><b>Account details:</b></u></string>
 </resources>

@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     .putExtra("current_user_permission", user.getPermission()));
                         }
                         else {
-                            Toasty.info(LoginActivity.this, "YOU BANNED!", Toasty.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
                         }
                     }
                 }
