@@ -6,4 +6,6 @@
     <color name="colorWhite">#FFFF</color>
     <color name="colorAppBackground">#e1f5fe</color>
     <color name="colorBanned">#f44336</color>color>
+    <color name="colorOrangeText">#caae53</color>
+    <color name="colorOrangeDarkText">#ca9b52</color>
 </resources>

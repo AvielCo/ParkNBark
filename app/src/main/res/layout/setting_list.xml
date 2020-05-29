@@ -8,7 +8,7 @@
     android:padding="10dip"
     android:textSize="16sp"
     android:textStyle="bold"
-    android:textColor="#caae53"
+    android:textColor="@color/colorOrangeText"
     android:layout_margin="2dp"
     android:text="Item">
 </TextView>
