@@ -10,8 +10,9 @@ public class User implements Serializable {
     private String lastName;
     private String permission;
     private float appRate;
+    private boolean builtProfile;
 
-    public User(){
+    public User() {
         //do not delete.
     }
 
@@ -23,11 +24,24 @@ public class User implements Serializable {
         setEmailAddress(emailAddress);
         setBanned(false);
         setBanReason("");
+        setBuiltProfile(false);
     }
 
-    public float getAppRate() { return appRate; }
+    public boolean isBuiltProfile() {
+        return builtProfile;
+    }
 
-    public void setAppRate(float appRate) { this.appRate = appRate; }
+    public void setBuiltProfile(boolean builtProfile) {
+        this.builtProfile = builtProfile;
+    }
+
+    public float getAppRate() {
+        return appRate;
+    }
+
+    public void setAppRate(float appRate) {
+        this.appRate = appRate;
+    }
 
     public String getFirstName() {
         return firstName;

@@ -3,8 +3,11 @@ package com.evan.parknbark;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import com.evan.parknbark.utilities.BaseActivity;
+
 import java.io.InputStream;
+
 public class TermsActivity extends BaseActivity {
 
     @Override
@@ -18,8 +21,7 @@ public class TermsActivity extends BaseActivity {
             byte[] b = new byte[in_s.available()];
             in_s.read(b);
             rawText.setText(new String(b));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             rawText.setText("Error! Terms and conditions unavailable right now... Sorry.");
         }
     }
