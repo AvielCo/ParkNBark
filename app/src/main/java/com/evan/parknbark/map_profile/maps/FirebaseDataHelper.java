@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class FirebaseDataHelper extends BaseActivity {
     public static final String TAG = "FirebaseDataHelper";
+    protected FirebaseFirestore database;
 
     public static final String PARK_LOCATIONS_DB = "parklocations";
     public static final String STREET_FIELD = "street";
@@ -41,7 +43,8 @@ public class FirebaseDataHelper extends BaseActivity {
     }
 
     public void readParks(final DataStatus dataStatus){
-        db.collection(PARK_LOCATIONS_DB)
+        this.database = FirebaseFirestore.getInstance();
+        this.database.collection(PARK_LOCATIONS_DB)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

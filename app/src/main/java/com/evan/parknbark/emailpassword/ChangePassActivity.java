@@ -41,11 +41,11 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
 
     public boolean changePassword(String currentPassword, String newPassword, boolean test) {
         if (test) {
-            return EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword, null) &
-                    EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword, null) && !currentPassword.equals(newPassword);
+            return EditTextValidator.isValidLayoutEditText(currentPassword, mTextInputCurrentPassword, null) &
+                    EditTextValidator.isValidLayoutEditText(newPassword, mTextInputNewPassword, null) && !currentPassword.equals(newPassword);
         }
-        if (EditTextValidator.isValidEditText(currentPassword, mTextInputCurrentPassword, getApplicationContext()) &
-                EditTextValidator.isValidEditText(newPassword, mTextInputNewPassword, getApplicationContext()) && !currentPassword.equals(newPassword)) {
+        if (EditTextValidator.isValidLayoutEditText(currentPassword, mTextInputCurrentPassword, getApplicationContext()) &
+                EditTextValidator.isValidLayoutEditText(newPassword, mTextInputNewPassword, getApplicationContext()) && !currentPassword.equals(newPassword)) {
             showProgressBar();
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
             firebaseUser.reauthenticate(credential)

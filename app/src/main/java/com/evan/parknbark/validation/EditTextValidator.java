@@ -22,6 +22,34 @@ public class EditTextValidator implements TextWatcher {
         return !str.toString().isEmpty();
     }
 
+    public static boolean isValidLayoutEditText(CharSequence string, TextInputLayout mTextInputLayout, Context context) {
+        if (mTextInputLayout != null && context != null) {
+            if (!isValidString(string)) {
+                mTextInputLayout.setError(context.getString(R.string.empty_field));
+                return false;
+            }
+            int inputType = mTextInputLayout.getEditText().getInputType();
+            if (inputType == EMAIL_ADDRESS)
+                if (!EmailValidator.isValidEmail(string)) {
+                    mTextInputLayout.setError(context.getString(R.string.illegal_email));
+                    return false;
+                }
+                /**
+                 *  if the input type is of type text we check if the phone or fax are input correctly with PhoneFaxValidator.
+                 */
+                else if (inputType == TEXT) {
+                    if (!PhoneFaxValidator.isValidMobileOrFax(string, mTextInputLayout)) {
+                        return false;
+                    }
+                }
+            mTextInputLayout.setError(null);
+            return true;
+        } else
+            return isValidString(string);
+    }
+
+
+
     public static boolean isValidEditText(CharSequence string, TextInputLayout mTextInputLayout, Context context) {
         if (mTextInputLayout != null && context != null) {
             if (!isValidString(string)) {
@@ -67,4 +95,6 @@ public class EditTextValidator implements TextWatcher {
     public void afterTextChanged(Editable s) {
         mIsValid = isValidString(s);
     }
+
+
 }

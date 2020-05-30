@@ -76,4 +76,10 @@
     <string name="about_content">Park N Bark היא אפליקציה המיועדת להקל על בעלי כלבים לפגוש בעלי כלבים אחרים ולתת לכלביהם לשחק בקלות הטכנולוגיה המודרנית בהישג יד. האפליקציה פותחה בעזרת המנטורים הדס חסידים, דני אלמוג וסאלי ויצמן ששימשו חונכים לפרויקט זה. הצוות הסתמך על מקור נתונים פתוח שסופק על ידי עיריית באר שבע.</string>
     <string name="banned_user_success">המשתמש נחסם!</string>
     <string name="ban_empty_string">חובה להוסיף סיבה לחסימה.</string>
+    <string name="you_banned_msg">נחסמת!</string>
+    <string name="you_banned_explanation">חשבונך נחסם ע\"י המנהל עקב הפרה של תנאי השימוש. אם ברצונך לערער על החסימה צור קשר בכתובת הבאה noonethere@noserver.com</string>
+    <string name="terms_conds">תנאי השימוש</string>
+    <string name="Edit_my_profile">ערוך את הפרופיל</string>
+    <string name="edit_my_profile">ערוך את הפרופיל</string>
+    <string name="save_my_profile">שמור את הפרופיל</string>
 </resources>

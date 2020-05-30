@@ -64,16 +64,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.button_upload_image).setOnClickListener(this);
 
         setProgressBar(R.id.progressBar);
+        findViewById(R.id.button_save_profile).setOnClickListener(this);
+        findViewById(R.id.button_upload_image).setOnClickListener(this);
     }
 
 
     public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput, boolean test) {
         if (test) {
-            return EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName, null) && EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed, null) &&
-                    EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge, null);
+            return EditTextValidator.isValidLayoutEditText(dogNameInput, mTextInputDogName, null) && EditTextValidator.isValidLayoutEditText(dogBreedInput, mTextInputDogBreed, null) &&
+                    EditTextValidator.isValidLayoutEditText(dogAgeInput, mTextInputDogAge, null);
         }
-        if (EditTextValidator.isValidEditText(dogNameInput, mTextInputDogName, getApplicationContext()) & EditTextValidator.isValidEditText(dogBreedInput, mTextInputDogBreed, getApplicationContext()) &
-                EditTextValidator.isValidEditText(dogAgeInput, mTextInputDogAge, getApplicationContext())) {
+        if (EditTextValidator.isValidLayoutEditText(dogNameInput, mTextInputDogName, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(dogBreedInput, mTextInputDogBreed, getApplicationContext()) &
+                EditTextValidator.isValidLayoutEditText(dogAgeInput, mTextInputDogAge, getApplicationContext())) {
             showProgressBar();
             DocumentReference usersDocRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
             usersDocRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {

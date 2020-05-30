@@ -21,6 +21,7 @@ import com.evan.parknbark.TermsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
 import com.evan.parknbark.contacts.EditContactActivity;
+import com.evan.parknbark.credits.CreditActivity;
 import com.evan.parknbark.map_profile.maps.LocationsActivity;
 import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.map_profile.profile.ProfileActivity;
@@ -189,6 +190,9 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 break;
             case R.id.nav_map:
                 startActivity(new Intent(getApplicationContext(), MapActivity.class));
+                break;
+            case R.id.nav_credit:
+                startActivity(new Intent(getApplicationContext(), CreditActivity.class));
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

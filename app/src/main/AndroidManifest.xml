@@ -35,6 +35,10 @@
             android:launchMode="singleTop"
             android:parentActivityName=".map_profile.maps.MapActivity" />
         <activity
+            android:name=".credits.CreditActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".map_profile.maps.MapActivity" />
+        <activity
             android:name=".settings.admin.UsersListActivity"
             android:launchMode="singleTop" /> <!-- Login, Register, Reset/Change password -->
         <activity

@@ -43,11 +43,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
      */
     public boolean signUp(final String email, final String password, final String firstName, final String lastName, boolean test) {
         if(test){
-            return EditTextValidator.isValidEditText(email, textInputEmail, null) & EditTextValidator.isValidEditText(password, textInputPassword, null)
-                    & EditTextValidator.isValidEditText(firstName, textInputFName, null) & EditTextValidator.isValidEditText(lastName, textInputLName, null);
+            return EditTextValidator.isValidLayoutEditText(email, textInputEmail, null) & EditTextValidator.isValidLayoutEditText(password, textInputPassword, null)
+                    & EditTextValidator.isValidLayoutEditText(firstName, textInputFName, null) & EditTextValidator.isValidLayoutEditText(lastName, textInputLName, null);
         }
-        if (EditTextValidator.isValidEditText(email, textInputEmail, getApplicationContext()) & EditTextValidator.isValidEditText(password, textInputPassword, getApplicationContext())
-                & EditTextValidator.isValidEditText(firstName, textInputFName, getApplicationContext()) & EditTextValidator.isValidEditText(lastName, textInputLName, getApplicationContext())) {
+        if (EditTextValidator.isValidLayoutEditText(email, textInputEmail, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(password, textInputPassword, getApplicationContext())
+                & EditTextValidator.isValidLayoutEditText(firstName, textInputFName, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(lastName, textInputLName, getApplicationContext())) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
