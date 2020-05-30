@@ -4,42 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".map_profile.profile.WatchProfile"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    >
+    tools:context=".map_profile.profile.WatchProfile">
 
-
-    <TextView
-        android:id="@+id/textView_fullName"
-        android:layout_marginTop="100dp"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:fontFamily="sans-serif-medium"
-        />
+        app:elevation="0dp">
 
-    <TextView
-        android:id="@+id/textView_dogDetails"
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="6dp"
+            android:paddingEnd="16dp"
+            app:contentInsetStartWithNavigation="0dp" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:fontFamily="sans-serif-medium"
-        />
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/TextView_firstName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:inputType="text"
+            android:text="first name"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView_lastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/TextView_firstName"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:inputType="text"
+            android:text="last name"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+        <EditText
+            android:id="@+id/editText_dogName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:text="name"
+            android:textSize="20sp"
+            android:layout_marginEnd="6dp"/>
+
+        <EditText
+            android:id="@+id/editText_dogAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/editText_dogName"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:text="age"
+            android:textSize="20sp"
+            android:layout_marginEnd="6dp"/>
+
+        <EditText
+            android:id="@+id/editText_dogBreed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/editText_dogAge"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:text="breed"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView_dog_pic"
-        android:layout_marginTop="15dp"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_gravity="center"
-        >
+        android:layout_marginTop="30dp" />
 
-    </androidx.appcompat.widget.AppCompatImageView>
-
+    <Button
+        android:id="@+id/button_uploadDogPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="upload"
+        android:visibility="invisible" />
 
 
 </LinearLayout>

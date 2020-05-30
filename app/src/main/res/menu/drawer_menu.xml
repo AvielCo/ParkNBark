@@ -33,7 +33,8 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_editcontact" />
+            android:icon="@drawable/ic_editcontact"
+            android:title="@string/Edit_my_profile" />
         <item
             android:id="@+id/nav_watch_profile"
             android:title="@string/my_profile"

@@ -29,7 +29,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void resetPassword(String email){
-        if (EditTextValidator.isValidEditText(email, textInputResetPassEmail, getApplicationContext())) {
+        if (EditTextValidator.isValidLayoutEditText(email, textInputResetPassEmail, getApplicationContext())) {
             showProgressBar();
             mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

@@ -65,7 +65,7 @@ public class NewNoteDialog extends DialogFragment {
         //title for toolbar
         toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         toolbar.setTitle(getResources().getString(R.string.new_note));
-        toolbar.inflateMenu(R.menu.new_note_menu);
+        toolbar.inflateMenu(R.menu.save_menu);
 
         //when clicking on save icon inside toolbar
         toolbar.setOnMenuItemClickListener(item -> {
@@ -78,12 +78,12 @@ public class NewNoteDialog extends DialogFragment {
 
     public boolean saveNote(String title, String description, boolean test) {
         if (test) {
-            return EditTextValidator.isValidEditText(title, textInputTitle, null) && EditTextValidator.isValidEditText(description, textInputDescription, null);
+            return EditTextValidator.isValidLayoutEditText(title, textInputTitle, null) && EditTextValidator.isValidLayoutEditText(description, textInputDescription, null);
         }
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
-        if (EditTextValidator.isValidEditText(title, textInputTitle, getContext()) & EditTextValidator.isValidEditText(description, textInputDescription, getContext())) {
+        if (EditTextValidator.isValidLayoutEditText(title, textInputTitle, getContext()) & EditTextValidator.isValidLayoutEditText(description, textInputDescription, getContext())) {
             CollectionReference notebookRef = FirebaseFirestore.getInstance()
                     .collection("notes");
             Note note = new Note(title, description, currentDate);
