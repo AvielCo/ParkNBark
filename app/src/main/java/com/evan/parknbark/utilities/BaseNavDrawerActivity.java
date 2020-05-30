@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
+import com.evan.parknbark.TermsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
 import com.evan.parknbark.contacts.EditContactActivity;
@@ -172,6 +173,9 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 break;
             case R.id.nav_settings:
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class).putExtra("current_user_permission", currentUserPermission));
+                break;
+            case R.id.nav_terms_conds:
+                startActivity(new Intent(getApplicationContext(), TermsActivity.class));
                 break;
             case R.id.nav_bulletin:
                 //starting activity and sending the user details to check if he is admin or nah
