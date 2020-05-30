@@ -79,7 +79,9 @@
     <string name="you_banned_msg">נחסמת!</string>
     <string name="you_banned_explanation">חשבונך נחסם ע\"י המנהל עקב הפרה של תנאי השימוש. אם ברצונך לערער על החסימה צור קשר בכתובת הבאה noonethere@noserver.com</string>
     <string name="terms_conds">תנאי השימוש</string>
-    <string name="Edit_my_profile">ערוך את הפרופיל</string>
     <string name="edit_my_profile">ערוך את הפרופיל</string>
     <string name="save_my_profile">שמור את הפרופיל</string>
+    <string name="permit_user">הרשה גישה</string>
+    <string name="permit_user_ask">"האם אתה בטוח שברצונך להתיר חסימה למשתמש "</string>
+    <string name="permit_user_success">"חסימה הורדה בהצלחה "</string>
 </resources>

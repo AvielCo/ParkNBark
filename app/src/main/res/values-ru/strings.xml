@@ -79,7 +79,9 @@
     <string name="you_banned_msg">"Вас забанили! "</string>
     <string name="you_banned_explanation">"Ваш аккаунт был заблокирован администрацией из-за нарушения правил использования приложения. Если вы хотите подать апелляцию против запрета, свяжитесь с администрацией по электронной почте noonethere@noserver.com. "</string>
     <string name="terms_conds">"Условия и положения "</string>
-    <string name="Edit_my_profile">"Редактировать мой профиль "</string>
     <string name="edit_my_profile">"Редактировать мой профиль "</string>
     <string name="save_my_profile">"сохранить мой профиль "</string>
+    <string name="permit_user">"Разрешить доступ "</string>
+    <string name="permit_user_ask">"Вы уверены, что хотите разблокировать пользователя "</string>
+    <string name="permit_user_success">" Успешно разрешенный доступ "</string>
 </resources>
