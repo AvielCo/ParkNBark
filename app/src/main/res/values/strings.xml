@@ -87,4 +87,7 @@
     <string name="account_details"><u><b>Account details:</b></u></string>
     <string name="terms_conds_head"><u><b>Terms and Conditions</b></u></string>
     <string name="terms_conds">Terms N\` Conditions</string>
+    <string name="permit_user">Permit user</string>
+    <string name="permit_user_ask">"Are you sure you want to permit "</string>
+    <string name="permit_user_success">\"Successfully permitted \"</string>
 </resources>

@@ -4,11 +4,21 @@ class UserItem {
     private String displayName;
     private String email;
     private String uid;
+    private boolean banned;
 
-    UserItem(String displayName, String email, String uid) {
+    UserItem(String displayName, String email, String uid, boolean banned) {
         setDisplayName(displayName);
         setEmail(email);
         setUid(uid);
+        setBanned(banned);
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 
     String getEmail() {

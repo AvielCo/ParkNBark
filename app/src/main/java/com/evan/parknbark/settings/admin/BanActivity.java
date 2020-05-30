@@ -1,13 +1,11 @@
 package com.evan.parknbark.settings.admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
@@ -30,17 +28,18 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
         b = getIntent().getExtras();
         findViewById(R.id.ban_user_button).setOnClickListener(this);
         TextView name = findViewById(R.id.banned_user_name),
-             email = findViewById(R.id.banned_user_email),
-             uid = findViewById(R.id.banned_user_uid);
+                email = findViewById(R.id.banned_user_email),
+                uid = findViewById(R.id.banned_user_uid);
         banReason = findViewById(R.id.ban_reason_text_input);
         String n = getString(R.string.ban_user_name) + " " + b.getString("name"),
-            e = getString(R.string.ban_user_email) + " " + b.getString("email"),
-            u = getString(R.string.ban_user_uid) + " " + b.getString("uid");
+                e = getString(R.string.ban_user_email) + " " + b.getString("email"),
+                u = getString(R.string.ban_user_uid) + " " + b.getString("uid");
         name.setText(n);
         email.setText(e);
         uid.setText(u);
         bannedField = FieldPath.of("banned");
         reasonField = FieldPath.of("banReason");
+        setProgressBar(R.id.progressBar);
     }
 
     @Override
@@ -50,19 +49,22 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
             if (banReason.getText().toString().trim().isEmpty()) {
                 Toasty.info(BanActivity.this, getString(R.string.empty_field), Toasty.LENGTH_SHORT).show();
             } else {
+                hideSoftKeyboard();
+                showProgressBar();
                 db.collection("users").document(b.getString("uid"))
                         .update(bannedField, true, reasonField, banReason.getText().toString().trim())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toasty.info(BanActivity.this, getString(R.string.banned_user_success), Toasty.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            showErrorToast();
-                        }
-                    }
-                });
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toasty.info(BanActivity.this, getString(R.string.banned_user_success), Toasty.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    showErrorToast();
+                                }
+                                hideProgressBar();
+                            }
+                        });
             }
         }
     }
