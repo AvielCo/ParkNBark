@@ -84,4 +84,5 @@
     <string name="permit_user">"Разрешить доступ "</string>
     <string name="permit_user_ask">"Вы уверены, что хотите разблокировать пользователя "</string>
     <string name="permit_user_success">" Успешно разрешенный доступ "</string>
+    <string name="profile_not_set">" hasn't set profile yet."</string>
 </resources>

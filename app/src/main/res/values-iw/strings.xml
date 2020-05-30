@@ -84,4 +84,5 @@
     <string name="permit_user">הרשה גישה</string>
     <string name="permit_user_ask">"האם אתה בטוח שברצונך להתיר חסימה למשתמש "</string>
     <string name="permit_user_success">"חסימה הורדה בהצלחה "</string>
+    <string name="profile_not_set">" hasn't set profile yet."</string>
 </resources>

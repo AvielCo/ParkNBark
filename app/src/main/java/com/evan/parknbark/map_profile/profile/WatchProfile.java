@@ -38,20 +38,16 @@ import com.squareup.picasso.Picasso;
 
 import es.dmoral.toasty.Toasty;
 
-public class WatchProfile extends BaseActivity implements View.OnClickListener{
-
-    private TextView firstName, lastName;
-    private EditText mEditTextdogName, mEditTextdogAge, mEditTextdogBreed;
-    private ImageView dogPic;
-    private Button uploadPic;
+public class WatchProfile extends BaseActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
 
     private static final String TAG = "WatchProfile";
-
-    private boolean hiddenItem = false;
-
-    private Toolbar toolbar;
-
     private static final int PICK_IMAGE_REQUEST = 1;
+    private TextView mTextViewFirstName, mTextViewLastName;
+    private EditText mEditTextDogName, mEditTextDogAge, mEditTextDogBreed;
+    private ImageView mImageViewDogPic;
+    private Button mButtonUploadPic;
+    private boolean hiddenItem = false;
+    private Toolbar toolbar;
     private Uri mImageUri;
     private boolean isUploadedImage = false;
 
@@ -68,95 +64,71 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_profile);
 
-        firstName = findViewById(R.id.TextView_firstName);
-        lastName = findViewById(R.id.TextView_lastName);
-        mEditTextdogAge = findViewById(R.id.editText_dogAge);
-        mEditTextdogName = findViewById(R.id.editText_dogName);
-        mEditTextdogBreed = findViewById(R.id.editText_dogBreed);
+        mTextViewFirstName = findViewById(R.id.TextView_firstName);
+        mTextViewLastName = findViewById(R.id.TextView_lastName);
+        mEditTextDogAge = findViewById(R.id.editText_dogAge);
+        mEditTextDogName = findViewById(R.id.editText_dogName);
+        mEditTextDogBreed = findViewById(R.id.editText_dogBreed);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("profiles");
         currentUser = mAuth.getCurrentUser();
 
-        dogPic = findViewById(R.id.imageView_dog_pic);
-        uploadPic = findViewById(R.id.button_uploadDogPic);
-        uploadPic.setOnClickListener(this);
+        mImageViewDogPic = findViewById(R.id.imageView_dog_pic);
+        mButtonUploadPic = findViewById(R.id.button_uploadDogPic);
+        mButtonUploadPic.setOnClickListener(this);
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
         toolbar.inflateMenu(R.menu.edit_menu);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int i = item.getItemId();
-                hideSoftKeyboard();
-                switch(i){
-                    case R.id.edit_icon:
-                        hiddenItem = true;
-                        hideItemToolbar();
-                        uploadPic.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.save_icon:
-                        String name = mEditTextdogName.getText().toString();
-                        String age = mEditTextdogAge.getText().toString();
-                        String breed = mEditTextdogBreed.getText().toString();
-                        saveProfile(name,breed,age);
-                        hiddenItem = false;
-                        hideItemToolbar();
-                        uploadPic.setVisibility(View.INVISIBLE);
-                        break;
-                }
-                return false;
-            }
-        });
-        hideItemToolbar();
+        toolbar.setOnMenuItemClickListener(this);
+
+        hideItemInsideToolbar();
         getInfoFromFirebase();
     }
 
-
-    public boolean hideItemToolbar() {
+    public void hideItemInsideToolbar() {
         Menu m = toolbar.getMenu();
         MenuItem edit_item = m.findItem(R.id.edit_icon);
         MenuItem save_item = m.findItem(R.id.save_icon);
-        if(hiddenItem){
+        if (hiddenItem) {
             edit_item.setVisible(false);
             save_item.setVisible(true);
-            return true;
+            return;
         }
         edit_item.setVisible(true);
         save_item.setVisible(false);
-        return true;
     }
 
     void getInfoFromFirebase() {
         DocumentReference usersDocRef = db.collection("profiles").document(mAuth.getCurrentUser().getUid());
-        usersDocRef.
-                get().
-                addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        usersDocRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            String mfirstName = documentSnapshot.getString("firstName");
-                            String mlastName = documentSnapshot.getString("lastName");
-                            String mdogName = documentSnapshot.getString("dogName");
-                            String mdogAge = documentSnapshot.getString("dogAge");
-                            String mdogBreed = documentSnapshot.getString("dogBreed");
+                            String firstName = documentSnapshot.getString("firstName"),
+                                    lastName = documentSnapshot.getString("lastName"),
+                                    dogName = documentSnapshot.getString("dogName"),
+                                    dogAge = documentSnapshot.getString("dogAge"),
+                                    dogBreed = documentSnapshot.getString("dogBreed");
                             dogPicUri = documentSnapshot.getString("profilePicture");
 
-                            firstName.setText(mfirstName + " ");
-                            lastName.setText(" " + mlastName);
+                            mTextViewFirstName.setText(firstName + " ");
+                            mTextViewLastName.setText(" " + lastName);
 
-                            mEditTextdogName.setText(mdogName);
-                            int positionDN = mEditTextdogName.length();
-                            mEditTextdogName.setSelection(positionDN);
+                            mEditTextDogName.setText(dogName);
+                            int positionDN = mEditTextDogName.length();
+                            mEditTextDogName.setSelection(positionDN);
 
-                            mEditTextdogBreed.setText(mdogBreed);
-                            int positionDB = mEditTextdogBreed.length();
-                            mEditTextdogBreed.setSelection(positionDB);
+                            mEditTextDogBreed.setText(dogBreed);
+                            int positionDB = mEditTextDogBreed.length();
+                            mEditTextDogBreed.setSelection(positionDB);
 
-                            mEditTextdogAge.setText(mdogAge);
-                            int positionDA = mEditTextdogAge.length();
-                            mEditTextdogAge.setSelection(positionDA);
+                            mEditTextDogAge.setText(dogAge);
+                            int positionDA = mEditTextDogAge.length();
+                            mEditTextDogAge.setSelection(positionDA);
 
-                            Picasso.get().load(dogPicUri).into(dogPic);
+                            Picasso.get().load(dogPicUri).into(mImageViewDogPic);
                         } else {
                             Toast.makeText(WatchProfile.this, "data does not exist", Toast.LENGTH_SHORT).show();
                         }
@@ -188,7 +160,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener{
                 && data != null && data.getData() != null) {
             isUploadedImage = true;
             mImageUri = data.getData();
-            Picasso.get().load(mImageUri).into(dogPic);
+            Picasso.get().load(mImageUri).into(mImageViewDogPic);
         }
     }
 
@@ -218,7 +190,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener{
                                         public void onComplete(@NonNull Task<Uri> task) {
                                             if (task.isSuccessful()) {
                                                 String mImageDownloadUri = task.getResult().toString();
-                                                    uploadProfile(dogNameInput, dogBreedInput, dogAgeInput, mImageDownloadUri);
+                                                uploadProfile(dogNameInput, dogBreedInput, dogAgeInput, mImageDownloadUri);
                                             } else showErrorToast();
                                         }
                                     });
@@ -231,7 +203,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener{
     }
 
     private void uploadProfile(String dogNameInput, String dogBreedInput, String dogAgeInput, String imageUri) {
-        if(imageUri==null){
+        if (imageUri == null) {
             imageUri = dogPicUri;
         }
         Profile profile = new Profile(user.getFirstName(), user.getLastName(), dogNameInput, dogBreedInput, dogAgeInput, imageUri);
@@ -280,4 +252,26 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        int i = item.getItemId();
+        hideSoftKeyboard();
+        switch (i) {
+            case R.id.edit_icon:
+                hiddenItem = true;
+                hideItemInsideToolbar();
+                mButtonUploadPic.setVisibility(View.VISIBLE);
+                break;
+            case R.id.save_icon:
+                String name = mEditTextDogName.getText().toString();
+                String age = mEditTextDogAge.getText().toString();
+                String breed = mEditTextDogBreed.getText().toString();
+                saveProfile(name, breed, age);
+                hiddenItem = false;
+                hideItemInsideToolbar();
+                mButtonUploadPic.setVisibility(View.INVISIBLE);
+                break;
+        }
+        return false;
+    }
 }

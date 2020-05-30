@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/app_logo2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".settings.admin.PermitActivity"></activity>
         <!-- MAIN ACTIVITY -->
         <activity
             android:name=".utilities.SplashScreenActivity"
@@ -26,7 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".map_profile.profile.WatchProfile" />
+        <activity
+            android:name=".map_profile.profile.WatchProfile"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".utilities.MainActivity"
             android:launchMode="singleTop" /> <!-- App settings -->
