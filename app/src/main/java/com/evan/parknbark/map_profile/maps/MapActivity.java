@@ -47,34 +47,26 @@ import java.util.Collections;
 
 public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, MapProfileBottomSheetDialog.BottomSheetListener {
 
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
     private static final String TAG = "MapActivity";
     private static final String PARK_LOCATIONS_DB = "parklocations";
     private static final String LATLNG_FIELD = "latlng";
     private static final String PARK_CHECKIN = "parkcheckin";
     private static final String CHECKIN_FIELD = "currentProfilesInPark";
     private static final String PROFILES = "profiles";
+    private static final double defaultLan = 31.249927;
+    private static final double defaultLon = 34.791930;
+    //permissions
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private String CHECKIN_MSG;
     private String CHECKOUT_MSG;
     private String GPS_NOT_ENABLE;
     private String ENABLE_GPS_MSG;
     private boolean check_in_flag;
-
     //Map variables
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-    private final float zoom = 14.5f;
-    private final float defaultZoom = 13f;
-    private LatLng defaultLoc;
-    private static final double defaultLan = 31.249927;
-    private static final double defaultLon = 34.791930;
-    private boolean gps_enabled = false;
-
-    //permissions
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    public static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
-
     //profiles
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference profilesRef = db.collection(PROFILES);
@@ -132,8 +124,8 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         mLocationPermissionsGranted = false;
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0) {
-                for (int i = 0; i < grantResults.length; i++) {
-                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
                         mLocationPermissionsGranted = false;
                         return;
                     }
@@ -157,7 +149,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
      * if permission is granted the app proceeds to get user's current locations and is sent to update the map with that location.
      */
     private void getDeviceLocation() {
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             if (mLocationPermissionsGranted) {
                 Task location = mFusedLocationProviderClient.getLastLocation();
@@ -218,7 +210,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         LocationManager lm = (LocationManager) MapActivity.this.getSystemService(Context.LOCATION_SERVICE);
         mMap.clear();
         setParksMarkers();
-        gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         //give user the park locations even if the permission for the
         //current location has not been granted.
         if (!gps_enabled || !mLocationPermissionsGranted) {
@@ -226,10 +218,12 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
             //else, don't ask to turn on GPS.
             if (!gps_enabled && mLocationPermissionsGranted)
                 enableGps();
-            defaultLoc = new LatLng(defaultLan, defaultLon);
+            LatLng defaultLoc = new LatLng(defaultLan, defaultLon);
+            float defaultZoom = 13f;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, defaultZoom));
         } else { //the user has gps enabled and permission is granted.
             LatLng userLatLon = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
+            float zoom = 14.5f;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLon, zoom));
         }
     }
@@ -284,7 +278,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                 //cast always going to be successful
+                                //cast always going to be successful
                                 @SuppressWarnings("unchecked")
                                 ArrayList<String> currentUsersInParkUID = (ArrayList<String>) document.get(CHECKIN_FIELD);
                                 getCurrentUsersInParkDetails(currentUsersInParkUID);

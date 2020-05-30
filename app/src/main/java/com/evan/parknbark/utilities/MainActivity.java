@@ -5,19 +5,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.evan.parknbark.R;
+import com.evan.parknbark.emailpassword.BannedUserActivity;
 import com.evan.parknbark.emailpassword.LoginActivity;
 import com.evan.parknbark.emailpassword.RegisterActivity;
 import com.evan.parknbark.google.GoogleAuthActivity;
 import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.google.firebase.auth.FirebaseUser;
 
-import javax.annotation.Nullable;
-
-import es.dmoral.toasty.Toasty;
-
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     GoogleAuthActivity gaa;
-    @Nullable
     private User currentUser;
 
     @Override
@@ -41,7 +37,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(new Intent(MainActivity.this, MapActivity.class)
                         .putExtra("current_user_permission", currentUser.getPermission()));
             } else {
-                Toasty.info(MainActivity.this, "YOU BANNED!", Toasty.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, BannedUserActivity.class));
             }
 
         }
