@@ -1,0 +1,4 @@
+- User that will use inappropriate language in their names will be banned.
+- User that won't check out of park for a long period of time will be banned.
+- User that will use inappropriate profile picture will be banned.
+- User that will be found using spam/fake E-Mail will be banned.

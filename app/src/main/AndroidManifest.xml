@@ -86,7 +86,11 @@
             android:parentActivityName=".settings.admin.UsersListActivity" />
         <activity
             android:name=".emailpassword.BannedUserActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".TermsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".map_profile.maps.MapActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

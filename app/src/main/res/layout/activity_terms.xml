@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TermsActivity"
+    android:orientation="vertical"
+    android:background="@color/colorAppBackground"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorAppBackground">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="-15dp"
+            android:src="@mipmap/app_logo1_foreground">
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/terms_conds_head"
+            android:textAlignment="center"
+            android:textSize="25sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/terms_conds_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="rules\nrules\nrules\nrules"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp">
+        </TextView>
+    </LinearLayout>
+
+</ScrollView>

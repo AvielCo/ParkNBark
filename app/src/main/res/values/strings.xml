@@ -85,4 +85,6 @@
     <string name="you_banned_msg">You\'ve been banned!</string>
     <string name="you_banned_explanation">Your account has been banned by administration due to violation of application\'s rules of use.\nIf you wish to appeal against the ban, contact the administration via noonethere@noserver.com e-mail.</string>
     <string name="account_details"><u><b>Account details:</b></u></string>
+    <string name="terms_conds_head"><u><b>Terms and Conditions</b></u></string>
+    <string name="terms_conds">Terms N\` Conditions</string>
 </resources>
