@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,6 @@ import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.utilities.User;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
@@ -114,7 +112,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                             dogPicUri = documentSnapshot.getString("profilePicture");
 
                             mTextViewFirstName.setText(firstName + " ");
-                            mTextViewLastName.setText(" " + lastName);
+                            mTextViewLastName.setText(lastName);
 
                             mEditTextDogName.setText(dogName);
                             int positionDN = mEditTextDogName.length();
@@ -133,14 +131,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                             Toast.makeText(WatchProfile.this, "data does not exist", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }).
-                addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.toString());
-                    }
                 });
-
     }
 
     //opens the option to pick a picture from phone`s gallery/google drive/downloads etc.
