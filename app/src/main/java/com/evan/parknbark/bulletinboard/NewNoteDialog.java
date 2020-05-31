@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.evan.parknbark.R;
+import com.evan.parknbark.utilities.BaseDialogFragment;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
 
-public class NewNoteDialog extends DialogFragment {
+public class NewNoteDialog extends BaseDialogFragment {
     private static final String TAG = "NewNoteDialog";
     private Toolbar toolbar;
     private TextInputLayout textInputTitle;
@@ -69,6 +69,7 @@ public class NewNoteDialog extends DialogFragment {
 
         //when clicking on save icon inside toolbar
         toolbar.setOnMenuItemClickListener(item -> {
+            hideSoftKeyboard(view);
             String title = textInputTitle.getEditText().getText().toString().trim();
             String description = textInputDescription.getEditText().getText().toString().trim();
             saveNote(title, description, false);
@@ -93,7 +94,7 @@ public class NewNoteDialog extends DialogFragment {
                     dismiss();
                 }
                 else
-                    Toasty.error(getContext(), getResources().getString(R.string.error_message), Toasty.LENGTH_SHORT, true).show();
+                    showErrorToast();
             });
         }
         return true;

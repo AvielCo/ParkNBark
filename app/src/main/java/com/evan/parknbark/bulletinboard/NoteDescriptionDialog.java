@@ -8,21 +8,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.evan.parknbark.R;
+import com.evan.parknbark.utilities.BaseDialogFragment;
 
 import es.dmoral.toasty.Toasty;
 
-public class NoteDescriptionDialog extends DialogFragment {
+public class NoteDescriptionDialog extends BaseDialogFragment {
     private TextView textViewDescription, textViewDate;
     private static final String TAG = "NoteDescriptionDialog";
     private Toolbar toolbar;

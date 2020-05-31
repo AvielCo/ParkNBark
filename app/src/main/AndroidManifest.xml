@@ -29,9 +29,7 @@
             android:name=".map_profile.profile.WatchProfile"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".utilities.MainActivity"
-            android:launchMode="singleTop" /> <!-- App settings -->
+
         <activity
             android:name=".settings.SettingsActivity"
             android:launchMode="singleTop"
@@ -51,11 +49,11 @@
         <activity
             android:name=".emailpassword.LoginActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".utilities.MainActivity" />
+            android:parentActivityName=".emailpassword.LoginActivity" />
         <activity
             android:name=".emailpassword.RegisterActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".utilities.MainActivity" />
+            android:parentActivityName=".emailpassword.LoginActivity" />
         <activity
             android:name=".emailpassword.ResetPassActivity"
             android:launchMode="singleTop"
@@ -67,7 +65,7 @@
         <activity
             android:name=".map_profile.maps.MapActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".utilities.MainActivity"
+            android:parentActivityName=".emailpassword.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".map_profile.maps.LocationsActivity"

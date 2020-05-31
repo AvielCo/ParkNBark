@@ -1,12 +1,12 @@
 package com.evan.parknbark.utilities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,8 +20,8 @@ import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.TermsActivity;
 import com.evan.parknbark.bulletinboard.BulletinBoardActivity;
 import com.evan.parknbark.contacts.ContactActivity;
-import com.evan.parknbark.contacts.EditContactActivity;
 import com.evan.parknbark.credits.CreditActivity;
+import com.evan.parknbark.emailpassword.LoginActivity;
 import com.evan.parknbark.map_profile.maps.LocationsActivity;
 import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.map_profile.profile.ProfileActivity;
@@ -29,7 +29,6 @@ import com.evan.parknbark.map_profile.profile.WatchProfile;
 import com.evan.parknbark.settings.SettingsActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 
 
@@ -154,8 +153,9 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 if (getUserCheckinPark() != null)
                     db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
                 FirebaseAuth.getInstance().signOut();
+                removeRememberMeCheckBox();
                 finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 break;
             case R.id.nav_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -197,5 +197,12 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void removeRememberMeCheckBox() {
+        SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("remember", "false");
+        editor.apply();
     }
 }

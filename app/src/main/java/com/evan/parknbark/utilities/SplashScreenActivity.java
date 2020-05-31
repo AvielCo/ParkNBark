@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.evan.parknbark.R;
+import com.evan.parknbark.emailpassword.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,10 +49,9 @@ public class SplashScreenActivity extends BaseActivity {
 
         EasySplashScreen config = new EasySplashScreen(this)
                 .withFullScreen()
-                .withTargetActivity(MainActivity.class) //go to main activity
+                .withTargetActivity(LoginActivity.class) //go to main activity
                 .withBundleExtras(bundle) //send bundle, either user logged in or nah
                 .withBackgroundColor(Color.parseColor("#e1f5fe"))
-                .withHeaderText("Welcome to")
                 .withLogo(R.mipmap.app_logo1_foreground); //TODO: adjust logo dimensions
 
         View easySplashScreen = config.create();

@@ -1,5 +1,6 @@
 package com.evan.parknbark.emailpassword;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +22,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
-    private TextInputLayout textInputFName, textInputLName, textInputEmail, textInputPassword;
-
     private static final String TAG = "Register";
+    private TextInputLayout mTextInputFName, mTextInputLName, mTextInputEmail, mTextInputPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,23 +31,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_register_email_password);
         setProgressBar(R.id.progressBar);
 
-        textInputEmail = findViewById(R.id.text_input_email);
-        textInputPassword = findViewById(R.id.text_input_password);
-        textInputLName = findViewById(R.id.text_input_lname);
-        textInputFName = findViewById(R.id.text_input_fname);
-        findViewById(R.id.button_sign_up).setOnClickListener(this);
+        mTextInputEmail = findViewById(R.id.text_input_email);
+        mTextInputPassword = findViewById(R.id.text_input_password);
+        mTextInputLName = findViewById(R.id.text_input_lname);
+        mTextInputFName = findViewById(R.id.text_input_fname);
+        findViewById(R.id.button_register).setOnClickListener(this);
     }
 
     /*
     Registration functionality summary
      */
     public boolean signUp(final String email, final String password, final String firstName, final String lastName, boolean test) {
-        if(test){
-            return EditTextValidator.isValidLayoutEditText(email, textInputEmail, null) & EditTextValidator.isValidLayoutEditText(password, textInputPassword, null)
-                    & EditTextValidator.isValidLayoutEditText(firstName, textInputFName, null) & EditTextValidator.isValidLayoutEditText(lastName, textInputLName, null);
+        if (test) {
+            return EditTextValidator.isValidLayoutEditText(email, mTextInputEmail, null) & EditTextValidator.isValidLayoutEditText(password, mTextInputPassword, null)
+                    & EditTextValidator.isValidLayoutEditText(firstName, mTextInputFName, null) & EditTextValidator.isValidLayoutEditText(lastName, mTextInputLName, null);
         }
-        if (EditTextValidator.isValidLayoutEditText(email, textInputEmail, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(password, textInputPassword, getApplicationContext())
-                & EditTextValidator.isValidLayoutEditText(firstName, textInputFName, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(lastName, textInputLName, getApplicationContext())) {
+        if (EditTextValidator.isValidLayoutEditText(email, mTextInputEmail, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(password, mTextInputPassword, getApplicationContext())
+                & EditTextValidator.isValidLayoutEditText(firstName, mTextInputFName, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(lastName, mTextInputLName, getApplicationContext())) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -66,7 +66,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) { //No error on firebase side.
-                                                    updateUI(mAuthCurrentUser);
+                                                    updateUI(mAuthCurrentUser, email, password);
                                                 } else
                                                     Log.d(TAG, "db.collection: onComplete: ERROR!!! " + task.getException().getMessage());
                                             }
@@ -82,9 +82,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(FirebaseUser user, String email, String password) {
         if (user != null) {
             Toasty.success(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_LONG, true).show();
+            Intent i = new Intent();
+            i.putExtra("email_reg", email);
+            i.putExtra("pass_reg", password);
+            setResult(RESULT_OK, i);
             mAuth.signOut();
             finish();
         }
@@ -93,12 +97,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.button_sign_up) {
+        if (i == R.id.button_register) {
             hideSoftKeyboard();
-            String emailInput = textInputEmail.getEditText().getText().toString().trim().toLowerCase();
-            String passwordInput = textInputPassword.getEditText().getText().toString().trim();
-            String firstNameInput = textInputFName.getEditText().getText().toString().trim();
-            String lastNameInput = textInputLName.getEditText().getText().toString().trim();
+            String emailInput = mTextInputEmail.getEditText().getText().toString().trim().toLowerCase();
+            String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
+            String firstNameInput = mTextInputFName.getEditText().getText().toString().trim();
+            String lastNameInput = mTextInputLName.getEditText().getText().toString().trim();
             signUp(emailInput, passwordInput, firstNameInput, lastNameInput, false);
         }
     }

@@ -1,46 +1,40 @@
 package com.evan.parknbark.emailpassword;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.utilities.BaseActivity;
-import com.evan.parknbark.R;
-import com.evan.parknbark.utilities.MainActivity;
 import com.evan.parknbark.utilities.User;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firestore.v1.UpdateDocumentRequest;
-
-import es.dmoral.toasty.Toasty;
 
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
-    private TextInputLayout textInputEmail, textInputPassword;
+public class LoginActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LoginActivity";
+    private static final int REGISTER_REQUEST = 0;
+    private TextInputLayout mTextInputEmail, mTextInputPassword;
+    private CheckBox mCheckBoxRememberMe;
 
-    private boolean isLoggedIn = false;
+    private long backPressedTime;
+    private Toast backToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,26 +42,38 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login_email_password);
         setProgressBar(R.id.progressBar);
 
-        textInputEmail = findViewById(R.id.text_input_email);
-        textInputPassword = findViewById(R.id.text_input_password);
-        findViewById(R.id.forget_password_link).setOnClickListener(this);
-        findViewById(R.id.button_sign_in).setOnClickListener(this);
+        mTextInputEmail = findViewById(R.id.text_input_email);
+        mTextInputPassword = findViewById(R.id.text_input_password);
+        mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
+
+        findViewById(R.id.forgot_password_link).setOnClickListener(this);
+        findViewById(R.id.button_login).setOnClickListener(this);
+        findViewById(R.id.button_register).setOnClickListener(this);
+        mCheckBoxRememberMe.setOnCheckedChangeListener(this);
+
+        Bundle bundle = getIntent().getExtras();
+        User currentUser = (User) bundle.getSerializable("current_user");
+
+        SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
+        String checkbox = preferences.getString("remember", "");
+        if (checkbox.equals("true")) {
+            updateUI(mAuth.getCurrentUser(), currentUser);
+        }
     }
 
     public boolean signIn(String email, String password, boolean test) {
         if (test) {
-            return EditTextValidator.isValidEditText(email, textInputEmail, null) && EditTextValidator.isValidEditText(password, textInputPassword, null);
+            return EditTextValidator.isValidEditText(email, mTextInputEmail, null) && EditTextValidator.isValidEditText(password, mTextInputPassword, null);
         }
-        if (EditTextValidator.isValidEditText(email, textInputEmail, getApplicationContext()) &
-                EditTextValidator.isValidEditText(password, textInputPassword, getApplicationContext())) {
+        if (EditTextValidator.isValidEditText(email, mTextInputEmail, getApplicationContext()) &
+                EditTextValidator.isValidEditText(password, mTextInputPassword, getApplicationContext())) {
             showProgressBar();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                isLoggedIn = true;
-                                updateUI(task.getResult().getUser());
+                                getUserDetails(mAuth.getCurrentUser());
                             } else {
                                 Exception e = task.getException();
                                 Log.d(TAG, "onFailure: " + e.getMessage());
@@ -79,49 +85,99 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         return true;
     }
 
-    private void updateUI(FirebaseUser firebaseUser) {
+    private void getUserDetails(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
-            docRef.get().addOnCompleteListener(this, new OnCompleteListener<DocumentSnapshot>() {
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         User user = task.getResult().toObject(User.class);
-                        if (!user.isBanned()) {
-                            startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                                    .putExtra("current_user_permission", user.getPermission()));
-                        }
-                        else {
-                            startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
-                        }
+                        updateUI(firebaseUser, user);
+                        hideProgressBar();
                     }
                 }
             });
-            hideProgressBar();
         } else
             showErrorToast();
+    }
+
+    private void updateUI(FirebaseUser firebaseUser, User currentUser) {
+        if (firebaseUser != null && currentUser != null) {
+            if (!currentUser.isBanned()) {
+                if (currentUser.isBuiltProfile()) {
+                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                            .putExtra("current_user_permission", currentUser.getPermission()));
+                } else {
+                    //TODO: if user didn't build profile yet
+                    //TODO: delete the line below when above is finished
+                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                            .putExtra("current_user_permission", currentUser.getPermission()));
+                }
+            } else { //user is banned
+                startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
         switch (i) {
-            case R.id.forget_password_link:
+            case R.id.button_register:
+                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class),
+                        REGISTER_REQUEST);
+                break;
+            case R.id.forgot_password_link:
                 startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
                 break;
-            case R.id.button_sign_in:
+            case R.id.button_login:
                 hideSoftKeyboard();
-                String emailInput = textInputEmail.getEditText().getText().toString().trim();
-                String passwordInput = textInputPassword.getEditText().getText().toString().trim();
+                String emailInput = mTextInputEmail.getEditText().getText().toString().trim();
+                String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
                 signIn(emailInput, passwordInput, false);
                 break;
         }
     }
 
-    @VisibleForTesting
-    protected FirebaseAuth fireBaseAuthMock() {
-        FirebaseApp.initializeApp(this);
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        return firebaseAuth;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REGISTER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                String email = data.getStringExtra("email_reg"),
+                        password = data.getStringExtra("pass_reg");
+                mTextInputEmail.getEditText().setText(email);
+                mTextInputPassword.getEditText().setText(password);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView.isChecked()) {
+            SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("remember", "true");
+            editor.apply();
+        } else {
+            SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("remember", "false");
+            editor.apply();
+        }
     }
 }
