@@ -25,7 +25,6 @@ import java.util.Map;
 
 public class EditContactActivity extends BaseActivity implements View.OnClickListener{
     //strings
-    private static final String TAG = "EditContactActivity";
     public static final String CONTACTS = "contacts";
     public static final String SUCCESS_UPDATE = "Contact updated";
     public static final String FAILED_UPDATE = "Couldn't update contact";
@@ -40,7 +39,7 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
         setUpViews();
-
+        setUpSpinners();
     }
 
     /**
@@ -51,14 +50,13 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
         contactSpinner = findViewById(R.id.contact_document_spinner);
         fieldSpinner = findViewById(R.id.contact_field_spinner);
         findViewById(R.id.button_update_contact_field).setOnClickListener(this);
-        setUpSpinners();
+
     }
 
     /**
      * pulls from the contacts collection the name of the documents and the name of the fields and sets them up in the spinner view.
      *
      */
-    //TODO (Noah) the way I set up the fields of contact class can be done in an efficient way. this method is not optimal.
     private void setUpSpinners() {
         db.collection(CONTACTS)
                 .get()

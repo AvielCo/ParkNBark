@@ -29,7 +29,6 @@
             android:name=".map_profile.profile.WatchProfile"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".utilities.MainActivity"
             android:launchMode="singleTop" /> <!-- App settings -->
@@ -41,6 +40,11 @@
             android:name=".credits.CreditActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".map_profile.maps.MapActivity" />
+        <activity
+            android:name=".credits.EditCreditActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".map_profile.maps.MapActivity" />
+
         <activity
             android:name=".settings.admin.UsersListActivity"
             android:launchMode="singleTop" /> <!-- Login, Register, Reset/Change password -->

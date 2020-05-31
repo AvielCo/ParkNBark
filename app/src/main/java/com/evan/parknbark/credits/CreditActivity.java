@@ -23,9 +23,9 @@ public class CreditActivity extends BaseActivity {
     private String OPTION_DOC = "options";
     private String ABOUTUS = "aboutus";
     private String CONNECT = "Connect with us";
-    private String EMAIL = "email";
-    private String FACEBOOK = "facebook";
-    private String PLAYSTORE = "playstore";
+    private String EMAIL = "Email";
+    private String FACEBOOK = "Facebook";
+    private String PLAYSTORE = "Playstore";
     protected FirebaseFirestore database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +54,10 @@ public class CreditActivity extends BaseActivity {
                                     .addPlayStore(document.getString(PLAYSTORE))
                                     .create();
                             setContentView(aboutPage);
+
                         }
                         else{
                             Log.d(TAG, "onFailure: not  got in");
-
                         }
                     }
                 });

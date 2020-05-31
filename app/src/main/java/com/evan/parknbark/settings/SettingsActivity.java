@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.evan.parknbark.R;
 import com.evan.parknbark.RateUsActivity;
 import com.evan.parknbark.contacts.EditContactActivity;
+import com.evan.parknbark.credits.EditCreditActivity;
 import com.evan.parknbark.emailpassword.ChangePassActivity;
 import com.evan.parknbark.settings.admin.UsersListActivity;
 import com.evan.parknbark.utilities.BaseActivity;
@@ -17,7 +18,7 @@ import com.evan.parknbark.utilities.BaseActivity;
 public class SettingsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private String[] settingsArray = {"Change password", "Rate Us"}; //Settings menu items
-    private String[] adminSettingsArray = {"Change password", "Edit contact", "Show all users"};
+    private String[] adminSettingsArray = {"Change password", "Edit contact", "Show all users", "Edit credits"};
     private String currentUserPermission;
 
     @Override
@@ -58,6 +59,9 @@ public class SettingsActivity extends BaseActivity implements AdapterView.OnItem
 
                 case 2:
                     startActivity(new Intent(getApplicationContext(), UsersListActivity.class));
+                    break;
+                case 3:
+                    startActivity(new Intent(getApplicationContext(), EditCreditActivity.class));
                     break;
             }
         }
