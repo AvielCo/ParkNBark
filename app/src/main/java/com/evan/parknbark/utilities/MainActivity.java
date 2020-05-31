@@ -37,8 +37,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (currentUser.isBuiltProfile()) {
                     startActivity(new Intent(MainActivity.this, MapActivity.class)
                             .putExtra("current_user_permission", currentUser.getPermission()));
-                } else { //profile hasn't built yet.
-                    
                 }
             } else { //user is banned
                 startActivity(new Intent(MainActivity.this, BannedUserActivity.class));

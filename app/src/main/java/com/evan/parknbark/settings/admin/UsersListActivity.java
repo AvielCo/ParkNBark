@@ -156,7 +156,7 @@ public class UsersListActivity extends BaseActivity {
                     if (profile != null)
                         displayProfileDetail(profile);
                     else
-                        Toasty.error(getApplicationContext(), user.getDisplayName() + R.string.profile_not_set, Toasty.LENGTH_SHORT, true).show();
+                        Toasty.error(getApplicationContext(), user.getDisplayName() + getString(R.string.profile_not_set), Toasty.LENGTH_SHORT, true).show();
                 } else {
                     showErrorToast();
                 }
