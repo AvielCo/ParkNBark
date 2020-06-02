@@ -2,9 +2,11 @@ package com.evan.parknbark.emailpassword;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -25,16 +27,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import net.steamcrafted.loadtoast.LoadToast;
+
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LoginActivity";
+    private static final String LOG_IN_LOAD = "Logging in...";
+    private final int loadToastYlocation = 300;
     private static final int REGISTER_REQUEST = 0;
     private TextInputLayout mTextInputEmail, mTextInputPassword;
     private CheckBox mCheckBoxRememberMe;
-
     private long backPressedTime;
     private Toast backToast;
+    private LoadToast lt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mTextInputEmail = findViewById(R.id.text_input_email);
         mTextInputPassword = findViewById(R.id.text_input_password);
         mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
+        lt = new LoadToast(LoginActivity.this);
 
         findViewById(R.id.forgot_password_link).setOnClickListener(this);
         findViewById(R.id.button_login).setOnClickListener(this);
@@ -67,7 +74,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         if (EditTextValidator.isValidEditText(email, mTextInputEmail, getApplicationContext()) &
                 EditTextValidator.isValidEditText(password, mTextInputPassword, getApplicationContext())) {
-            showProgressBar();
+            loadToastCreator();
+            lt.show();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -77,6 +85,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             } else {
                                 Exception e = task.getException();
                                 Log.d(TAG, "onFailure: " + e.getMessage());
+                                lt.hide();
                                 showErrorToast();
                             }
                         }
@@ -94,7 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (task.isSuccessful()) {
                         User user = task.getResult().toObject(User.class);
                         updateUI(firebaseUser, user);
-                        hideProgressBar();
+                        lt.success();
                     }
                 }
             });
@@ -179,5 +188,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             editor.putString("remember", "false");
             editor.apply();
         }
+    }
+
+    public void loadToastCreator(){
+        lt.setText(LOG_IN_LOAD);
+        lt.setTranslationY(loadToastYlocation);
+        lt.setTextColor(Color.RED).setBackgroundColor(Color.GREEN).setProgressColor(Color.BLUE);
     }
 }
