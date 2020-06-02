@@ -6,10 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +16,9 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.maps.MapActivity;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.utilities.User;
+import com.evan.parknbark.validation.EditTextListener;
 import com.evan.parknbark.validation.EditTextValidator;
+import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,14 +33,11 @@ import net.steamcrafted.loadtoast.LoadToast;
 public class LoginActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LoginActivity";
-    private static final String LOG_IN_LOAD = "Logging in...";
-    private final int loadToastYlocation = 300;
     private static final int REGISTER_REQUEST = 0;
+    private static String LOG_IN_LOAD;
     private TextInputLayout mTextInputEmail, mTextInputPassword;
-    private CheckBox mCheckBoxRememberMe;
-    private long backPressedTime;
-    private Toast backToast;
-    private LoadToast lt;
+    private long mBackPressedTime;
+    private LoadToast mLoadToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setContentView(R.layout.activity_login_email_password);
         setProgressBar(R.id.progressBar);
 
-        mTextInputEmail = findViewById(R.id.text_input_email);
-        mTextInputPassword = findViewById(R.id.text_input_password);
-        mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
-        lt = new LoadToast(LoginActivity.this);
-
-        findViewById(R.id.forgot_password_link).setOnClickListener(this);
-        findViewById(R.id.button_login).setOnClickListener(this);
-        findViewById(R.id.button_register).setOnClickListener(this);
-        mCheckBoxRememberMe.setOnCheckedChangeListener(this);
+        initElements();
 
         Bundle bundle = getIntent().getExtras();
         User currentUser = (User) bundle.getSerializable("current_user");
@@ -72,24 +61,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (test) {
             return EditTextValidator.isValidEditText(email, mTextInputEmail, null) && EditTextValidator.isValidEditText(password, mTextInputPassword, null);
         }
-        if (EditTextValidator.isValidEditText(email, mTextInputEmail, getApplicationContext()) &
-                EditTextValidator.isValidEditText(password, mTextInputPassword, getApplicationContext())) {
+        if (!hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
+                !EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
             loadToastCreator();
-            lt.show();
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                getUserDetails(mAuth.getCurrentUser());
-                            } else {
-                                Exception e = task.getException();
-                                Log.d(TAG, "onFailure: " + e.getMessage());
-                                lt.hide();
-                                showErrorToast();
-                            }
-                        }
-                    });
+            mLoadToast.show();
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        getUserDetails(mAuth.getCurrentUser());
+                    } else {
+                        Exception e = task.getException();
+                        Log.d(TAG, "onFailure: " + e.getMessage());
+                        mLoadToast.error();
+                        showErrorToast(R.string.wrong_email_pass);
+                    }
+                }
+            });
         }
         return true;
     }
@@ -103,7 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (task.isSuccessful()) {
                         User user = task.getResult().toObject(User.class);
                         updateUI(firebaseUser, user);
-                        lt.success();
+                        mLoadToast.success();
                     }
                 }
             });
@@ -164,15 +152,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        if (backPressedTime + 2000 > System.currentTimeMillis()) {
-            backToast.cancel();
+        if (mBackPressedTime + 2000 > System.currentTimeMillis()) {
             super.onBackPressed();
             return;
         } else {
-            backToast = Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT);
-            backToast.show();
+            showInfoToast(R.string.press_back_again);
         }
-        backPressedTime = System.currentTimeMillis();
+        mBackPressedTime = System.currentTimeMillis();
     }
 
     @Override
@@ -190,10 +176,69 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    public void loadToastCreator(){
-        lt.setText(LOG_IN_LOAD);
-        lt.setBorderColor(Color.BLACK);
-        lt.setTranslationY(loadToastYlocation);
-        lt.setTextColor(Color.BLACK).setBackgroundColor(Color.GREEN).setProgressColor(Color.BLUE);
+    public void loadToastCreator() {
+        int loadToastYLocation = 300;
+        mLoadToast.setText(LOG_IN_LOAD)
+                .setBorderColor(Color.BLACK)
+                .setTranslationY(loadToastYLocation)
+                .setTextColor(Color.BLACK)
+                .setBackgroundColor(Color.GREEN)
+                .setProgressColor(Color.BLUE);
+    }
+
+    private void initElements() {
+
+        mTextInputEmail = findViewById(R.id.text_input_email);
+        mTextInputPassword = findViewById(R.id.text_input_password);
+        CheckBox mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
+
+        LOG_IN_LOAD = getString(R.string.login_in_t);
+        mLoadToast = new LoadToast(LoginActivity.this);
+
+        findViewById(R.id.forgot_password_link).setOnClickListener(this);
+        findViewById(R.id.button_login).setOnClickListener(this);
+        findViewById(R.id.button_register).setOnClickListener(this);
+        mCheckBoxRememberMe.setOnCheckedChangeListener(this);
+
+        mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputPassword.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 6) {
+                    mTextInputPassword.setError(getString(R.string.password_not_enough));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputPassword.setError(getString(R.string.password_too_much));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputPassword.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
+        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputEmail.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (!EmailValidator.isValidEmail(completeNewText)) {
+                    mTextInputEmail.setError(getString(R.string.email_not_valid));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputEmail.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
     }
 }

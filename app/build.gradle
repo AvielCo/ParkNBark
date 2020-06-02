@@ -89,7 +89,7 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.1@aar'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
-    compile 'net.steamcrafted:load-toast:1.0.12'
+    implementation 'net.steamcrafted:load-toast:1.0.12'
 
     //about us
     implementation 'com.github.medyo:android-about-page:1.2.4'

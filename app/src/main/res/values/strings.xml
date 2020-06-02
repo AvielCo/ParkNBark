@@ -96,4 +96,9 @@
     <string name="profile_not_set">" hasn't set profile yet."</string>
     <string name="wrong_email_pass">Wrong email or password.</string>
     <string name="remember_me">Remember me</string>
+    <string name="password_not_enough">Password must contain at least 6 characters.</string>
+    <string name="password_too_much">Password must contain at most 15 characters.</string>
+    <string name="email_not_valid">Email is not valid.</string>
+    <string name="login_in_t">Logging in...</string>
+    <string name="press_back_again">Press back again to exit</string>
 </resources>

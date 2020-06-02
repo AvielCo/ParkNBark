@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
@@ -16,8 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 
-import android.content.res.Resources;
-
 import es.dmoral.toasty.Toasty;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -29,6 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public ProgressBar mProgressBar;
 
     protected String ERROR_MSG;
+
+    protected boolean hasErrorInText = true;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -62,19 +63,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void showErrorToast(){
+    protected void showErrorToast() {
         Toasty.error(getApplicationContext(), ERROR_MSG, Toasty.LENGTH_LONG).show();
     }
 
-    protected void showSuccessToast(int resId){
-        Toasty.success(getApplicationContext(), getResources().getString(resId), Toasty.LENGTH_SHORT).show();
+    protected void showErrorToast(int resId) {
+        Toasty.error(getApplicationContext(), getString(resId), Toasty.LENGTH_LONG).show();
     }
 
-    protected void showInfoToast(int resId){
-        Toasty.info(getApplicationContext(), getResources().getString(resId), Toasty.LENGTH_SHORT).show();
+    protected void showSuccessToast(int resId) {
+        Toasty.success(getApplicationContext(), getString(resId), Toasty.LENGTH_SHORT).show();
     }
 
-    protected void loadLocale(Context context){
+    protected void showInfoToast(int resId) {
+        Toasty.info(getApplicationContext(), getString(resId), Toasty.LENGTH_SHORT).show();
+    }
+
+    protected void loadLocale(Context context) {
         changeLang(getPrefLanguage(), context);
     }
 

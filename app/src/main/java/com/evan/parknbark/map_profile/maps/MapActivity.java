@@ -9,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -87,7 +86,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     @Override
     protected void onResume() {
         super.onResume();
-        getDeviceLocation();
+        initMap();
     }
 
     @Override
@@ -146,6 +145,20 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     }
 
     /**
+     * onMapReady callback is triggered once the map is ready to be used.
+     * it checks if permissions are given. if they are given - it gets users location and sets its location on map.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (mLocationPermissionsGranted) {
+            getDeviceLocation();
+            mMap.setMyLocationEnabled(true);
+        } else updateMap(null);
+        mMap.setOnInfoWindowClickListener(this);
+    }
+
+    /**
      * if permission is granted the app proceeds to get user's current locations and is sent to update the map with that location.
      */
     private void getDeviceLocation() {
@@ -161,7 +174,6 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                             updateMap(currentLocation);
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(MapActivity.this, "Unable to get location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -213,7 +225,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         //give user the park locations even if the permission for the
         //current location has not been granted.
-        if (!gps_enabled || !mLocationPermissionsGranted) {
+        if (userLocation == null || !gps_enabled || !mLocationPermissionsGranted) {
             //tell the user to turn on the gps only if permission to location has been granted.
             //else, don't ask to turn on GPS.
             if (!gps_enabled && mLocationPermissionsGranted)
@@ -239,20 +251,6 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
                     startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 });
         snackbar.show();
-    }
-
-    /**
-     * onMapReady callback is triggered once the map is ready to be used.
-     * it checks if permissions are given. if they are given - it gets users location and sets its location on map.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        if (mLocationPermissionsGranted) {
-            getDeviceLocation();
-            mMap.setMyLocationEnabled(true);
-        } else updateMap(null);
-        mMap.setOnInfoWindowClickListener(this);
     }
 
     /**
