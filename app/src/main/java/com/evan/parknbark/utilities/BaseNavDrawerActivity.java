@@ -3,6 +3,7 @@ package com.evan.parknbark.utilities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,7 +45,7 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
     public static final String SHARE_WITH_TXT = "Share with";
     public static final String WRONG_PERMISSION = "You don't have the right permission";
     private String userCheckinPark;
-
+    private String parkName;
     protected String currentUserPermission;
 
 
@@ -150,8 +151,7 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_logout:
-                if (getUserCheckinPark() != null)
-                    db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+                onStop();
                 FirebaseAuth.getInstance().signOut();
                 removeRememberMeCheckBox();
                 finish();
@@ -205,4 +205,54 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
         editor.putString("remember", "false");
         editor.apply();
     }
+
+    /**
+     * checks user out by removing his UID from db.
+     */
+    public void checkout(){
+        setParkName(getUserCheckinPark());
+        db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+    }
+
+    /**
+     * if user has already checked into a park -> removes him from that park and checks in into the wanted park.
+     */
+    public void checkIn(){
+        if (getUserCheckinPark() != null) {
+            db.collection(PARK_CHECKIN).document(getUserCheckinPark()).update(CHECKIN_FIELD, FieldValue.arrayRemove(mAuth.getCurrentUser().getUid()));
+        }
+        if(getParkName() != null)
+            db.collection(PARK_CHECKIN).document(getParkName()).update(CHECKIN_FIELD, FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+    }
+
+
+    /**
+     * stops the app and sends it to background. if user has checked into a park this method checks him out.
+     */
+    @Override
+    protected void onStop() {
+        Log.d("Basenav", "in destroying");
+        if (getUserCheckinPark() != null && mAuth.getUid() != null) {
+            checkout();
+        }
+        super.onStop();
+    }
+
+    /**
+     * checks user back in to the park where he checked in.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkIn();
+    }
+
+    public String getParkName(){
+        return parkName;
+    }
+    public void setParkName(String title) {
+        this.parkName = title;
+    }
+
+
 }
