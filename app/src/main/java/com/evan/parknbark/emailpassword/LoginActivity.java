@@ -192,7 +192,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     public void loadToastCreator(){
         lt.setText(LOG_IN_LOAD);
+        lt.setBorderColor(Color.BLACK);
         lt.setTranslationY(loadToastYlocation);
-        lt.setTextColor(Color.RED).setBackgroundColor(Color.GREEN).setProgressColor(Color.BLUE);
+        lt.setTextColor(Color.BLACK).setBackgroundColor(Color.GREEN).setProgressColor(Color.BLUE);
     }
 }
