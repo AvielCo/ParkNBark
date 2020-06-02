@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAppBackground"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".map_profile.profile.WatchProfile">
@@ -23,31 +24,76 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageView_dog_pic"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        />
+
+
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
 
         <TextView
-            android:id="@+id/TextView_firstName"
+            android:id="@+id/textView_dog_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
             android:background="@null"
             android:fontFamily="sans-serif-medium"
-            android:inputType="text"
-            android:text="first name"
+            android:text="Dog name: "
+            android:textColor="#F0000000"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/TextView_lastName"
+        <EditText
+            android:id="@+id/editText_dogName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/TextView_firstName"
+            android:layout_marginEnd="6dp"
+            android:layout_toEndOf="@id/textView_dog_name"
             android:background="@null"
             android:fontFamily="sans-serif-medium"
-            android:inputType="text"
-            android:text="last name"
+            android:inputType="textCapSentences|textNoSuggestions"
+            android:text="name"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView_dog_Age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:text="Dog age: "
+            android:textColor="#F0000000"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editText_dogAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_toEndOf="@id/textView_dog_Age"
+            android:background="@null"
+            android:fontFamily="sans-serif-medium"
+            android:inputType="number"
+            android:text="age"
             android:textSize="20sp" />
 
     </RelativeLayout>
@@ -58,53 +104,43 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-
-        <EditText
-            android:id="@+id/editText_dogName"
+        <TextView
+            android:id="@+id/textView_dog_breed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:background="@null"
             android:fontFamily="sans-serif-medium"
-            android:text="name"
-            android:textSize="20sp"
-            android:layout_marginEnd="6dp"/>
-
-        <EditText
-            android:id="@+id/editText_dogAge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/editText_dogName"
-            android:background="@null"
-            android:fontFamily="sans-serif-medium"
-            android:text="age"
-            android:textSize="20sp"
-            android:layout_marginEnd="6dp"/>
+            android:text="Dog breed: "
+            android:textColor="#F0000000"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editText_dogBreed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/editText_dogAge"
+            android:layout_toEndOf="@id/textView_dog_breed"
             android:background="@null"
             android:fontFamily="sans-serif-medium"
+            android:inputType="textCapSentences|textNoSuggestions"
             android:text="breed"
             android:textSize="20sp" />
+
     </RelativeLayout>
 
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageView_dog_pic"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp" />
 
     <Button
         android:id="@+id/button_uploadDogPic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_btn"
+        android:drawableEnd="@drawable/baseline_add_a_photo_24"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="upload"
         android:visibility="invisible" />
 

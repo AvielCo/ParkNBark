@@ -90,6 +90,7 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation 'net.steamcrafted:load-toast:1.0.12'
+    implementation 'de.hdodenhof:circleimageview:2.0.0'
 
     //about us
     implementation 'com.github.medyo:android-about-page:1.2.4'

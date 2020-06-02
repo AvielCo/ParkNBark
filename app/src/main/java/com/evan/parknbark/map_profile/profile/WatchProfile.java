@@ -11,7 +11,6 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,7 +39,6 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
 
     private static final String TAG = "WatchProfile";
     private static final int PICK_IMAGE_REQUEST = 1;
-    private TextView mTextViewFirstName, mTextViewLastName;
     private EditText mEditTextDogName, mEditTextDogAge, mEditTextDogBreed;
     private ImageView mImageViewDogPic;
     private Button mButtonUploadPic;
@@ -56,14 +54,13 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
     private User user;
 
     private String dogPicUri;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_profile);
 
-        mTextViewFirstName = findViewById(R.id.TextView_firstName);
-        mTextViewLastName = findViewById(R.id.TextView_lastName);
         mEditTextDogAge = findViewById(R.id.editText_dogAge);
         mEditTextDogName = findViewById(R.id.editText_dogName);
         mEditTextDogBreed = findViewById(R.id.editText_dogBreed);
@@ -76,7 +73,6 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
         mButtonUploadPic.setOnClickListener(this);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
         toolbar.inflateMenu(R.menu.edit_menu);
         toolbar.setOnMenuItemClickListener(this);
 
@@ -110,9 +106,8 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                                     dogAge = documentSnapshot.getString("dogAge"),
                                     dogBreed = documentSnapshot.getString("dogBreed");
                             dogPicUri = documentSnapshot.getString("profilePicture");
-
-                            mTextViewFirstName.setText(firstName + " ");
-                            mTextViewLastName.setText(lastName);
+                            toolbar.setTitle(firstName + " " + lastName);
+                            toolbar.setTitleTextColor(0xFFFFFFFF);
 
                             mEditTextDogName.setText(dogName);
                             int positionDN = mEditTextDogName.length();
