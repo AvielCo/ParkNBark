@@ -85,4 +85,7 @@
     <string name="permit_user_ask">"האם אתה בטוח שברצונך להתיר חסימה למשתמש "</string>
     <string name="permit_user_success">"חסימה הורדה בהצלחה "</string>
     <string name="profile_not_set">" hasn't set profile yet."</string>
+    <string name="about_devs" translatable="false">המפתחים הינם סטודנטים בשנתם השלישית ללימודים במכללת סמי שמעון. רעיון זה צץ במוחם מתוך בעיות שחוו כבעלים לכלבים.</string>
+    <string name="english" translatable="false">אנגלית</string>
+    <string name="update_credit">עדכן אודות</string>
 </resources>

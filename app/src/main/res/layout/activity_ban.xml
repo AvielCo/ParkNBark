@@ -75,6 +75,7 @@
         android:inputType="textMultiLine"
         android:lines="4"
         android:paddingStart="5dp"
+
         android:paddingTop="3dp"
         android:paddingEnd="5dp"
         android:paddingBottom="3dp"
