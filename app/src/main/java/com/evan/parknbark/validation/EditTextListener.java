@@ -3,7 +3,6 @@ package com.evan.parknbark.validation;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Toast;
 
 import com.evan.parknbark.R;
 import com.google.android.material.textfield.TextInputLayout;
@@ -88,7 +87,6 @@ public class EditTextListener implements TextWatcher {
     protected void onTextChanged(String before, String old, String aNew, String after) {
         String completeNewText = before + aNew + after;
         int inputType = mTextInputLayout.getEditText().getInputType();
-        Toast.makeText(mContext, String.valueOf(inputType), Toast.LENGTH_SHORT).show();
         startUpdates();
         if (completeNewText.isEmpty()) { //if generally is empty
             mTextInputLayout.setError(mContext.getString(R.string.empty_field));

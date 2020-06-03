@@ -2,6 +2,7 @@ package com.evan.parknbark.map_profile.profile;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -54,7 +55,6 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
     private User user;
 
     private String dogPicUri;
-    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
         save_item.setVisible(false);
     }
 
-    void getInfoFromFirebase() {
+    private void getInfoFromFirebase() {
         DocumentReference usersDocRef = db.collection("profiles").document(mAuth.getCurrentUser().getUid());
         usersDocRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -107,7 +107,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                                     dogBreed = documentSnapshot.getString("dogBreed");
                             dogPicUri = documentSnapshot.getString("profilePicture");
                             toolbar.setTitle(firstName + " " + lastName);
-                            toolbar.setTitleTextColor(0xFFFFFFFF);
+                            toolbar.setTitleTextColor(Color.WHITE);
 
                             mEditTextDogName.setText(dogName);
                             int positionDN = mEditTextDogName.length();
