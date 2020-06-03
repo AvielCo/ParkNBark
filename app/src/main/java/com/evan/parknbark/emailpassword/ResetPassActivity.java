@@ -10,7 +10,6 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.validation.EditTextListener;
 import com.evan.parknbark.validation.EditTextValidator;
-import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,30 +29,13 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     private void initElements() {
         mTextInputEmail = findViewById(R.id.text_input_email_reset_pass);
 
-        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputEmail.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (!EmailValidator.isValidEmail(completeNewText)) {
-                    mTextInputEmail.setError(getString(R.string.email_not_valid));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputEmail.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
+        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener(mTextInputEmail, this));
 
         findViewById(R.id.button_send_reset_pass).setOnClickListener(this);
     }
 
     private void resetPassword(String email) {
-        if (!hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputEmail, this)) {
+        if (!EditTextListener.hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputEmail, this)) {
             showProgressBar();
             mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

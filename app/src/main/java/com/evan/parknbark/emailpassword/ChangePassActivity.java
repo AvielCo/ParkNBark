@@ -39,49 +39,8 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
         mTextInputCurrentPassword = findViewById(R.id.text_input_change_pass_enter_current);
         mTextInputNewPassword = findViewById(R.id.text_input_change_pass_enter_new);
 
-        mTextInputCurrentPassword.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputCurrentPassword.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() < 6) {
-                    mTextInputCurrentPassword.setError(getString(R.string.password_too_short));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() > 15) {
-                    mTextInputCurrentPassword.setError(getString(R.string.password_too_long));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputCurrentPassword.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
-
-        mTextInputNewPassword.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputCurrentPassword.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() < 6) {
-                    mTextInputCurrentPassword.setError(getString(R.string.password_too_short));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() > 15) {
-                    mTextInputCurrentPassword.setError(getString(R.string.password_too_long));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputCurrentPassword.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
+        mTextInputCurrentPassword.getEditText().addTextChangedListener(new EditTextListener(mTextInputCurrentPassword, this));
+        mTextInputNewPassword.getEditText().addTextChangedListener(new EditTextListener(mTextInputNewPassword, this));
 
         findViewById(R.id.button_change_pass_confirm).setOnClickListener(this);
     }
@@ -91,7 +50,7 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
             return EditTextValidator.isValidLayoutEditText(currentPassword, mTextInputCurrentPassword, null) &
                     EditTextValidator.isValidLayoutEditText(newPassword, mTextInputNewPassword, null) && !currentPassword.equals(newPassword);
         }
-        if (!hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputNewPassword, this) &
+        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputNewPassword, this) &
                 !currentPassword.equals(newPassword)) {
             showProgressBar();
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);

@@ -29,7 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected String ERROR_MSG;
 
-    protected boolean hasErrorInText = true;
+    protected static Boolean hasErrorInText = true;
 
     @Override
     public void setContentView(int layoutResID) {

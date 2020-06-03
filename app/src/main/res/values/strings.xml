@@ -102,8 +102,10 @@
     <string name="login_in_t">Logging in...</string>
     <string name="press_back_again">Press back again to exit</string>
     <string name="input_too_long">must contain at most 15 characters</string>
-    <string name="input_too_short_2">must contain at least 2 characters</string>
+    <string name="input_too_short">must contain at least 2 characters</string>
     <string name="email_verification_failed">Failed to send verification email.</string>
     <string name="email_verification_sent">Verification email sent to</string>
     <string name="email_verify_request">Please verify your email.</string>
+    <string name="please_wait">Please wait.</string>
+    <string name="input_too_long_30">Input must contain at most 30 characters</string>
 </resources>

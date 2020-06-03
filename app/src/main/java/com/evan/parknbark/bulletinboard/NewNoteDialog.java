@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseDialogFragment;
+import com.evan.parknbark.validation.EditTextListener;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,13 +23,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-import es.dmoral.toasty.Toasty;
-
 public class NewNoteDialog extends BaseDialogFragment {
     private static final String TAG = "NewNoteDialog";
     private Toolbar toolbar;
-    private TextInputLayout textInputTitle;
-    private TextInputLayout textInputDescription;
+    private TextInputLayout mTextInputTitle;
+    private TextInputLayout mTextInputDescription;
 
     static void display(FragmentManager fragmentManager) {
         NewNoteDialog exampleDialog = new NewNoteDialog();
@@ -52,8 +51,12 @@ public class NewNoteDialog extends BaseDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_new_note, container, false);
         toolbar = v.findViewById(R.id.toolbar);
-        textInputDescription = v.findViewById(R.id.text_input_description);
-        textInputTitle = v.findViewById(R.id.text_input_title);
+        mTextInputDescription = v.findViewById(R.id.text_input_description);
+        mTextInputDescription.getEditText().addTextChangedListener(new EditTextListener(mTextInputDescription, getContext()));
+
+        mTextInputTitle = v.findViewById(R.id.text_input_title);
+        mTextInputTitle.getEditText().addTextChangedListener(new EditTextListener(mTextInputTitle, getContext()));
+
         return v;
     }
 
@@ -70,8 +73,8 @@ public class NewNoteDialog extends BaseDialogFragment {
         //when clicking on save icon inside toolbar
         toolbar.setOnMenuItemClickListener(item -> {
             hideSoftKeyboard(view);
-            String title = textInputTitle.getEditText().getText().toString().trim();
-            String description = textInputDescription.getEditText().getText().toString().trim();
+            String title = mTextInputTitle.getEditText().getText().toString().trim();
+            String description = mTextInputDescription.getEditText().getText().toString().trim();
             saveNote(title, description, false);
             return true;
         });
@@ -79,21 +82,20 @@ public class NewNoteDialog extends BaseDialogFragment {
 
     public boolean saveNote(String title, String description, boolean test) {
         if (test) {
-            return EditTextValidator.isValidLayoutEditText(title, textInputTitle, null) && EditTextValidator.isValidLayoutEditText(description, textInputDescription, null);
+            return EditTextValidator.isValidLayoutEditText(title, mTextInputTitle, null) && EditTextValidator.isValidLayoutEditText(description, mTextInputDescription, null);
         }
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
-        if (EditTextValidator.isValidLayoutEditText(title, textInputTitle, getContext()) & EditTextValidator.isValidLayoutEditText(description, textInputDescription, getContext())) {
+        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputTitle, getContext()) & EditTextValidator.isEmptyEditText(mTextInputDescription, getContext())) {
             CollectionReference notebookRef = FirebaseFirestore.getInstance()
                     .collection("notes");
             Note note = new Note(title, description, currentDate);
             notebookRef.add(note).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toasty.success(getContext(), getResources().getString(R.string.new_note_success), Toasty.LENGTH_SHORT, true).show();
+                    showSuccessToast(R.string.new_note_success);
                     dismiss();
-                }
-                else
+                } else
                     showErrorToast();
             });
         }

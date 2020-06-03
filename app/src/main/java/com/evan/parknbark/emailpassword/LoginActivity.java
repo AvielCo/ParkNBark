@@ -19,7 +19,6 @@ import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.utilities.User;
 import com.evan.parknbark.validation.EditTextListener;
 import com.evan.parknbark.validation.EditTextValidator;
-import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -71,53 +70,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         findViewById(R.id.button_register).setOnClickListener(this);
         mCheckBoxRememberMe.setOnCheckedChangeListener(this);
 
-        mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputPassword.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() < 6) {
-                    mTextInputPassword.setError(getString(R.string.password_too_short));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() > 15) {
-                    mTextInputPassword.setError(getString(R.string.password_too_long));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputPassword.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
-
-        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputEmail.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (!EmailValidator.isValidEmail(completeNewText)) {
-                    mTextInputEmail.setError(getString(R.string.email_not_valid));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputEmail.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
+        mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener(mTextInputPassword, this));
+        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener(mTextInputEmail, this));
     }
 
     public boolean signIn(String email, String password, boolean test) {
         if (test) {
             return EditTextValidator.isValidEditText(email, mTextInputEmail, null) && EditTextValidator.isValidEditText(password, mTextInputPassword, null);
         }
-        if (!hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
+        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
                 EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
             loadToastCreator();
             mLoadToast.show();
@@ -172,6 +133,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
                 }
             } else {
+                mLoadToast.error();
                 sendEmailVerification(firebaseUser);
                 mAuth.signOut();
             }
