@@ -1,22 +1,20 @@
 package com.evan.parknbark.credits;
 
-import androidx.annotation.NonNull;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.evan.parknbark.R;
-import com.evan.parknbark.emailpassword.ChangePassActivity;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import mehdi.sakout.aboutpage.AboutPage;
@@ -45,7 +43,7 @@ public class CreditActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lang = getLang().toString();
+        lang = getPrefLanguage();
         loadConnections();
     }
 
@@ -237,10 +235,4 @@ public class CreditActivity extends BaseActivity {
         else
             return "Варианты подключения";
     }
-
-    /**
-     * gets the language the app is working with
-     * @return
-     */
-    public Locale getLang(){ return getResources().getConfiguration().locale;}
 }
