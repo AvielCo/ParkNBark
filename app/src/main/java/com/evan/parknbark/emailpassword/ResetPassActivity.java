@@ -24,6 +24,10 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_pass_email_password);
 
+        initElements();
+    }
+
+    private void initElements() {
         mTextInputEmail = findViewById(R.id.text_input_email_reset_pass);
 
         mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {

@@ -32,6 +32,10 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
 
         firebaseUser = mAuth.getCurrentUser();
         userEmail = firebaseUser.getEmail();
+        initElements();
+    }
+
+    private void initElements() {
         mTextInputCurrentPassword = findViewById(R.id.text_input_change_pass_enter_current);
         mTextInputNewPassword = findViewById(R.id.text_input_change_pass_enter_new);
 
