@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import com.evan.parknbark.R;
 import com.evan.parknbark.utilities.BaseActivity;
 import com.evan.parknbark.utilities.User;
+import com.evan.parknbark.validation.EditTextListener;
 import com.evan.parknbark.validation.EditTextValidator;
+import com.evan.parknbark.validation.EmailValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,11 +33,101 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_register_email_password);
         setProgressBar(R.id.progressBar);
 
+        initElements();
+
+        findViewById(R.id.button_register).setOnClickListener(this);
+    }
+
+    private void initElements() {
         mTextInputEmail = findViewById(R.id.text_input_email);
         mTextInputPassword = findViewById(R.id.text_input_password);
         mTextInputLName = findViewById(R.id.text_input_lname);
         mTextInputFName = findViewById(R.id.text_input_fname);
-        findViewById(R.id.button_register).setOnClickListener(this);
+
+        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputEmail.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (!EmailValidator.isValidEmail(completeNewText)) {
+                    mTextInputEmail.setError(getString(R.string.email_not_valid));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputEmail.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
+        mTextInputFName.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputFName.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 2) {
+                    mTextInputPassword.setError(getString(R.string.fname) + " " + getString(R.string.input_too_short_2));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputFName.setError(getString(R.string.fname) + " " + getString(R.string.input_too_long));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputFName.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
+        mTextInputLName.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputLName.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 2) {
+                    mTextInputPassword.setError(getString(R.string.password_too_short));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputLName.setError(getString(R.string.password_too_long));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputLName.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
+        mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputPassword.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 6) {
+                    mTextInputPassword.setError(getString(R.string.password_too_short));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputPassword.setError(getString(R.string.password_too_long));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputPassword.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
     }
 
     /*
@@ -46,8 +138,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return EditTextValidator.isValidLayoutEditText(email, mTextInputEmail, null) & EditTextValidator.isValidLayoutEditText(password, mTextInputPassword, null)
                     & EditTextValidator.isValidLayoutEditText(firstName, mTextInputFName, null) & EditTextValidator.isValidLayoutEditText(lastName, mTextInputLName, null);
         }
-        if (EditTextValidator.isValidLayoutEditText(email, mTextInputEmail, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(password, mTextInputPassword, getApplicationContext())
-                & EditTextValidator.isValidLayoutEditText(firstName, mTextInputFName, getApplicationContext()) & EditTextValidator.isValidLayoutEditText(lastName, mTextInputLName, getApplicationContext())) {
+        if (!hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this)
+                & EditTextValidator.isEmptyEditText(mTextInputFName, this) & EditTextValidator.isEmptyEditText(mTextInputLName, this)) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -82,8 +174,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
+    private void sendEmailVerification(FirebaseUser user) {
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this,
+                                    getString(R.string.email_verification_sent) + " " + user.getEmail(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            showErrorToast(R.string.email_verification_failed);
+                        }
+                    }
+                });
+    }
+
     private void updateUI(FirebaseUser user, String email, String password) {
         if (user != null) {
+            sendEmailVerification(user);
             Toasty.success(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_LONG, true).show();
             Intent i = new Intent();
             i.putExtra("email_reg", email);

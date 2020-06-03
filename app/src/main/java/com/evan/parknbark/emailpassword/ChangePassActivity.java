@@ -1,7 +1,14 @@
 package com.evan.parknbark.emailpassword;
 
-import com.evan.parknbark.utilities.BaseActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.evan.parknbark.R;
+import com.evan.parknbark.utilities.BaseActivity;
+import com.evan.parknbark.validation.EditTextListener;
 import com.evan.parknbark.validation.EditTextValidator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -9,14 +16,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-
-import es.dmoral.toasty.Toasty;
 
 public class ChangePassActivity extends BaseActivity implements View.OnClickListener {
 
@@ -36,6 +35,50 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
         mTextInputCurrentPassword = findViewById(R.id.text_input_change_pass_enter_current);
         mTextInputNewPassword = findViewById(R.id.text_input_change_pass_enter_new);
 
+        mTextInputCurrentPassword.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputCurrentPassword.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 6) {
+                    mTextInputCurrentPassword.setError(getString(R.string.password_too_short));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputCurrentPassword.setError(getString(R.string.password_too_long));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputCurrentPassword.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
+        mTextInputNewPassword.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputCurrentPassword.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 6) {
+                    mTextInputCurrentPassword.setError(getString(R.string.password_too_short));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputCurrentPassword.setError(getString(R.string.password_too_long));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputCurrentPassword.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
         findViewById(R.id.button_change_pass_confirm).setOnClickListener(this);
     }
 
@@ -44,8 +87,8 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
             return EditTextValidator.isValidLayoutEditText(currentPassword, mTextInputCurrentPassword, null) &
                     EditTextValidator.isValidLayoutEditText(newPassword, mTextInputNewPassword, null) && !currentPassword.equals(newPassword);
         }
-        if (EditTextValidator.isValidLayoutEditText(currentPassword, mTextInputCurrentPassword, getApplicationContext()) &
-                EditTextValidator.isValidLayoutEditText(newPassword, mTextInputNewPassword, getApplicationContext()) && !currentPassword.equals(newPassword)) {
+        if (!hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputNewPassword, this) &
+                !currentPassword.equals(newPassword)) {
             showProgressBar();
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);
             firebaseUser.reauthenticate(credential)
@@ -57,7 +100,7 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task1) {
                                         if (task1.isSuccessful()) {
-                                            Toasty.info(ChangePassActivity.this, getString(R.string.change_password_success), Toasty.LENGTH_SHORT).show();
+                                            showSuccessToast(R.string.change_password_success);
                                             ChangePassActivity.this.startActivity(new Intent(ChangePassActivity.this, LoginActivity.class));
                                         } else
                                             showErrorToast();
@@ -65,11 +108,11 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                                     }
                                 });
                             } else
-                                Toasty.info(ChangePassActivity.this, getString(R.string.change_password_current_invalid), Toasty.LENGTH_SHORT).show();
+                                showErrorToast(R.string.change_password_current_invalid);
                         }
                     });
         } else {
-            Toasty.info(ChangePassActivity.this, getString(R.string.change_pass_same_old_new), Toasty.LENGTH_SHORT).show();
+            showErrorToast(R.string.change_pass_same_old_new);
             hideProgressBar();
         }
         return true;

@@ -84,9 +84,9 @@ public class EditTextValidator implements TextWatcher {
     public static boolean isEmptyEditText(TextInputLayout mTextInputLayout, Context context) {
         if (mTextInputLayout.getEditText().getText().toString().trim().isEmpty()) {
             mTextInputLayout.setError(context.getString(R.string.empty_field));
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override

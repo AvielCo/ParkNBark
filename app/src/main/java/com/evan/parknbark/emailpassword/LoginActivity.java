@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,12 +58,67 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    private void initElements() {
+        mTextInputEmail = findViewById(R.id.text_input_email);
+        mTextInputPassword = findViewById(R.id.text_input_password);
+        CheckBox mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
+
+        LOG_IN_LOAD = getString(R.string.login_in_t);
+        mLoadToast = new LoadToast(LoginActivity.this);
+
+        findViewById(R.id.forgot_password_link).setOnClickListener(this);
+        findViewById(R.id.button_login).setOnClickListener(this);
+        findViewById(R.id.button_register).setOnClickListener(this);
+        mCheckBoxRememberMe.setOnCheckedChangeListener(this);
+
+        mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputPassword.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() < 6) {
+                    mTextInputPassword.setError(getString(R.string.password_too_short));
+                    hasErrorInText = true;
+                } else if (completeNewText.length() > 15) {
+                    mTextInputPassword.setError(getString(R.string.password_too_long));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputPassword.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+
+        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {
+            @Override
+            protected void onTextChanged(String before, String old, String aNew, String after) {
+                String completeNewText = before + aNew + after;
+                startUpdates();
+                if (completeNewText.isEmpty()) {
+                    mTextInputEmail.setError(getString(R.string.empty_field));
+                    hasErrorInText = true;
+                } else if (!EmailValidator.isValidEmail(completeNewText)) {
+                    mTextInputEmail.setError(getString(R.string.email_not_valid));
+                    hasErrorInText = true;
+                } else {
+                    mTextInputEmail.setError(null);
+                    hasErrorInText = false;
+                }
+                endUpdates();
+            }
+        });
+    }
+
     public boolean signIn(String email, String password, boolean test) {
         if (test) {
             return EditTextValidator.isValidEditText(email, mTextInputEmail, null) && EditTextValidator.isValidEditText(password, mTextInputPassword, null);
         }
-        if (!hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
-                !EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
+        if (!hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
+                EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
             loadToastCreator();
             mLoadToast.show();
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -91,7 +147,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (task.isSuccessful()) {
                         User user = task.getResult().toObject(User.class);
                         updateUI(firebaseUser, user);
-                        mLoadToast.success();
                     }
                 }
             });
@@ -100,21 +155,42 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void updateUI(FirebaseUser firebaseUser, User currentUser) {
-        if (firebaseUser != null && currentUser != null) {
-            if (!currentUser.isBanned()) {
-                if (currentUser.isBuiltProfile()) {
-                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                            .putExtra("current_user_permission", currentUser.getPermission()));
-                } else {
-                    //TODO: if user didn't build profile yet
-                    //TODO: delete the line below when above is finished
-                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                            .putExtra("current_user_permission", currentUser.getPermission()));
+        if (firebaseUser != null)
+            if (firebaseUser.isEmailVerified()) {
+                if (!currentUser.isBanned()) {
+                    if (currentUser.isBuiltProfile()) {
+                        startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                                .putExtra("current_user_permission", currentUser.getPermission()));
+                        mLoadToast.success();
+                    } else {
+                        //TODO: if user didn't build profile yet
+                        //TODO: delete the line below when above is finished
+                        startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                                .putExtra("current_user_permission", currentUser.getPermission()));
+                    }
+                } else { //user is banned
+                    startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
                 }
-            } else { //user is banned
-                startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
+            } else {
+                sendEmailVerification(firebaseUser);
+                mAuth.signOut();
             }
-        }
+    }
+
+    private void sendEmailVerification(FirebaseUser user) {
+        user.sendEmailVerification()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this,
+                                    getString(R.string.email_verification_sent) + " " + user.getEmail(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            showErrorToast(R.string.email_verification_failed);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -130,7 +206,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.button_login:
                 hideSoftKeyboard();
-                String emailInput = mTextInputEmail.getEditText().getText().toString().trim();
+                String emailInput = mTextInputEmail.getEditText().getText().toString().trim().toLowerCase();
                 String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
                 signIn(emailInput, passwordInput, false);
                 break;
@@ -184,61 +260,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 .setTextColor(Color.BLACK)
                 .setBackgroundColor(Color.GREEN)
                 .setProgressColor(Color.BLUE);
-    }
-
-    private void initElements() {
-
-        mTextInputEmail = findViewById(R.id.text_input_email);
-        mTextInputPassword = findViewById(R.id.text_input_password);
-        CheckBox mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
-
-        LOG_IN_LOAD = getString(R.string.login_in_t);
-        mLoadToast = new LoadToast(LoginActivity.this);
-
-        findViewById(R.id.forgot_password_link).setOnClickListener(this);
-        findViewById(R.id.button_login).setOnClickListener(this);
-        findViewById(R.id.button_register).setOnClickListener(this);
-        mCheckBoxRememberMe.setOnCheckedChangeListener(this);
-
-        mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputPassword.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() < 6) {
-                    mTextInputPassword.setError(getString(R.string.password_not_enough));
-                    hasErrorInText = true;
-                } else if (completeNewText.length() > 15) {
-                    mTextInputPassword.setError(getString(R.string.password_too_much));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputPassword.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
-
-        mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener() {
-            @Override
-            protected void onTextChanged(String before, String old, String aNew, String after) {
-                String completeNewText = before + aNew + after;
-                startUpdates();
-                if (completeNewText.isEmpty()) {
-                    mTextInputEmail.setError(getString(R.string.empty_field));
-                    hasErrorInText = true;
-                } else if (!EmailValidator.isValidEmail(completeNewText)) {
-                    mTextInputEmail.setError(getString(R.string.email_not_valid));
-                    hasErrorInText = true;
-                } else {
-                    mTextInputEmail.setError(null);
-                    hasErrorInText = false;
-                }
-                endUpdates();
-            }
-        });
     }
 }
