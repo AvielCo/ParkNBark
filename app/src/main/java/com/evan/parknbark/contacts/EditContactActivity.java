@@ -68,12 +68,14 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
                         boolean gotFields = false;
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                listTitle.add(document.getId());
+                                String field = document.getId();
+                                listTitle.add(field.substring(0, 1).toUpperCase() + field.substring(1));
                                 if(!gotFields){
                                     Map<String, Object> map = document.getData();
                                     if (map != null) {
                                         for (Map.Entry<String, Object> entry : map.entrySet()) {
-                                            listField.add(entry.getKey());
+                                            String key = entry.getKey();
+                                            listField.add(key.substring(0, 1).toUpperCase() + key.substring(1));
                                         }
                                     }
                                     gotFields = true;
@@ -100,7 +102,9 @@ public class EditContactActivity extends BaseActivity implements View.OnClickLis
         hideSoftKeyboard();
         String updateText = updatedContactFieldTxt.getEditText().getText().toString();
         if(EditTextValidator.isValidLayoutEditText(updateText, updatedContactFieldTxt, getApplicationContext()) ){
-            updateContact(updateText, contactSpinner.getSelectedItem().toString(), fieldSpinner.getSelectedItem().toString());
+            String contactSpinnerLower =  contactSpinner.getSelectedItem().toString().toLowerCase();
+            String fieldSpinnerLower =  fieldSpinner.getSelectedItem().toString().toLowerCase();
+            updateContact(updateText, contactSpinnerLower, fieldSpinnerLower);
         }
     }
 
