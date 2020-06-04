@@ -42,11 +42,6 @@ pipeline {
                 }
             }
         }
-    //stage ('Lintering') {
-     // steps {
-      // sh -p '$JENKINS_SSHD_PORT $JENKINS_HOSTNAME declarative-linter < Jenkinsfile'
-      //}
-   // }
   }
   post{
       failure{
@@ -61,7 +56,7 @@ pipeline {
                  to: 'emilyzo@ac.sce.ac.il')
        }
        success{
-        echo 'Build success. good job bruh'
+        echo 'Build success. good job'
        }
     } 
 }
