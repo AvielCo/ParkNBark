@@ -32,10 +32,6 @@
         android:id="@+id/menu_profile"
         android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_editcontact"
-            android:title="@string/edit_my_profile" />
-        <item
             android:id="@+id/nav_watch_profile"
             android:title="@string/my_profile"
             android:icon="@drawable/baseline_person_24"/>

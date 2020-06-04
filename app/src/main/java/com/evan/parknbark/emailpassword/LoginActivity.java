@@ -38,6 +38,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private TextInputLayout mTextInputEmail, mTextInputPassword;
     private long mBackPressedTime;
     private LoadToast mLoadToast;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         initElements();
 
-        Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         User currentUser = (User) bundle.getSerializable("current_user");
 
         SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
         String checkbox = preferences.getString("remember", "");
         if (checkbox.equals("true")) {
             updateUI(mAuth.getCurrentUser(), currentUser);
-        }
+        } else mAuth.signOut();
     }
 
     private void initElements() {
@@ -116,19 +117,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void updateUI(FirebaseUser firebaseUser, User currentUser) {
-        if (firebaseUser != null)
+        if (firebaseUser != null && currentUser != null)
             if (firebaseUser.isEmailVerified()) {
+                mLoadToast.success();
                 if (!currentUser.isBanned()) {
-                    if (currentUser.isBuiltProfile()) {
-                        startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                                .putExtra("current_user_permission", currentUser.getPermission()));
-                        mLoadToast.success();
-                    } else {
-                        //TODO: if user didn't build profile yet
-                        //TODO: delete the line below when above is finished
-                        startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                                .putExtra("current_user_permission", currentUser.getPermission()));
-                    }
+                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                            .putExtras(bundle));
                 } else { //user is banned
                     startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
                 }

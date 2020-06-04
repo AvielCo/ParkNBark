@@ -25,7 +25,6 @@ import com.evan.parknbark.credits.CreditActivity;
 import com.evan.parknbark.emailpassword.LoginActivity;
 import com.evan.parknbark.map_profile.maps.LocationsActivity;
 import com.evan.parknbark.map_profile.maps.MapActivity;
-import com.evan.parknbark.map_profile.profile.ProfileActivity;
 import com.evan.parknbark.map_profile.profile.WatchProfile;
 import com.evan.parknbark.settings.SettingsActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -184,9 +183,6 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
                 break;
             case R.id.nav_watch_profile:
                 startActivity(new Intent(getApplicationContext(), WatchProfile.class));
-                break;
-            case R.id.nav_profile:
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
             case R.id.nav_map:
                 startActivity(new Intent(getApplicationContext(), MapActivity.class));

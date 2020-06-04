@@ -199,6 +199,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             showSuccessToast(R.string.profile_saved);
+                            setResult(RESULT_OK);
                             hideProgressBar();
                         } else showErrorToast();
                     }

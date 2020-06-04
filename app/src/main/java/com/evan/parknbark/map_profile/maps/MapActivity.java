@@ -9,8 +9,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,7 +20,9 @@ import androidx.core.content.ContextCompat;
 import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.MapProfileBottomSheetDialog;
 import com.evan.parknbark.map_profile.profile.Profile;
+import com.evan.parknbark.map_profile.profile.WatchProfile;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
+import com.evan.parknbark.utilities.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -58,11 +62,13 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     //permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
     private String CHECKIN_MSG;
     private String CHECKOUT_MSG;
     private String GPS_NOT_ENABLE;
     private String ENABLE_GPS_MSG;
     private boolean check_in_flag;
+    private final int REQUEST_PROFILE_BUILD = 0;
     //Map variables
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
@@ -70,6 +76,8 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference profilesRef = db.collection(PROFILES);
     private Marker currentClickedMarker;
+
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +88,15 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         GPS_NOT_ENABLE = getString(R.string.gps_not_enabled);
         CHECKOUT_MSG = getString(R.string.checkout_msg);
         CHECKIN_MSG = getString(R.string.checkin_msg);
-        currentUserPermission = getIntent().getStringExtra("current_user_permission");
+
+        bundle = getIntent().getExtras();
+        User currentUser = (User) bundle.getSerializable("current_user");
+        currentUserPermission = currentUser.getPermission();
+
+        if (!currentUser.isBuiltProfile()) {
+            startActivityForResult(new Intent(MapActivity.this, WatchProfile.class),
+                    REQUEST_PROFILE_BUILD);
+        }
     }
 
     @Override
@@ -93,6 +109,21 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     public void onBackPressed() {
         finish();
         FirebaseAuth.getInstance().signOut();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PROFILE_BUILD) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                startActivityForResult(new Intent(MapActivity.this, WatchProfile.class),
+                        REQUEST_PROFILE_BUILD);
+            } else {
+                db.collection("users").document(mAuth.getCurrentUser().getUid())
+                        .update("builtProfile", true);
+            }
+        }
     }
 
     /**
