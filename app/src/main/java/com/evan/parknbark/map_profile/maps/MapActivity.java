@@ -1,7 +1,9 @@
 package com.evan.parknbark.map_profile.maps;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -21,6 +23,7 @@ import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.MapProfileBottomSheetDialog;
 import com.evan.parknbark.map_profile.profile.Profile;
 import com.evan.parknbark.map_profile.profile.WatchProfile;
+import com.evan.parknbark.settings.admin.UsersListActivity;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
 import com.evan.parknbark.utilities.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,6 +60,8 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     private static final String PARK_CHECKIN = "parkcheckin";
     private static final String CHECKIN_FIELD = "currentProfilesInPark";
     private static final String PROFILES = "profiles";
+    private static final String POPUP_WINDOW_TITLE = "Set your profile!";
+    private static final String POPUP_WINDOW_BODY = "you must set your profile for further use.";
     private static final double defaultLan = 31.249927;
     private static final double defaultLon = 34.791930;
     //permissions
@@ -94,8 +99,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         currentUserPermission = currentUser.getPermission();
 
         if (!currentUser.isBuiltProfile()) {
-            startActivityForResult(new Intent(MapActivity.this, WatchProfile.class),
-                    REQUEST_PROFILE_BUILD);
+            displayPopupWindow();
         }
     }
 
@@ -116,9 +120,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_PROFILE_BUILD) {
             if (resultCode != RESULT_OK) {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-                startActivityForResult(new Intent(MapActivity.this, WatchProfile.class),
-                        REQUEST_PROFILE_BUILD);
+                displayPopupWindow();
             } else {
                 db.collection("users").document(mAuth.getCurrentUser().getUid())
                         .update("builtProfile", true);
@@ -368,6 +370,21 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         }
         db.collection(PARK_CHECKIN).document(title).update(CHECKIN_FIELD, FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
         setUserCheckinPark(title);
+    }
+
+    public void displayPopupWindow(){
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            if (which == DialogInterface.BUTTON_POSITIVE)
+                startActivityForResult(new Intent(MapActivity.this, WatchProfile.class),
+                        REQUEST_PROFILE_BUILD);
+            dialog.dismiss();
+        };
+        new AlertDialog.Builder(MapActivity.this)
+                .setTitle(POPUP_WINDOW_TITLE)
+                .setMessage(POPUP_WINDOW_BODY)
+                .setPositiveButton("OK", dialogClickListener)
+                .setCancelable(false)
+                .show();
     }
 }
 

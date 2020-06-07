@@ -34,6 +34,8 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import es.dmoral.toasty.Toasty;
 
 public class WatchProfile extends BaseActivity implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
@@ -200,6 +202,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                         if (task.isSuccessful()) {
                             showSuccessToast(R.string.profile_saved);
                             setResult(RESULT_OK);
+                            user.setBuiltProfile(true);
                             hideProgressBar();
                         } else showErrorToast();
                     }
@@ -216,7 +219,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
-                        user = task.getResult().toObject(User.class);
+                        user = Objects.requireNonNull(task.getResult()).toObject(User.class);
                         if (mUploadTask != null && mUploadTask.isInProgress())
                             Toasty.info(getApplicationContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
                         else if (isUploadedImage)
@@ -253,8 +256,13 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                 String name = mEditTextDogName.getText().toString();
                 String age = mEditTextDogAge.getText().toString();
                 String breed = mEditTextDogBreed.getText().toString();
+                if(name == "name")
+                    name = "UNKNOWN";
+                else if(age == "age")
+                    age="UNKNOWN";
+                else if(breed=="breed")
+                    breed="UNKNOWN";
                 saveProfile(name, breed, age);
-                user.setBuiltProfile(true);
                 hiddenItem = false;
                 hideItemInsideToolbar();
                 mButtonUploadPic.setVisibility(View.INVISIBLE);
