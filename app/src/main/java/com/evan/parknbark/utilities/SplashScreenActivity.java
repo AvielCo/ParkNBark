@@ -23,6 +23,7 @@ public class SplashScreenActivity extends BaseActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        loadLocale(this);
         super.onCreate(savedInstanceState);
 
         //Create a bundle to pass to the next activity

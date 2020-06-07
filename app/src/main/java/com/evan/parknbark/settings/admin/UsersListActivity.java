@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class UsersListActivity extends BaseActivity {
+public class UsersListActivity extends BaseActivity implements ExpandableListView.OnChildClickListener {
     private ExpandableListView expandableListView;
     private List<UserItem> userList;
     private HashMap<UserItem, List<String>> userItemOptions;
@@ -45,80 +46,36 @@ public class UsersListActivity extends BaseActivity {
         setContentView(R.layout.activity_users_list);
         expandableListView = findViewById(R.id.expandable_list_view_users);
         initData();
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                switch (childPosition) {
-                    case 0:
-                        getUserProfile(userList.get(groupPosition));
-                        break;
-                    case 1:
-                        final UserItem user = userList.get(groupPosition);
-                        if (!user.isBanned()) {
-                            Bundle b = new Bundle();
-                            b.putString("uid", userList.get(groupPosition).getUid());
-                            b.putString("name", userList.get(groupPosition).getDisplayName());
-                            b.putString("email", userList.get(groupPosition).getEmail());
-                            startActivity(new Intent(UsersListActivity.this, BanActivity.class).putExtras(b));
-                            finish();
-                        } else {
-                            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-                                if (which == DialogInterface.BUTTON_POSITIVE)
-                                    permitUser(user);
-                                dialog.dismiss();
-                            };
-                            new AlertDialog.Builder(UsersListActivity.this)
-                                    .setTitle(getString(R.string.permit_user))
-                                    .setMessage(getString(R.string.permit_user_ask) + user.getDisplayName())
-                                    .setPositiveButton("Permit", dialogClickListener)
-                                    .setNegativeButton("Cancel", dialogClickListener)
-                                    .setCancelable(false)
-                                    .show();
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
-    }
-
-    private void permitUser(UserItem userItem) {
-        FieldPath bannedField = FieldPath.of("banned"),
-                reasonField = FieldPath.of("banReason");
-        db.collection("users").document(userItem.getUid())
-                .update(bannedField, false, reasonField, "")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toasty.info(getBaseContext(), getString(R.string.permit_user_success) + userItem.getDisplayName(), Toasty.LENGTH_SHORT).show();
-                            finish();
-                            startActivity(new Intent(getBaseContext(), UsersListActivity.class));
-                        } else {
-                            showErrorToast();
-                        }
-                    }
-                });
+        expandableListView.setOnChildClickListener(this);
     }
 
     private void initData() {
+        isFirebaseProcessRunning = true;
         userList = new ArrayList<>();
         userItemOptions = new HashMap<>();
         getUsersFromDB();
     }
 
     private void getUsersFromDB() {
-        db.collection("users").get().addOnCompleteListener(task -> {
-            for (QueryDocumentSnapshot document : task.getResult()) {
-                String firstName = (String) document.get("firstName");
-                String lastName = (String) document.get("lastName");
-                String email = (String) document.get("emailAddress");
-                boolean banned = (boolean) document.get("banned");
-                String uid = document.getId();
-                UserItem user = new UserItem(firstName + " " + lastName, email, uid, banned);
-                userList.add(user);
+        db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String firstName = (String) document.get("firstName");
+                        String lastName = (String) document.get("lastName");
+                        String email = (String) document.get("emailAddress");
+                        boolean banned = (boolean) document.get("banned");
+                        String uid = document.getId();
+                        UserItem user = new UserItem(firstName + " " + lastName, email, uid, banned);
+                        userList.add(user);
+                    }
+                    UsersListActivity.this.initOptionsHashMap();
+                } else {
+                    isFirebaseProcessRunning = false;
+                    showErrorToast();
+                }
             }
-            initOptionsHashMap();
         });
     }
 
@@ -143,6 +100,7 @@ public class UsersListActivity extends BaseActivity {
     private void initAdapter() {
         UsersListAdapter adapter = new UsersListAdapter(this, userItemOptions, userList);
         expandableListView.setAdapter(adapter);
+        isFirebaseProcessRunning = false;
     }
 
     private void getUserProfile(final UserItem user) {
@@ -192,5 +150,65 @@ public class UsersListActivity extends BaseActivity {
 
         profileDialog.getWindow().setAttributes(lp);
         profileDialog.show();
+    }
+
+    private void permitUser(UserItem userItem) {
+        FieldPath bannedField = FieldPath.of("banned"),
+                reasonField = FieldPath.of("banReason");
+        db.collection("users").document(userItem.getUid())
+                .update(bannedField, false, reasonField, "")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toasty.info(getBaseContext(), getString(R.string.permit_user_success) + userItem.getDisplayName(), Toasty.LENGTH_SHORT).show();
+                            finish();
+                            startActivity(new Intent(getBaseContext(), UsersListActivity.class));
+                        } else {
+                            showErrorToast();
+                        }
+                        isFirebaseProcessRunning = false;
+                    }
+                });
+    }
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        switch (childPosition) {
+            case 0:
+                getUserProfile(userList.get(groupPosition));
+                break;
+            case 1:
+                final UserItem user = userList.get(groupPosition);
+                if (!user.isBanned()) {
+                    Bundle b = new Bundle();
+                    b.putString("uid", userList.get(groupPosition).getUid());
+                    b.putString("name", userList.get(groupPosition).getDisplayName());
+                    b.putString("email", userList.get(groupPosition).getEmail());
+                    startActivity(new Intent(UsersListActivity.this, BanActivity.class).putExtras(b));
+                    finish();
+                } else {
+                    if (isFirebaseProcessRunning) {
+                        showInfoToast(R.string.please_wait);
+                        return false;
+                    }
+                    DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            isFirebaseProcessRunning = true;
+                            permitUser(user);
+                        }
+                        dialog.dismiss();
+                    };
+                    new AlertDialog.Builder(UsersListActivity.this)
+                            .setTitle(getString(R.string.permit_user))
+                            .setMessage(getString(R.string.permit_user_ask) + user.getDisplayName())
+                            .setPositiveButton(R.string.permit_text, dialogClickListener)
+                            .setNegativeButton(R.string.cancel_text, dialogClickListener)
+                            .setCancelable(false)
+                            .show();
+                }
+                break;
+        }
+        return true;
     }
 }

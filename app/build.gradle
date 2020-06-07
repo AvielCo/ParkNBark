@@ -33,7 +33,6 @@ android {
             unitTests
         }
     }
-
 }
 
 tasks.withType(Test) {

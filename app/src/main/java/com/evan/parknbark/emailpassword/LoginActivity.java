@@ -40,6 +40,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private LoadToast mLoadToast;
     private Bundle bundle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         Log.d(TAG, "onFailure: " + e.getMessage());
                         mLoadToast.error();
                         showErrorToast(R.string.wrong_email_pass);
+                        isFirebaseProcessRunning = false;
                     }
                 }
             });
@@ -116,23 +118,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             showErrorToast();
     }
 
-    private void updateUI(FirebaseUser firebaseUser, User currentUser) {
-        if (firebaseUser != null && currentUser != null)
-            if (firebaseUser.isEmailVerified()) {
-                mLoadToast.success();
-                if (!currentUser.isBanned()) {
-                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                            .putExtras(bundle));
-                } else { //user is banned
-                    startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
-                }
-            } else {
-                mLoadToast.error();
-                sendEmailVerification(firebaseUser);
-                mAuth.signOut();
-            }
-    }
-
     private void sendEmailVerification(FirebaseUser user) {
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
@@ -149,8 +134,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 });
     }
 
+    private void updateUI(FirebaseUser firebaseUser, User currentUser) {
+        if (firebaseUser != null && currentUser != null)
+            if (firebaseUser.isEmailVerified()) {
+                mLoadToast.success();
+                if (!currentUser.isBanned()) {
+                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
+                            .putExtras(bundle));
+                } else { //user is banned
+                    startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
+                }
+            } else {
+                mLoadToast.error();
+                sendEmailVerification(firebaseUser);
+                mAuth.signOut();
+            }
+        isFirebaseProcessRunning = false;
+    }
+
     @Override
     public void onClick(View v) {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
         int i = v.getId();
         switch (i) {
             case R.id.button_register:
@@ -161,6 +168,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(LoginActivity.this, ResetPassActivity.class));
                 break;
             case R.id.button_login:
+                isFirebaseProcessRunning = true;
                 hideSoftKeyboard();
                 String emailInput = mTextInputEmail.getEditText().getText().toString().trim().toLowerCase();
                 String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
@@ -184,6 +192,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
         if (mBackPressedTime + 2000 > System.currentTimeMillis()) {
             super.onBackPressed();
             return;

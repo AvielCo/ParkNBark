@@ -22,7 +22,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "Register";
-    private boolean isProcessRunning = false;
     private TextInputLayout mTextInputFName, mTextInputLName, mTextInputEmail, mTextInputPassword;
 
     @Override
@@ -82,7 +81,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                             }
                                         });
                             } else {
-                                isProcessRunning = false;
+                                isFirebaseProcessRunning = false;
                                 Log.d(TAG, "createUserWithEmailAndPassword: onComplete: ERROR!!! " + task.getException().getMessage());
                                 showErrorToast();
                             }
@@ -115,7 +114,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             Intent i = new Intent();
             i.putExtra("email_reg", email);
             i.putExtra("pass_reg", password);
-            isProcessRunning = false;
+            isFirebaseProcessRunning = false;
             setResult(RESULT_OK, i);
             mAuth.signOut();
             finish();
@@ -126,7 +125,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.button_register) {
-            isProcessRunning = true;
+            isFirebaseProcessRunning = true;
             hideSoftKeyboard();
             String emailInput = mTextInputEmail.getEditText().getText().toString().trim().toLowerCase();
             String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
@@ -134,14 +133,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             String lastNameInput = mTextInputLName.getEditText().getText().toString().trim();
             signUp(emailInput, passwordInput, firstNameInput, lastNameInput, false);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isProcessRunning) {
-            showInfoToast(R.string.please_wait);
-            return;
-        }
-        super.onBackPressed();
     }
 }

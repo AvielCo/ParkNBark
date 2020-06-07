@@ -28,9 +28,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
 
     private void initElements() {
         mTextInputEmail = findViewById(R.id.text_input_email_reset_pass);
-
         mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener(mTextInputEmail, this));
-
         findViewById(R.id.button_send_reset_pass).setOnClickListener(this);
     }
 
@@ -46,6 +44,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                         startActivity(new Intent(ResetPassActivity.this, LoginActivity.class));
                     } else
                         showErrorToast();
+                    isFirebaseProcessRunning = false;
                     hideProgressBar();
                 }
             });
@@ -54,8 +53,13 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
         int i = v.getId();
         if (i == R.id.button_send_reset_pass) {
+            isFirebaseProcessRunning = true;
             hideSoftKeyboard();
             String email = mTextInputEmail.getEditText().getText().toString().trim();
             resetPassword(email);

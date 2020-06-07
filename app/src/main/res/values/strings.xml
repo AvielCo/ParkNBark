@@ -108,4 +108,7 @@
     <string name="email_verify_request">Please verify your email.</string>
     <string name="please_wait">Please wait.</string>
     <string name="input_too_long_30">Input must contain at most 30 characters</string>
+    <string name="share_with">Share with</string>
+    <string name="permit_text">Permit</string>
+    <string name="cancel_text">Cancel</string>
 </resources>

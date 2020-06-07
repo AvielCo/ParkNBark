@@ -24,12 +24,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected FirebaseFirestore db;
 
     private final String KEY_LANGUAGE = "Language";
-
     public ProgressBar mProgressBar;
-
     protected String ERROR_MSG;
 
-    protected static Boolean hasErrorInText = true;
+    protected boolean isFirebaseProcessRunning = false;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -63,6 +61,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    //Toast related methods
+
     protected void showErrorToast() {
         Toasty.error(getApplicationContext(), ERROR_MSG, Toasty.LENGTH_LONG).show();
     }
@@ -79,12 +88,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toasty.info(getApplicationContext(), getString(resId), Toasty.LENGTH_SHORT).show();
     }
 
+    //Language related methods
+
     protected void loadLocale(Context context) {
         changeLang(getPrefLanguage(), context);
     }
 
-    protected void changeToNewLocale(String newLanguage, Context context){
-        if(getPrefLanguage().equals(newLanguage))
+    protected void changeToNewLocale(String newLanguage, Context context) {
+        if (getPrefLanguage().equals(newLanguage))
             return;
         changeLang(newLanguage, context);
         saveLocale(newLanguage);

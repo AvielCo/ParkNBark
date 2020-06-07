@@ -63,7 +63,13 @@ public class NewNoteDialog extends BaseDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //when clicking on X inside toolbar
-        toolbar.setNavigationOnClickListener(v -> dismiss());
+        toolbar.setNavigationOnClickListener(v -> {
+            if (isFirebaseProcessRunning) {
+                showInfoToast(R.string.please_wait);
+                return;
+            }
+            dismiss();
+        });
 
         //title for toolbar
         toolbar.setTitleTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
@@ -72,6 +78,11 @@ public class NewNoteDialog extends BaseDialogFragment {
 
         //when clicking on save icon inside toolbar
         toolbar.setOnMenuItemClickListener(item -> {
+            if (isFirebaseProcessRunning) {
+                showInfoToast(R.string.please_wait);
+                return false;
+            }
+            isFirebaseProcessRunning = true;
             hideSoftKeyboard(view);
             String title = mTextInputTitle.getEditText().getText().toString().trim();
             String description = mTextInputDescription.getEditText().getText().toString().trim();
@@ -97,6 +108,7 @@ public class NewNoteDialog extends BaseDialogFragment {
                     dismiss();
                 } else
                     showErrorToast();
+                isFirebaseProcessRunning = false;
             });
         }
         return true;

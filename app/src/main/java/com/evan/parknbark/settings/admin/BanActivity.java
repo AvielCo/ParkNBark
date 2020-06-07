@@ -44,11 +44,16 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
         int i = v.getId();
         if (i == R.id.ban_user_button) {
             if (banReason.getText().toString().trim().isEmpty()) {
                 Toasty.info(BanActivity.this, getString(R.string.empty_field), Toasty.LENGTH_SHORT).show();
             } else {
+                isFirebaseProcessRunning = true;
                 hideSoftKeyboard();
                 showProgressBar();
                 db.collection("users").document(b.getString("uid"))
@@ -62,6 +67,7 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
                                 } else {
                                     showErrorToast();
                                 }
+                                isFirebaseProcessRunning = false;
                                 hideProgressBar();
                             }
                         });

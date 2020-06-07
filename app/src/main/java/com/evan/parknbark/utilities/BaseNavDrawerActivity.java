@@ -42,7 +42,6 @@ public abstract class BaseNavDrawerActivity extends BaseActivity implements Popu
     public static final String CHECKIN_FIELD = "currentProfilesInPark";
     public static final String INVITE_TXT = "Come and join ParkN'Bark at <input some link>";
     public static final String SHARE_WITH_TXT = "Share with";
-    public static final String WRONG_PERMISSION = "You don't have the right permission";
     private String userCheckinPark;
     private String parkName;
     protected String currentUserPermission;

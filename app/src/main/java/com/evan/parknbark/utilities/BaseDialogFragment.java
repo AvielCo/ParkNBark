@@ -3,7 +3,6 @@ package com.evan.parknbark.utilities;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -13,11 +12,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.dmoral.toasty.Toasty;
 
-public class BaseDialogFragment extends DialogFragment {
-    public ProgressBar mProgressBar;
+public abstract class BaseDialogFragment extends DialogFragment {
     protected FirebaseAuth mAuth;
     protected FirebaseFirestore db;
     protected String ERROR_MSG;
+    protected boolean isFirebaseProcessRunning = false;
 
     @Override
     public void onStart() {
@@ -25,22 +24,6 @@ public class BaseDialogFragment extends DialogFragment {
         ERROR_MSG = getResources().getString(R.string.error_message);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-    }
-
-    public void setProgressBar(int resId, View v) {
-        mProgressBar = v.findViewById(resId);
-    }
-
-    public void showProgressBar() {
-        if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void hideProgressBar() {
-        if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-        }
     }
 
     protected void hideSoftKeyboard(View v) {
@@ -54,5 +37,9 @@ public class BaseDialogFragment extends DialogFragment {
 
     protected void showSuccessToast(int resId) {
         Toasty.success(getContext(), getResources().getString(resId), Toasty.LENGTH_SHORT).show();
+    }
+
+    protected void showInfoToast(int resId) {
+        Toasty.info(getContext(), getResources().getString(resId), Toasty.LENGTH_SHORT).show();
     }
 }

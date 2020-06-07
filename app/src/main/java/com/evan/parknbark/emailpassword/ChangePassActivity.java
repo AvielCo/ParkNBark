@@ -1,6 +1,5 @@
 package com.evan.parknbark.emailpassword;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -64,27 +63,35 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                                     public void onComplete(@NonNull Task<Void> task1) {
                                         if (task1.isSuccessful()) {
                                             showSuccessToast(R.string.change_password_success);
-                                            ChangePassActivity.this.startActivity(new Intent(ChangePassActivity.this, LoginActivity.class));
                                         } else
                                             showErrorToast();
+                                        isFirebaseProcessRunning = false;
                                         hideProgressBar();
                                     }
                                 });
-                            } else
+                            } else {
+                                isFirebaseProcessRunning = false;
                                 showErrorToast(R.string.change_password_current_invalid);
+                            }
                         }
                     });
         } else {
             showErrorToast(R.string.change_pass_same_old_new);
             hideProgressBar();
+            isFirebaseProcessRunning = false;
         }
         return true;
     }
 
     @Override
     public void onClick(View v) {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
         int i = v.getId();
         if (i == R.id.button_change_pass_confirm) {
+            isFirebaseProcessRunning = true;
             final String currentPassword = mTextInputCurrentPassword.getEditText().getText().toString().trim();
             final String newPassword = mTextInputNewPassword.getEditText().getText().toString().trim();
             hideSoftKeyboard();
