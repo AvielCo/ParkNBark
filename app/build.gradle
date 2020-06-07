@@ -30,7 +30,7 @@ android {
 
     testOptions {
         unitTests.all {
-            unitTests()
+            unitTests
         }
     }
 

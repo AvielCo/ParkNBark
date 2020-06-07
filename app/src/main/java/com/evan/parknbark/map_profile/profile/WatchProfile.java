@@ -254,6 +254,7 @@ public class WatchProfile extends BaseActivity implements View.OnClickListener, 
                 String age = mEditTextDogAge.getText().toString();
                 String breed = mEditTextDogBreed.getText().toString();
                 saveProfile(name, breed, age);
+                user.setBuiltProfile(true);
                 hiddenItem = false;
                 hideItemInsideToolbar();
                 mButtonUploadPic.setVisibility(View.INVISIBLE);
