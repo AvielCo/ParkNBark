@@ -14,8 +14,7 @@
         android:roundIcon="@mipmap/app_logo2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".utilities.EntranceDialog"></activity>
-        <activity android:name=".utilities.PopupEntranceWindow" /> <!-- MAIN ACTIVITY -->
+        <!-- MAIN ACTIVITY -->
         <activity
             android:name=".utilities.SplashScreenActivity"
             android:launchMode="singleTop"
@@ -26,10 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".map_profile.profile.WatchProfile"
+            android:name=".map_profile.profile.ProfileActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".map_profile.maps.MapActivity"
+            android:theme="@style/AppTheme.NoActionBarWithStatusBar" />
+
         <activity
             android:name=".settings.SettingsActivity"
             android:launchMode="singleTop"
@@ -44,7 +46,8 @@
             android:parentActivityName=".map_profile.maps.MapActivity" />
         <activity
             android:name=".settings.admin.UsersListActivity"
-            android:launchMode="singleTop" /> <!-- Login, Register, Reset/Change password -->
+            android:launchMode="singleTop" />
+        <!-- Login, Register, Reset/Change password -->
         <activity
             android:name=".emailpassword.LoginActivity"
             android:launchMode="singleTop"
@@ -60,7 +63,8 @@
         <activity
             android:name=".emailpassword.ChangePassActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".settings.SettingsActivity" /> <!-- Map -->
+            android:parentActivityName=".settings.SettingsActivity" />
+        <!-- Map -->
         <activity
             android:name=".map_profile.maps.MapActivity"
             android:launchMode="singleTop"
@@ -69,16 +73,14 @@
         <activity
             android:name=".map_profile.maps.LocationsActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".map_profile.maps.MapActivity" /> <!-- Bulletin Board -->
+            android:parentActivityName=".map_profile.maps.MapActivity" />
+        <!-- Bulletin Board -->
         <activity
             android:name=".bulletinboard.BulletinBoardActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".map_profile.maps.MapActivity"
-            android:theme="@style/AppTheme" /> <!-- Profile -->
-        <activity
-            android:name=".map_profile.profile.ProfileActivity"
-            android:launchMode="singleTop"
-            android:parentActivityName=".map_profile.maps.MapActivity" /> <!-- Contacts -->
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".contacts.ContactActivity"
             android:launchMode="singleTop"
@@ -86,7 +88,8 @@
         <activity
             android:name=".contacts.EditContactActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".map_profile.maps.MapActivity" /> <!-- Rating -->
+            android:parentActivityName=".map_profile.maps.MapActivity" />
+        <!-- Rating -->
         <activity
             android:name=".RateUsActivity"
             android:theme="@style/Theme.AppCompat.DayNight.Dialog.Alert" />

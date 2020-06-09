@@ -34,12 +34,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private static final String TAG = "LoginActivity";
     private static final int REGISTER_REQUEST = 0;
+    private static final int REMEMBER_REQUEST = 1;
     private static String LOG_IN_LOAD;
     private TextInputLayout mTextInputEmail, mTextInputPassword;
     private long mBackPressedTime;
     private LoadToast mLoadToast;
     private Bundle bundle;
-
+    private String checkbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         User currentUser = (User) bundle.getSerializable("current_user");
 
         SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
-        String checkbox = preferences.getString("remember", "");
+        checkbox = preferences.getString("remember", "");
         if (checkbox.equals("true")) {
             updateUI(mAuth.getCurrentUser(), currentUser);
         } else mAuth.signOut();
@@ -139,8 +140,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (firebaseUser.isEmailVerified()) {
                 mLoadToast.success();
                 if (!currentUser.isBanned()) {
-                    startActivity(new Intent(LoginActivity.this, MapActivity.class)
-                            .putExtras(bundle));
+                    startActivityForResult(new Intent(LoginActivity.this, MapActivity.class)
+                            .putExtras(bundle)
+                            .putExtra("check_box", checkbox.equals("true")), REMEMBER_REQUEST);
                 } else { //user is banned
                     startActivity(new Intent(LoginActivity.this, BannedUserActivity.class));
                 }
@@ -188,6 +190,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 mTextInputPassword.getEditText().setText(password);
             }
         }
+        if (requestCode == REMEMBER_REQUEST) {
+            //if user is checked the remember me checkbox
+            if (resultCode == RESULT_OK) {
+                //if user is pressing back button
+                //we want the app to terminate
+                finishAffinity();
+                super.onBackPressed();
+            }
+        }
     }
 
     @Override
@@ -212,11 +223,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("remember", "true");
             editor.apply();
+            checkbox = "true";
         } else {
             SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("remember", "false");
             editor.apply();
+            checkbox = "false";
         }
     }
 

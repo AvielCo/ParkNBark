@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +21,7 @@ import androidx.core.content.ContextCompat;
 import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.MapProfileBottomSheetDialog;
 import com.evan.parknbark.map_profile.profile.Profile;
-import com.evan.parknbark.map_profile.profile.WatchProfile;
-import com.evan.parknbark.settings.admin.UsersListActivity;
+import com.evan.parknbark.map_profile.profile.ProfileActivity;
 import com.evan.parknbark.utilities.BaseNavDrawerActivity;
 import com.evan.parknbark.utilities.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,7 +37,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -83,6 +80,9 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     private Marker currentClickedMarker;
 
     private Bundle bundle;
+    private volatile User currentUser;
+
+    private boolean checkBoxRememberMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,9 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
         CHECKIN_MSG = getString(R.string.checkin_msg);
 
         bundle = getIntent().getExtras();
-        User currentUser = (User) bundle.getSerializable("current_user");
+        checkBoxRememberMe = getIntent().getBooleanExtra("check_box", false);
+
+        currentUser = (User) bundle.getSerializable("current_user");
         currentUserPermission = currentUser.getPermission();
 
         if (!currentUser.isBuiltProfile()) {
@@ -111,8 +113,11 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
 
     @Override
     public void onBackPressed() {
+        if (checkBoxRememberMe) {
+            setResult(RESULT_OK);
+        }
         finish();
-        FirebaseAuth.getInstance().signOut();
+        super.onBackPressed();
     }
 
     @Override
@@ -122,6 +127,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
             if (resultCode != RESULT_OK) {
                 displayPopupWindow();
             } else {
+                currentUser.setBuiltProfile(true);
                 db.collection("users").document(mAuth.getCurrentUser().getUid())
                         .update("builtProfile", true);
             }
@@ -375,7 +381,7 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
     public void displayPopupWindow(){
         DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
             if (which == DialogInterface.BUTTON_POSITIVE)
-                startActivityForResult(new Intent(MapActivity.this, WatchProfile.class),
+                startActivityForResult(new Intent(MapActivity.this, ProfileActivity.class),
                         REQUEST_PROFILE_BUILD);
             dialog.dismiss();
         };

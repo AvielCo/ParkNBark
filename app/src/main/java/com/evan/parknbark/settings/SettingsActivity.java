@@ -51,12 +51,10 @@ public class SettingsActivity extends BaseActivity implements AdapterView.OnItem
                     //Change password
                     startActivity(new Intent(getApplicationContext(), ChangePassActivity.class));
                     break;
-
                 case 1:
                     //Rate Us!
                     startActivity(new Intent(getApplicationContext(), EditContactActivity.class));
                     break;
-
                 case 2:
                     startActivity(new Intent(getApplicationContext(), UsersListActivity.class));
                     break;

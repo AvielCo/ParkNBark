@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorAppBackground">
+    android:background="@color/colorAppBackground"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/image_view_profile_picture"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="180dp"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp"
         android:src="@mipmap/ic_default_profile_picture" />
 
     <RelativeLayout
         android:id="@+id/rl_dog_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/image_view_profile_picture"
-        android:layout_marginBottom="10dp"
-        android:layout_centerInParent="true">
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/text_view_dog_name_const"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/dog_name"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -35,10 +35,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/text_view_dog_name_const"
+            android:hint="@string/dog_name"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -47,9 +48,9 @@
         android:id="@+id/rl_dog_breed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_dog_name"
-        android:layout_marginBottom="10dp"
-        android:layout_centerInParent="true">
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/text_view_dog_breed_const"
@@ -57,7 +58,7 @@
             android:layout_height="wrap_content"
             android:text="@string/dog_breed"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -65,10 +66,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/text_view_dog_breed_const"
+            android:hint="@string/dog_breed"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -77,8 +79,9 @@
         android:id="@+id/rl_dog_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_dog_breed"
-        android:layout_centerInParent="true">
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/text_view_dog_age_const"
@@ -86,7 +89,7 @@
             android:layout_height="wrap_content"
             android:text="@string/dog_age"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -94,12 +97,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/text_view_dog_age_const"
+            android:hint="@string/dog_age"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

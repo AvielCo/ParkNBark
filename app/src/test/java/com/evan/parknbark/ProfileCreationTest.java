@@ -1,8 +1,6 @@
 package com.evan.parknbark;
 
-import com.evan.parknbark.emailpassword.RegisterActivity;
 import com.evan.parknbark.map_profile.profile.ProfileActivity;
-import com.evan.parknbark.validation.EditTextValidator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +20,7 @@ public class ProfileCreationTest {
     }
 
     @Test
-    public void profileCreationTest(){
+    public void profileCreationTest() {
         ProfileActivity activity = new ProfileActivity();
         assertTrue("Error test failed!", activity.saveProfile(dogName, dogBreed, dogAge, true));
     }

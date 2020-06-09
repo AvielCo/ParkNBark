@@ -111,4 +111,5 @@
     <string name="share_with">Share with</string>
     <string name="permit_text">Permit</string>
     <string name="cancel_text">Cancel</string>
+    <string name="upload_in_progress">Upload in progress</string>
 </resources>

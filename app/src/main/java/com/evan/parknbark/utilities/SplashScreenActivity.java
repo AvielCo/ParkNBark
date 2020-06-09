@@ -42,20 +42,18 @@ public class SplashScreenActivity extends BaseActivity {
                         //if user is logged in, put the permission into bundle
                         //else, do nothing
                         bundle.putSerializable("current_user", user);
+                        EasySplashScreen config = new EasySplashScreen(SplashScreenActivity.this)
+                                .withFullScreen()
+                                .withTargetActivity(LoginActivity.class) //go to main activity
+                                .withBundleExtras(bundle) //send bundle, either user logged in or nah
+                                .withBackgroundColor(Color.parseColor("#e1f5fe"))
+                                .withLogo(R.mipmap.app_logo1_foreground); //TODO: adjust logo dimensions
+
+                        View easySplashScreen = config.create();
+                        setContentView(easySplashScreen);
                     }
                 }
             });
         }
-
-
-        EasySplashScreen config = new EasySplashScreen(this)
-                .withFullScreen()
-                .withTargetActivity(LoginActivity.class) //go to main activity
-                .withBundleExtras(bundle) //send bundle, either user logged in or nah
-                .withBackgroundColor(Color.parseColor("#e1f5fe"))
-                .withLogo(R.mipmap.app_logo1_foreground); //TODO: adjust logo dimensions
-
-        View easySplashScreen = config.create();
-        setContentView(easySplashScreen);
     }
 }
