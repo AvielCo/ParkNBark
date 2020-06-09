@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ParkNBark</string>
-    <string name="reset_pass_explanation_text">"Пожалуйста, введите ваш адрес электронной почты и нажмите кнопку «Отправить». Ссылка будет отправлена ​​на ваш E-Mail, введите эту ссылку, чтобы установить новый пароль. "</string>
+    <string name="reset_pass_explanation_text">Пожалуйста, введите адрес электронной почты вашей учетной записи и нажмите кнопку «Отправить». На ваш e-mail будет отправлена ​​ссылка, введите эту ссылку, чтобы установить новый пароль.</string>
     <string name="register">регистр</string>
     <string name="sign_in">войти в систему</string>
     <string name="lname">Фамилия</string>
@@ -28,8 +28,6 @@
     <string name="change_pass_confirm_button">Подтверждение</string>
     <string name="change_password">"Изменить пароль "</string>
     <string name="country_flag">"Флаг страны "</string>
-    <string name="hebrew">иврит</string>
-    <string name="russian">русский</string>
     <string name="contact">контакты</string>
     <string name="rate_us_menu_bar">"Оцените нас! "</string>
     <string name="rate_us_text">"Хотите оценить это приложение? "</string>
@@ -45,14 +43,14 @@
     <string name="title">заглавие</string>
     <string name="credit">кредит</string>
     <string name="my_profile">профайл</string>
-    <string name="gps_not_enabled">TODO</string>
-    <string name="yes">DA</string>
-    <string name="no">NIET</string>
-    <string name="checkin_msg">TODO</string>
-    <string name="checkout_msg">TODO</string>
-    <string name="update_contact">TODO</string>
-    <string name="users_in_park">Users in park</string>
-    <string name="error_message">Произошла ошибка\\n Пожалуйста, попробуйте позже.</string>
+    <string name="gps_not_enabled">" GPS не включен. Включить?"</string>
+    <string name="yes">" да"</string>
+    <string name="no">" нет"</string>
+    <string name="checkin_msg">" Зарегистрируйтесь здесь?"</string>
+    <string name="checkout_msg">Проверять, выписываться?</string>
+    <string name="update_contact">" Обновить контакт"</string>
+    <string name="users_in_park">Пользователи в парке</string>
+    <string name="error_message">Произошла ошибка \n Пожалуйста, попробуйте позже.</string>
     <string name="profile_saved">Профиль успешно сохранен!</string>
     <string name="required">*Необходимые</string>
     <string name="upload_image">Загрузить изображение</string>
@@ -85,4 +83,24 @@
     <string name="permit_user_ask">"Вы уверены, что хотите разблокировать пользователя "</string>
     <string name="permit_user_success">" Успешно разрешенный доступ "</string>
     <string name="profile_not_set">" hasn't set profile yet."</string>
+    <string name="update_credit">Обновить кредит</string>
+    <string name="wrong_email_pass">" Неправильный адрес электронной почты или пароль."</string>
+    <string name="remember_me">" Запомни меня"</string>
+    <string name="password_too_short">Пароль должен содержать не менее 6 символов.</string>
+    <string name="password_too_long">Пароль должен содержать не более 15 символов.</string>
+    <string name="email_not_valid">" Email не является допустимым."</string>
+    <string name="login_in_t">" Вход в систему…"</string>
+    <string name="press_back_again">" Нажмите еще раз, чтобы выйти"</string>
+    <string name="input_too_long">должен содержать не более 15 символов</string>
+    <string name="input_too_short">должен содержать не менее 2 символов</string>
+    <string name="email_verification_failed">Не удалось отправить подтверждение по электронной почте.</string>
+    <string name="email_verification_sent">" Письмо с подтверждением отправлено на"</string>
+    <string name="email_verify_request">Пожалуйста, подтвердите вашу электронную почту.</string>
+    <string name="please_wait">Пожалуйста, подождите.</string>
+    <string name="input_too_long_30">Ввод должен содержать не более 30 символов</string>
+    <string name="share_with">Поделиться с</string>
+    <string name="permit_text">Разрешать</string>
+    <string name="cancel_text">Отмена</string>
+    <string name="upload_in_progress">" Идет загрузка"</string>
+    <string name="about_devs" translatable="false">Разработчики - студенты 3 курса, обучающиеся в настоящее время в Инженерном колледже SCE. Идея этого приложения пришла им в голову из их собственных проблем владельцев домашних животных.</string>
 </resources>

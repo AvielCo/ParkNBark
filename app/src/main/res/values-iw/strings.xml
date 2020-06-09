@@ -21,7 +21,7 @@
     <string name="login_failed">התחברות נכשלה</string>
     <string name="logout">התנתק</string>
     <string name="reset_pass_send_button">שלח</string>
-    <string name="reset_pass_explanation_text">היי, לעזאזל! מה קרה? שכחת את סיסמת הכלבה שלך? ובכן אולי אסור לעשן כל כך הרבה עשבים שוטים. לעזאזל, סירה.</string>
+    <string name="reset_pass_explanation_text">אנא הכנס את הדואר האלקטרוני של חשבונך ולחץ על כפתור \"שלח\". קישור יישלח לדואר האלקטרוני שלך, לחץ על קישור זה להגדרת סיסמא חדשה.</string>
     <string name="forgot_password">שכחתי סיסמא</string>
     <string name="description">תיאור</string>
     <string name="title">כותרת</string>
@@ -34,8 +34,6 @@
     <string name="change_pass_confirm_button">אישור</string>
     <string name="change_password">שנה סיסמא</string>
     <string name="country_flag">דגל מדינה</string>
-    <string name="hebrew">Hebrew</string>
-    <string name="russian">רוסית</string>
     <string name="credit">אודות</string>
     <string name="contact">צור קשר</string>
     <string name="rate_us_menu_bar">דרג אותנו!</string>
@@ -51,8 +49,8 @@
     <string name="checkin_msg">להרשם כאן?</string>
     <string name="checkout_msg">לעזוב?</string>
     <string name="update_contact">עדכון</string>
-    <string name="users_in_park">Users in park</string>
-    <string name="error_message">אירעה שגיאה\\nנסה שוב מאוחר יותר</string>
+    <string name="users_in_park">משתמשים בפארק</string>
+    <string name="error_message">אירעה שגיאה \n נסה שוב מאוחר יותר</string>
     <string name="profile_saved">הפרופיל נשמר בהצלחה!</string>
     <string name="required">*נדרש</string>
     <string name="upload_image">העלה תמונה</string>
@@ -86,6 +84,23 @@
     <string name="permit_user_success">"חסימה הורדה בהצלחה "</string>
     <string name="profile_not_set">" hasn't set profile yet."</string>
     <string name="about_devs" translatable="false">המפתחים הינם סטודנטים בשנתם השלישית ללימודים במכללת סמי שמעון. רעיון זה צץ במוחם מתוך בעיות שחוו כבעלים לכלבים.</string>
-    <string name="english" translatable="false">אנגלית</string>
     <string name="update_credit">עדכן אודות</string>
+    <string name="wrong_email_pass">אימייל או סיסמא שגויים.</string>
+    <string name="remember_me">זכור אותי</string>
+    <string name="password_too_short">הסיסמה חייבת להכיל לפחות 6 תווים.</string>
+    <string name="password_too_long">על הסיסמא לכלול 15 תווים לכל היותר.</string>
+    <string name="email_not_valid">הדוא\"ל אינו תקף.</string>
+    <string name="login_in_t">מתחבר…</string>
+    <string name="press_back_again">לחץ שוב אחורה כדי לצאת</string>
+    <string name="input_too_long">חייב להכיל לכל היותר 15 תווים</string>
+    <string name="input_too_short">חייב להכיל לפחות 2 תווים</string>
+    <string name="email_verification_failed">שליחת אימות הדוא\"ל נכשלה.</string>
+    <string name="email_verification_sent">דוא\"ל אימות נשלח אל</string>
+    <string name="email_verify_request">אנא אמת את הדוא\"ל שלך.</string>
+    <string name="please_wait">המתן בבקשה.</string>
+    <string name="input_too_long_30">הקלט חייב לכלול לכל הפחות 30 תווים</string>
+    <string name="share_with">שתף עם</string>
+    <string name="permit_text">הרשה</string>
+    <string name="cancel_text">ביטול</string>
+    <string name="upload_in_progress">העלאה מתבצעת</string>
 </resources>

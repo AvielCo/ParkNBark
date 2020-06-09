@@ -34,7 +34,7 @@
     <string name="about_devs">The developers are 3rd year students studying currently at the SCE College of Engineering. The idea for this app came to their minds from their own problems as being pet owners.</string>
     <string name="locations">Locations</string>
     <string name="change_pass_explanation_text">Please enter your current password, then enter the new password you wish to use and press \"Confirm\" button.</string>
-    <string name="change_pass_enter_new_pass_hint" translatable="false">Enter the new password</string>
+    <string name="change_pass_enter_new_pass_hint">Enter the new password</string>
     <string name="change_pass_current_pass_hint">Enter your current password</string>
     <string name="change_pass_confirm_button">Confirm</string>
     <string name="change_password">Change password</string>
@@ -44,12 +44,12 @@
     <string name="rate_us_confirm_button">Rate!</string>
     <string name="country_flag">Country flag</string>
     <string name="english" translatable="false">English</string>
-    <string name="russian">Russian</string>
+    <string name="russian" translatable="false">русский</string>
     <string name="title_activity_settings">Settings</string>
     <string name="map">Map</string>
     <string name="bulletin_board">Bulletin board</string>
     <string name="my_profile">My profile</string>
-    <string name="hebrew">עברית</string>
+    <string name="hebrew" translatable="false">עברית</string>
     <string name="settings">Settings</string>
     <string name="reset_pass_explanation_text">Please enter the E-Mail of your account and press \"Send\" button.  A link will be send to your E-Mail, enter that link to set new password.</string>
     <string name="gps_not_enabled">GPS is not enabled. Turn it on?</string>
@@ -60,7 +60,7 @@
     <string name="update_credit">Update credit</string>
     <string name="update_contact">Update contact</string>
     <string name="users_in_park">Users in park</string>
-    <string name="error_message">An error has been occurred\\nplease try again later.</string>
+    <string name="error_message">An error has been occurred. \nPlease try again later.</string>
     <string name="profile_saved">Profile saved successfully!</string>
     <string name="required">*Required</string>
     <string name="upload_image">Upload image</string>
@@ -99,11 +99,11 @@
     <string name="password_too_short">Password must contain at least 6 characters.</string>
     <string name="password_too_long">Password must contain at most 15 characters.</string>
     <string name="email_not_valid">Email is not valid.</string>
-    <string name="login_in_t">Logging in...</string>
+    <string name="login_in_t">Logging in…</string>
     <string name="press_back_again">Press back again to exit</string>
     <string name="input_too_long">must contain at most 15 characters</string>
     <string name="input_too_short">must contain at least 2 characters</string>
-    <string name="email_verification_failed">Failed to send verification email.</string>
+    <string name="email_verification_failed">Failed to send email verification.</string>
     <string name="email_verification_sent">Verification email sent to</string>
     <string name="email_verify_request">Please verify your email.</string>
     <string name="please_wait">Please wait.</string>
