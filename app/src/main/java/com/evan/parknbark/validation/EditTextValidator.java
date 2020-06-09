@@ -43,7 +43,7 @@ public class EditTextValidator implements TextWatcher {
                     }
                 }
             mTextInputLayout.setError(null);
-            return false;
+            return true;
         } else
             return isValidString(string);
     }
