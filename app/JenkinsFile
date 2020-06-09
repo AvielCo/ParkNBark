@@ -58,6 +58,9 @@ pipeline {
        success{
         echo 'Build success. good job'
        }
+        always{
+              junit(keepLongStdio: true, testResults: 'target/surefire-reports/TEST-*.xml')
+        }
     } 
 }
 
