@@ -59,7 +59,7 @@ pipeline {
         echo 'Build success. good job'
        }
         always{
-              junit(keepLongStdio: true, testResults: 'app/build/reports/TEST-*.xml')
+              junit(keepLongStdio: true, testResults: '**/test-results/*.xml')
         }
     } 
 }
