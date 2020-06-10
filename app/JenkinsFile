@@ -58,6 +58,10 @@ pipeline {
        success{
         echo 'Build success. good job'
        }
+        always{
+              sh 'cp -r app/build/test-results $WORKSPACE/test-results'
+              junit(keepLongStdio: true, testResults: '**/test-results/**/*.xml')
+        }
     } 
 }
 
