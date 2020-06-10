@@ -199,18 +199,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             showSuccessToast(R.string.profile_saved);
                             setResult(RESULT_OK);
                             user.setBuiltProfile(true);
+                            isFirebaseProcessRunning = false;
                             hideProgressBar();
                         } else showErrorToast();
                     }
                 });
     }
 
-    public boolean saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput, boolean test) {
-        if (test) {
-            return EditTextValidator.isValidLayoutEditText(dogNameInput, null, null) &&
-                    EditTextValidator.isValidLayoutEditText(dogBreedInput, null, null) &&
-                    EditTextValidator.isValidLayoutEditText(dogAgeInput, null, null);
-        }
+    public void saveProfile(String dogNameInput, String dogBreedInput, String dogAgeInput) {
         if (EditTextValidator.isValidString(dogNameInput) & EditTextValidator.isValidString(dogBreedInput) &
                 EditTextValidator.isValidString(dogAgeInput)) {
             showProgressBar();
@@ -220,17 +216,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         user = task.getResult().toObject(User.class);
-                        if (mUploadTask != null && mUploadTask.isInProgress())
-                            showInfoToast(R.string.upload_in_progress);
-                        else if (isUploadedImage)
+                        if (isUploadedImage)
                             uploadImageToFirebase(dogNameInput, dogBreedInput, dogAgeInput);
                         else uploadProfile(dogNameInput, dogBreedInput, dogAgeInput, null);
                     } else
                         showErrorToast();
                 }
             });
-        }
-        return true;
+        } else isFirebaseProcessRunning = false;
     }
 
 
@@ -249,11 +242,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         hideSoftKeyboard();
         switch (i) {
             case R.id.edit_icon:
+                isFirebaseProcessRunning = true;
                 hiddenItem = true;
                 hideItemInsideToolbar();
                 mButtonUploadPic.setVisibility(View.VISIBLE);
                 break;
             case R.id.save_icon:
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+                    showInfoToast(R.string.upload_in_progress);
+                    return false;
+                }
                 String name = mEditTextDogName.getText().toString().trim();
                 String age = mEditTextDogAge.getText().toString().trim();
                 String breed = mEditTextDogBreed.getText().toString().trim();
@@ -261,7 +259,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     showErrorToast(R.string.empty_field);
                     return false;
                 }
-                saveProfile(name, breed, age, false);
+                saveProfile(name, breed, age);
                 hiddenItem = false;
                 hideItemInsideToolbar();
                 mButtonUploadPic.setVisibility(View.INVISIBLE);

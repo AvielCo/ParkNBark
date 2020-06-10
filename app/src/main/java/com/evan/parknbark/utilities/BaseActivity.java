@@ -20,7 +20,7 @@ import java.util.Locale;
 import es.dmoral.toasty.Toasty;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
     protected FirebaseFirestore db;
 
     private final String KEY_LANGUAGE = "Language";
@@ -39,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void setProgressBar(int resId) {
         mProgressBar = findViewById(resId);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     public void showProgressBar() {
@@ -49,7 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void hideProgressBar() {
         if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.INVISIBLE);
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 

@@ -86,15 +86,12 @@ public class NewNoteDialog extends BaseDialogFragment {
             hideSoftKeyboard(view);
             String title = mTextInputTitle.getEditText().getText().toString().trim();
             String description = mTextInputDescription.getEditText().getText().toString().trim();
-            saveNote(title, description, false);
+            saveNote(title, description);
             return true;
         });
     }
 
-    public boolean saveNote(String title, String description, boolean test) {
-        if (test) {
-            return EditTextValidator.isValidLayoutEditText(title, mTextInputTitle, null) && EditTextValidator.isValidLayoutEditText(description, mTextInputDescription, null);
-        }
+    public void saveNote(String title, String description) {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
@@ -110,7 +107,6 @@ public class NewNoteDialog extends BaseDialogFragment {
                     showErrorToast();
                 isFirebaseProcessRunning = false;
             });
-        }
-        return true;
+        } else isFirebaseProcessRunning = false;
     }
 }

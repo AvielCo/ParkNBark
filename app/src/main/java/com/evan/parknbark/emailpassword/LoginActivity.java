@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.VisibleForTesting;
 
 import com.evan.parknbark.R;
 import com.evan.parknbark.map_profile.maps.MapActivity;
@@ -29,6 +31,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import net.steamcrafted.loadtoast.LoadToast;
 
+import java.util.concurrent.Executor;
+
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -36,6 +40,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static final int REGISTER_REQUEST = 0;
     private static final int REMEMBER_REQUEST = 1;
     private static String LOG_IN_LOAD;
+    public Executor e = Runnable::run;
     private TextInputLayout mTextInputEmail, mTextInputPassword;
     private long mBackPressedTime;
     private LoadToast mLoadToast;
@@ -46,21 +51,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_email_password);
-        setProgressBar(R.id.progressBar);
-
-        initElements();
-
         bundle = getIntent().getExtras();
-        User currentUser = (User) bundle.getSerializable("current_user");
 
-        SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
-        checkbox = preferences.getString("remember", "");
-        if (checkbox.equals("true")) {
-            updateUI(mAuth.getCurrentUser(), currentUser);
-        } else mAuth.signOut();
+        if (getIntent() != null && bundle != null) { //if not testing
+            User currentUser;
+            initElements();
+            currentUser = (User) bundle.getSerializable("current_user");
+
+            SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
+            checkbox = preferences.getString("remember", "");
+            if (checkbox.equals("true") && currentUser != null) {
+                updateUI(mAuth.getCurrentUser(), currentUser);
+            } else mAuth.signOut();
+        }
     }
 
     private void initElements() {
+        setProgressBar(R.id.progressBar);
         mTextInputEmail = findViewById(R.id.text_input_email);
         mTextInputPassword = findViewById(R.id.text_input_password);
         CheckBox mCheckBoxRememberMe = findViewById(R.id.checkbox_remember_me);
@@ -77,10 +84,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mTextInputEmail.getEditText().addTextChangedListener(new EditTextListener(mTextInputEmail, this));
     }
 
-    public boolean signIn(String email, String password, boolean test) {
-        if (test) {
-            return EditTextValidator.isValidEditText(email, mTextInputEmail, null) && EditTextValidator.isValidEditText(password, mTextInputPassword, null);
-        }
+    public void signIn(String email, String password) {
         if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
                 EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
             loadToastCreator();
@@ -99,8 +103,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     }
                 }
             });
-        }
-        return true;
+        } else isFirebaseProcessRunning = false;
+    }
+
+    @VisibleForTesting
+    @UiThread
+    public void signInTest() {
+        final String email = "email@email.com", password = "password";
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        LoginActivity.this.setResult(RESULT_OK);
+                    } else LoginActivity.this.setResult(RESULT_FIRST_USER);
+                });
+            }
+        });
     }
 
     private void getUserDetails(FirebaseUser firebaseUser) {
@@ -120,19 +139,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void sendEmailVerification(FirebaseUser user) {
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this,
-                                    getString(R.string.email_verification_sent) + " " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            showErrorToast(R.string.email_verification_failed);
-                        }
-                    }
-                });
+        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(LoginActivity.this,
+                            getString(R.string.email_verification_sent) + " " + user.getEmail(),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    showErrorToast(R.string.email_verification_failed);
+                }
+            }
+        });
     }
 
     private void updateUI(FirebaseUser firebaseUser, User currentUser) {
@@ -174,7 +192,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 hideSoftKeyboard();
                 String emailInput = mTextInputEmail.getEditText().getText().toString().trim().toLowerCase();
                 String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
-                signIn(emailInput, passwordInput, false);
+                signIn(emailInput, passwordInput);
                 break;
         }
     }

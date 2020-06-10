@@ -27,14 +27,16 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pass);
-        setProgressBar(R.id.progressBar);
 
-        firebaseUser = mAuth.getCurrentUser();
-        userEmail = firebaseUser.getEmail();
-        initElements();
+        if (getIntent() != null && firebaseUser != null) {//if not testing
+            firebaseUser = mAuth.getCurrentUser();
+            userEmail = firebaseUser.getEmail();
+            initElements();
+        }
     }
 
     private void initElements() {
+        setProgressBar(R.id.progressBar);
         mTextInputCurrentPassword = findViewById(R.id.text_input_change_pass_enter_current);
         mTextInputNewPassword = findViewById(R.id.text_input_change_pass_enter_new);
 
@@ -44,11 +46,7 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.button_change_pass_confirm).setOnClickListener(this);
     }
 
-    public boolean changePassword(String currentPassword, String newPassword, boolean test) {
-        if (test) {
-            return EditTextValidator.isValidLayoutEditText(currentPassword, mTextInputCurrentPassword, null) &
-                    EditTextValidator.isValidLayoutEditText(newPassword, mTextInputNewPassword, null) && !currentPassword.equals(newPassword);
-        }
+    public void changePassword(String currentPassword, String newPassword) {
         if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputNewPassword, this) &
                 !currentPassword.equals(newPassword)) {
             showProgressBar();
@@ -80,7 +78,6 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
             hideProgressBar();
             isFirebaseProcessRunning = false;
         }
-        return true;
     }
 
     @Override
@@ -95,7 +92,7 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
             final String currentPassword = mTextInputCurrentPassword.getEditText().getText().toString().trim();
             final String newPassword = mTextInputNewPassword.getEditText().getText().toString().trim();
             hideSoftKeyboard();
-            changePassword(currentPassword, newPassword, false);
+            changePassword(currentPassword, newPassword);
         }
     }
 }

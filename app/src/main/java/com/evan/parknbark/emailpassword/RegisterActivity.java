@@ -28,14 +28,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_email_password);
-        setProgressBar(R.id.progressBar);
-
-        initElements();
-
-        findViewById(R.id.button_register).setOnClickListener(this);
+        if (getIntent() != null) //if not testing
+            initElements();
     }
 
     private void initElements() {
+        setProgressBar(R.id.progressBar);
         mTextInputEmail = findViewById(R.id.text_input_email);
         mTextInputPassword = findViewById(R.id.text_input_password);
         mTextInputLName = findViewById(R.id.text_input_lname);
@@ -45,16 +43,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mTextInputFName.getEditText().addTextChangedListener(new EditTextListener(mTextInputFName, this));
         mTextInputLName.getEditText().addTextChangedListener(new EditTextListener(mTextInputLName, this));
         mTextInputPassword.getEditText().addTextChangedListener(new EditTextListener(mTextInputPassword, this));
+        findViewById(R.id.button_register).setOnClickListener(this);
     }
 
     /*
     Registration functionality summary
      */
-    public boolean signUp(final String email, final String password, final String firstName, final String lastName, boolean test) {
-        if (test) {
-            return EditTextValidator.isValidLayoutEditText(email, mTextInputEmail, null) & EditTextValidator.isValidLayoutEditText(password, mTextInputPassword, null)
-                    & EditTextValidator.isValidLayoutEditText(firstName, mTextInputFName, null) & EditTextValidator.isValidLayoutEditText(lastName, mTextInputLName, null);
-        }
+    public void signUp(final String email, final String password, final String firstName, final String lastName) {
         if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this)
                 & EditTextValidator.isEmptyEditText(mTextInputFName, this) & EditTextValidator.isEmptyEditText(mTextInputLName, this)) {
             showProgressBar();
@@ -88,8 +83,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             hideProgressBar();
                         }
                     });
-        }
-        return true;
+        } else isFirebaseProcessRunning = false;
     }
 
     private void sendEmailVerification(FirebaseUser user) {
@@ -131,7 +125,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             String passwordInput = mTextInputPassword.getEditText().getText().toString().trim();
             String firstNameInput = mTextInputFName.getEditText().getText().toString().trim();
             String lastNameInput = mTextInputLName.getEditText().getText().toString().trim();
-            signUp(emailInput, passwordInput, firstNameInput, lastNameInput, false);
+            signUp(emailInput, passwordInput, firstNameInput, lastNameInput);
         }
     }
 }

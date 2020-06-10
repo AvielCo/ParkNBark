@@ -42,6 +42,24 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
         setProgressBar(R.id.progressBar);
     }
 
+    private void banUserWithUid(String uid) {
+        db.collection("users").document(uid)
+                .update(bannedField, true, reasonField, banReason.getText().toString().trim())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toasty.info(BanActivity.this, getString(R.string.banned_user_success), Toasty.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            showErrorToast();
+                        }
+                        isFirebaseProcessRunning = false;
+                        hideProgressBar();
+                    }
+                });
+    }
+
     @Override
     public void onClick(View v) {
         if (isFirebaseProcessRunning) {
@@ -56,21 +74,7 @@ public class BanActivity extends BaseActivity implements View.OnClickListener {
                 isFirebaseProcessRunning = true;
                 hideSoftKeyboard();
                 showProgressBar();
-                db.collection("users").document(b.getString("uid"))
-                        .update(bannedField, true, reasonField, banReason.getText().toString().trim())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toasty.info(BanActivity.this, getString(R.string.banned_user_success), Toasty.LENGTH_SHORT).show();
-                                    finish();
-                                } else {
-                                    showErrorToast();
-                                }
-                                isFirebaseProcessRunning = false;
-                                hideProgressBar();
-                            }
-                        });
+                banUserWithUid(b.getString("uid"));
             }
         }
     }

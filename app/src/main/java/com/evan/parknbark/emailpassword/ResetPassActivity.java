@@ -23,7 +23,8 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_pass_email_password);
 
-        initElements();
+        if (getIntent() != null) //if not testing
+            initElements();
     }
 
     private void initElements() {
@@ -48,7 +49,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                     hideProgressBar();
                 }
             });
-        }
+        } else isFirebaseProcessRunning = false;
     }
 
     @Override
