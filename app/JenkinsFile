@@ -29,6 +29,11 @@ pipeline {
         
       }
     }
+    stage('Integration test'){
+        steps{
+            sh './gradlew testDebugAndroidTest testDebugUnitTest'
+        }
+    }
     stage('Build APK') {
       steps {
         sh './gradlew assembleDebug'
