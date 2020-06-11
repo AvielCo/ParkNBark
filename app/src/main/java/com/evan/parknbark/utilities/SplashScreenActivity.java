@@ -21,13 +21,15 @@ import gr.net.maroulis.library.EasySplashScreen;
 
 public class SplashScreenActivity extends BaseActivity {
 
+    private Bundle bundle;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         loadLocale(this);
         super.onCreate(savedInstanceState);
 
         //Create a bundle to pass to the next activity
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -41,19 +43,23 @@ public class SplashScreenActivity extends BaseActivity {
                         User user = task.getResult().toObject(User.class);
                         //if user is logged in, put the permission into bundle
                         //else, do nothing
-                        bundle.putSerializable("current_user", user);
-                        EasySplashScreen config = new EasySplashScreen(SplashScreenActivity.this)
-                                .withFullScreen()
-                                .withTargetActivity(LoginActivity.class) //go to main activity
-                                .withBundleExtras(bundle) //send bundle, either user logged in or nah
-                                .withBackgroundColor(Color.parseColor("#e1f5fe"))
-                                .withLogo(R.mipmap.app_logo1_foreground); //TODO: adjust logo dimensions
-
-                        View easySplashScreen = config.create();
-                        setContentView(easySplashScreen);
+                        startMain(user);
                     }
                 }
             });
-        }
+        } else startMain(null);
+
+    }
+
+    private void startMain(User user) {
+        bundle.putSerializable("current_user", user);
+        EasySplashScreen config = new EasySplashScreen(SplashScreenActivity.this)
+                .withFullScreen()
+                .withTargetActivity(LoginActivity.class) //go to main activity
+                .withBundleExtras(bundle) //send bundle, either user logged in or nah
+                .withBackgroundColor(Color.parseColor("#e1f5fe"))
+                .withLogo(R.mipmap.app_logo1_foreground); //TODO: adjust logo dimensions
+        View easySplashScreen = config.create();
+        setContentView(easySplashScreen);
     }
 }

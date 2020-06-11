@@ -113,6 +113,10 @@ public class MapActivity extends BaseNavDrawerActivity implements OnMapReadyCall
 
     @Override
     public void onBackPressed() {
+        if (isFirebaseProcessRunning) {
+            showInfoToast(R.string.please_wait);
+            return;
+        }
         if (checkBoxRememberMe) {
             setResult(RESULT_OK);
         }

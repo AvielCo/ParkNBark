@@ -52,12 +52,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_email_password);
         bundle = getIntent().getExtras();
-
         if (getIntent() != null && bundle != null) { //if not testing
-            User currentUser;
             initElements();
-            currentUser = (User) bundle.getSerializable("current_user");
-
+            User currentUser = (User) bundle.getSerializable("current_user");
             SharedPreferences preferences = getSharedPreferences("remember_me", MODE_PRIVATE);
             checkbox = preferences.getString("remember", "");
             if (checkbox.equals("true") && currentUser != null) {
