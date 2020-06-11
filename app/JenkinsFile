@@ -23,12 +23,21 @@ pipeline {
         sh './gradlew compileDebugSources'
       }
     }
-    stage('Unit test') {
-      steps {
-        sh './gradlew testDebugUnitTest testDebugUnitTest'
-        
-      }
-    }
+    stage('Unit & Integration Tests') {
+         steps {
+             script {
+                 //run a gradle test
+                 sh './gradlew clean test --no-daemon'
+                 junit '**/build/test-results/testDebugUnitTest/*.xml' //make the junit test results available in any case (success & failure)
+             }
+         }
+     }
+    //stage('Unit test') {
+    //  steps {
+    //    sh './gradlew testDebugUnitTest testDebugUnitTest'
+    //
+    //  }
+    //}
     stage('Build APK') {
       steps {
         sh './gradlew assembleDebug'
