@@ -6,11 +6,11 @@
     <!-- Map -->
     <group
         android:id="@+id/menu_map"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_map"
             android:title="@string/map"
-            android:icon="@drawable/baseline_map_24"/>
+            android:icon="@drawable/baseline_map_24" />
         <item
             android:id="@+id/nav_locations"
             android:icon="@drawable/baseline_place_24"
@@ -20,11 +20,11 @@
     <!-- Bulletin Board -->
     <group
         android:id="@+id/menu_bulletin"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_bulletin"
             android:title="@string/bulletin_board"
-            android:icon="@drawable/baseline_announcement_24"/>
+            android:icon="@drawable/baseline_announcement_24" />
     </group>
 
     <!-- Profile -->

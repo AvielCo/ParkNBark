@@ -42,6 +42,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                     if (task.isSuccessful()) {
                         //Success//
                         showSuccessToast(R.string.reset_pass_success);
+                        isFirebaseProcessRunning = false;
                         startActivity(new Intent(ResetPassActivity.this, LoginActivity.class));
                     } else
                         showErrorToast();
