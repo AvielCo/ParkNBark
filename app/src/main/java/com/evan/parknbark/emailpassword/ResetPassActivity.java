@@ -1,6 +1,5 @@
 package com.evan.parknbark.emailpassword;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -43,7 +42,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                         //Success//
                         showSuccessToast(R.string.reset_pass_success);
                         isFirebaseProcessRunning = false;
-                        startActivity(new Intent(ResetPassActivity.this, LoginActivity.class));
+                        finish();
                     } else
                         showErrorToast();
                     isFirebaseProcessRunning = false;
