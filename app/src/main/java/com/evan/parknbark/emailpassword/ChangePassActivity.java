@@ -47,7 +47,7 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
     }
 
     public void changePassword(String currentPassword, String newPassword) {
-        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputNewPassword, this) &
+        if (!EditTextListener.hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputNewPassword, this) &
                 !currentPassword.equals(newPassword)) {
             showProgressBar();
             AuthCredential credential = EmailAuthProvider.getCredential(userEmail, currentPassword);

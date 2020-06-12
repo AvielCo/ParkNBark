@@ -50,8 +50,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     Registration functionality summary
      */
     public void signUp(final String email, final String password, final String firstName, final String lastName) {
-        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this)
-                & EditTextValidator.isEmptyEditText(mTextInputFName, this) & EditTextValidator.isEmptyEditText(mTextInputLName, this)) {
+        if (!EditTextListener.hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputEmail, this)
+                & !EditTextValidator.isEmptyEditText(mTextInputFName, this) & !EditTextValidator.isEmptyEditText(mTextInputLName, this)) {
             showProgressBar();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

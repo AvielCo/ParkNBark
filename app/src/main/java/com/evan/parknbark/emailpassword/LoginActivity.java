@@ -82,8 +82,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void signIn(String email, String password) {
-        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
-                EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
+        if (!EditTextListener.hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputEmail, this) &
+                !EditTextValidator.isEmptyEditText(mTextInputPassword, this)) {
             loadToastCreator();
             mLoadToast.show();
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

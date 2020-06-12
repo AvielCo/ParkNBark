@@ -95,7 +95,7 @@ public class NewNoteDialog extends BaseDialogFragment {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
 
-        if (!EditTextListener.hasErrorInText & EditTextValidator.isEmptyEditText(mTextInputTitle, getContext()) & EditTextValidator.isEmptyEditText(mTextInputDescription, getContext())) {
+        if (!EditTextListener.hasErrorInText & !EditTextValidator.isEmptyEditText(mTextInputTitle, getContext()) & !EditTextValidator.isEmptyEditText(mTextInputDescription, getContext())) {
             CollectionReference notebookRef = FirebaseFirestore.getInstance()
                     .collection("notes");
             Note note = new Note(title, description, currentDate);
