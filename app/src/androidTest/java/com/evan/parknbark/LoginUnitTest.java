@@ -1,10 +1,9 @@
-package com.evan.parknbark.unittest;
+package com.evan.parknbark;
 
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.evan.parknbark.R;
 import com.evan.parknbark.emailpassword.LoginActivity;
 
 import org.junit.Rule;

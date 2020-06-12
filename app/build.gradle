@@ -79,6 +79,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
     implementation 'com.google.firebase:firebase-core:17.4.3'
+    implementation 'com.firebase:firebase-client-android:2.5.0'
 
     //animation / view design
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -128,6 +129,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation 'com.google.truth:truth:1.0.1'
     testImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
 
 

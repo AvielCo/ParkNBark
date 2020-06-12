@@ -1,9 +1,8 @@
-package com.evan.parknbark.integration;
+package com.evan.parknbark;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.evan.parknbark.ExampleInstrumentedTest;
 import com.evan.parknbark.emailpassword.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
 

@@ -1,11 +1,9 @@
-package com.evan.parknbark.integration;
+package com.evan.parknbark;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.evan.parknbark.ExampleInstrumentedTest;
-import com.evan.parknbark.emailpassword.ResetPassActivity;
-import com.google.firebase.auth.FirebaseAuth;
+import com.evan.parknbark.emailpassword.LoginActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,19 +15,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class ResetPassIntegrationTest extends ExampleInstrumentedTest {
+public class LoginIntegrationTest extends ExampleInstrumentedTest {
     @Rule
-    public ActivityTestRule<ResetPassActivity> activity = new ActivityTestRule<>(ResetPassActivity.class);
+    public ActivityTestRule<LoginActivity> activity = new ActivityTestRule<>(LoginActivity.class);
 
     @Test
-    public void ResetPassTest() {
-        FirebaseAuth mAuth = activity.getActivity().mAuth;
+    public void LoginTest() {
         AtomicReference<Integer> result = new AtomicReference<>(0);
-        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+        activity.getActivity().mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 result.set(RESULT_OK);
             } else result.set(RESULT_BAD);
-            checkResult(result.get());
+            LoginIntegrationTest.this.checkResult(result.get());
         });
     }
 

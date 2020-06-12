@@ -155,6 +155,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (firebaseUser.isEmailVerified()) {
                 mLoadToast.success();
                 if (!currentUser.isBanned()) {
+                    bundle.putSerializable("current_user", currentUser);
                     startActivityForResult(new Intent(LoginActivity.this, MapActivity.class)
                             .putExtras(bundle)
                             .putExtra("check_box", checkbox.equals("true")), REMEMBER_REQUEST);
