@@ -90,7 +90,7 @@
     <string name="account_details" translatable="false"><u><b>Account details:</b></u></string>
     <string name="terms_conds_head" translatable="false"><u><b>Terms and Conditions</b></u></string>
     <string name="you_banned_msg">you`ve been banned!</string>
-    <string name="terms_conds">Terms N\\` Conditions</string>
+    <string name="terms_conds">Terms N` Conditions</string>
     <string name="save_my_profile">save my profile</string>
     <string name="edit_my_profile">Edit my profile</string>
     <string name="profile_not_set">" hasn't set profile yet."</string>

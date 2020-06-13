@@ -108,7 +108,6 @@ public class CreditActivity extends BaseActivity {
         Element email = new Element();
         email.setTitle(setEmailTitle( lang));
         email.setIconDrawable(R.drawable.about_icon_email);
-        email.setIconTint(R.color.about_item_icon_color);
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{document.getString(EMAIL)});
