@@ -2,6 +2,7 @@ package com.evan.parknbark.credits;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import mehdi.sakout.aboutpage.AboutPage;
@@ -105,6 +108,7 @@ public class CreditActivity extends BaseActivity {
         Element email = new Element();
         email.setTitle(setEmailTitle( lang));
         email.setIconDrawable(R.drawable.about_icon_email);
+        email.setIconTint(R.color.about_item_icon_color);
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{document.getString(EMAIL)});
@@ -122,6 +126,7 @@ public class CreditActivity extends BaseActivity {
         Element playstore = new Element();
         playstore.setTitle(setPlaystoreTitle(lang));
         playstore.setIconDrawable(R.drawable.about_icon_google_play);
+        playstore.setIconTint(R.color.about_play_store_color);
         Intent psIntent = new Intent();
         psIntent.setAction(Intent.ACTION_VIEW);
         psIntent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -145,11 +150,13 @@ public class CreditActivity extends BaseActivity {
         Element facebook = new Element();
         facebook.setTitle(setFacebookTitle(lang));
         facebook.setIconDrawable(R.drawable.about_icon_facebook);
+        facebook.setIconTint(R.color.about_facebook_color);
+
         Intent facebookIntent = new Intent();
         facebookIntent.setAction(Intent.ACTION_VIEW);
         facebookIntent.addCategory(Intent.CATEGORY_BROWSABLE);
 
-        String url = getFacebookUrl(CreditActivity.this, document);
+        String url = getFacebookUrl(CreditActivity.this, document, facebookIntent);
         facebookIntent.setData(Uri.parse(url));
         facebook.setIntent(facebookIntent);
 
@@ -158,26 +165,46 @@ public class CreditActivity extends BaseActivity {
 
     /**
      * checks if there is a facebook app installed on phone. if there's an installed app
-     * checks for its version. if its above the given version number (3002850) , return new fb reference  format.
-     * else, opens in older format.
-     * if no app is installed - returns url format.
+     * checks for its version and returns  fb reference in app format.
+     * else, if no app is installed - returns url format.
      * @param context get apps current context
      * @param document document from firebase
      * @return the proper form of url to the dev's page/
      */
-    private String getFacebookUrl(Context context, DocumentSnapshot document) {
+    private String getFacebookUrl(Context context, DocumentSnapshot document, Intent facebookIntent) {
         PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) {
-                return "fb://facewebmodal/f?href=" +  "http://m.facebook.com/" + document.getString(FACEBOOK);
-            } else {
+        if (isAppInstalled(context, "com.facebook.katana")) {
+            facebookIntent.setPackage("com.facebook.katana");
+            int versionCode = 0;
+            try {
+                versionCode = context.getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            if(versionCode != 0){
                 return "fb://page/" + document.getString(FACEBOOK_ID);
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            return document.getString(FACEBOOK_URL);
         }
+        return document.getString(FACEBOOK_URL);
+
     }
+
+    static Boolean isAppInstalled(Context context, String appName) {
+        PackageManager pm = context.getPackageManager();
+        boolean installed = false;
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+
+        for (PackageInfo packageInfo : packages) {
+            if (packageInfo.packageName.equals(appName)) {
+                installed = true;
+                break;
+            }
+        }
+
+        return installed;
+    }
+
 
     /**
      * sets title for email section
