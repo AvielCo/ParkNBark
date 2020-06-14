@@ -24,7 +24,7 @@ public class ContactActivity extends BaseActivity {
 
     private HashMap<String, List<String>> listHashMap;
 
-    public static final String PHONE_NUM = "Phone Number: ";
+    public static final String PHONE_NUM = "Phone number: ";
     public static final String FAX = "Fax: ";
 
     @Override
