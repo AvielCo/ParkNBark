@@ -5,4 +5,4 @@ Requires registration of an account.
 
 The app developed as a part of and academic project.
 
-Developed in Java language in Adroid Studion and with use of Google FireBase.
+Developed in Java language in Adroid Studio and with a use of Google FireBase.
